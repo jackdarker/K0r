@@ -1,0 +1,15 @@
+:: downgrade
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--set next location before-->
+That didnt work out as expected. </br>
+Now you have to select your punishment. And you better select quickly or someone else will do and maybe you get some bonus punishment.</br>
+A bunch of icons flicker in front of you. You can only guess what they mean.</br>
+
+<div></br>
+<img alt="tweegoicon" src="assets/favicon.png" ><div hidden id='${id}'>${descr}</div></br>
+</div> <hr>
+<div></br>
+[[Use joker|skip_downgrade]]   [[dont choose|rnd_downgrade]] </br>
+[[Into the city]]</br></div>
+</article><article id="LogPanel"></article></section>

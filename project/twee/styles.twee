@@ -1,0 +1,201 @@
+:: Story Stylesheet [stylesheet]
+a {
+    line-height: 150%;
+    background-color: transparent;
+    color:initial;
+    text-decoration-color: initial;
+    margin-left:0.25em;
+    margin-right:0.25em;
+}
+a:hover {
+    color: #008929;
+    text-decoration-color: #008929;
+}
+#sidebar {
+  background-color: #ffede0;
+  margin: 0.25em 0.25em;
+  padding: 0.25em;
+  min-width: 8em;
+  min-height: 30em;
+  text-align: center;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+#sidebar h3 {
+  font-size: 1em;
+  font-variant: small-caps;
+}
+
+#sidebar p {
+  color: black;
+}
+tw-story {
+  max-width: 70em;
+    margin: 0 auto;
+    line-height: 100%;
+    display: block;
+}
+
+dialog {
+  display: none;
+  position: relative;
+  z-index:1002;
+}
+dialog[open="open"] {
+    display: block;
+}
+dialog::backdrop, #backdrop {      
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);    
+}
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  /*width: 160px;*/
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 0%;
+  left: 0%;
+  /*margin-left: -80px;*/
+}
+
+/* Popup arrow 
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}*/
+
+/* Toggle this class - hide and show the popup */
+/*.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}*/
+
+/*.popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 0%;
+  left: 0%;
+  margin-left: -80px;
+}*/
+    
+.popup:hover .popuptext {
+  visibility: visible;
+}
+
+[type=checkbox], [type=radio] {
+  width:1em;
+  height: 1em;
+  margin-right:1em;
+}
+button {
+  margin: 0.25em;
+}
+statup {
+  color:green;
+}
+statdown {
+  color:red;
+}
+.talkplayer {
+  color: steelblue;
+}
+.talkfoo1 {
+  color: Brown;
+}
+@keyframes alarm {
+        0% {
+          background-color: initial;
+        }
+        50% {
+          background-color: coral;
+        }
+        100% {
+          background-color: initial;
+        }
+}
+.div_hidden { visibility: hidden; }
+.div { visibility: visible; }
+.div_alarm {animation: alarm 1s;}
+
+.red {
+  color: red;
+}
+.green {
+  color: green;
+}
+.soft_border {
+    border-radius: 1em;
+	  border-color: #df6c20;
+    border-width: 3px;
+    border-style: solid;
+}
+ 
+div.scroll {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+@media (min-width: 30em) { 
+  section {
+    background: #ffffff;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1fr 1fr;
+    grid-template-rows: 80% 20%;
+  }
+  .section_swap {
+    grid-template-rows: 2% ;
+  }
+
+  section h2 {
+    grid-column: 1 / -1;
+  }
+  article {
+    background-color: #ffede0;
+    margin: 0.25em 0.25em;
+    padding: 0.25em;
+	  grid-column: 2;
+	  grid-column-end: -1;
+  }
+  #LogPanel {
+    background: #e4e4e4;
+  }
+  #combatCanvas {
+    height:300px;
+  }
+
+}

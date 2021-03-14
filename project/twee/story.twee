@@ -1,0 +1,23 @@
+:: StoryTitle
+White Cell
+
+
+:: StoryData
+{
+	"ifid": "6396C055-7E04-4B93-A56D-3AE6375E6E56",
+	"format": "Snowman",
+	"format-version": "2.0.2",
+	"Start": "Intro",
+	"tag-colors": {
+		"template": "orange"
+	},
+	"zoom": 1
+}
+
+:: Story JavaScript [script]
+
+:: Start
+Select a Link:
+<ul>
+    <li>[[StartPage]]</li>
+</ul>

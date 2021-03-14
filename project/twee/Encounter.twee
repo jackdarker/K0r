@@ -1,0 +1,39 @@
+:: Encounter
+<!--this passage is entry-point for combat-statemachine (use together with combat.initCombat) -->
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+Get ready...
+A <%=window.story.state.enemy.name%> appears ! </br>
+[[Next|EncounterStartTurn]]
+</article><article id="LogPanel"></article></section>
+
+:: EncounterStartTurn
+<section> 
+<!--hide this because could interfere with combat <aside id="sidebar"></aside>-->
+<article><%=window.story.render("CenterDialogs") %>
+<div id='combatCanvas' style='background: url(<%=s.enemy.pic%>) no-repeat center,url(<%=s.combat.scenePic%>) no-repeat center;color:black;'></div>
+<!--filled by printCombatHud-->
+<div id="playerstats"></div> </br>  <!--TODO print side by side-->
+<div id="enemystats"></div></br>
+<%=window.gm.Encounter.battle().msg%>
+</br><div><output></output></div></br>   <!--message is rendered here-->
+</article><article id="LogPanel"></article>
+<script>
+window.gm.Encounter.printCombatHud();
+</script>
+</section>
+
+:: GameOver
+Game Over. I hope you learned something.</br>
+</br>[[New Game|Start]]
+
+
+:: Mole Submit
+<section> 
+<!--hide this, we are not in a state ready to save <aside id="sidebar"></aside>-->
+<article><%=window.story.render("CenterDialogs") %>
+The mole took you down into his cave. </br>
+Which was very difficult since you are far to large - you know?</br>
+[[Return Home|Home]]
+</article><article id="LogPanel"></article>
+</section>

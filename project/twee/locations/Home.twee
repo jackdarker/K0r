@@ -1,0 +1,61 @@
+:: Home_Arrival
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+<% if(s.vars.qHomeInspect<==0){ %>
+	Waking up, you find yourself in a white room, or better to say a white box.</br>
+	Raising from your lying position, you look around puzzled.</br>
+	There are no windows or doors. Not even a lamp. The light seems to come just out of the walls and from the ceiling.</br>
+	After sitting up you nervously move your hands around, finally setting on stroking your legs in an effort to calm you.</br>
+	Is this a hospital? How did you get here?</br>
+<% else if(s.vars.qHomeInspect>==2){ %>
+	There is a desk and a stool over there where you can [[sit|Home_UseDesk]] at. </br>
+<%} if(s.vars.qHomeInspect>==3)%
+<%} %>
+
+<div></br>
+[[Inspect the room|Home_Inspect]] [[Take a look at yourself|Home_self]]  [[Call out|Home_callout]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
+:: Home_self [_back]
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+Looking down at yourself, you find beeing clad in a jumpsuite of light gray color. The material is smooth to the touch and thin. Its not just simple cotton, maybe some kind of silk or, much more likely, synthetic fiber.</br>
+The sleeves are reaching down to the wrists and overall it is rather fitting thanks to the stretchy material. 
+You feet a covered up by the suite too. It feels like some feel-good sox, not just as thick. </br>
+There is line running from the front of the neck down to your crotch but it doesnt seem to be a simple zipper or button-up style. Puzzled how you will get out of it you check also other areas of the cloth.</br>
+No pockets and as it seems no label or sign, at least at the front.</br>
+Do you wear pantys below the jumpsuite? For sure the bra is missing.</br>
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+:: Home_Inspect
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+<% if(s.vars.qHomeInspect<==0){ s.vars.qHomeInspect+=1;%>
+You stand up and walk through the room. Its much bigger then a usual prison cell. You guess its around the size 4 by 4 meters and you cant reach the ceiling when standing tip-toed, so its at least 2.5 or een 3m. </br>
+<%} else if(s.vars.qHomeInspect===1){ s.vars.qHomeInspect+=1;%>
+Turning around you can see where you have been initialy lying on. Its some kind of futon-bed with a lengthy, white pillow. But there is no blanket. </br>
+<%} else if(s.vars.qHomeInspect===2){ s.vars.qHomeInspect+=1;%>
+The next thing you can clearly identify is a small desk and stool next to a wall. Both are mounted to the floor and are made from some sort of synthetic material.  </br>
+<%} else %>
+There isnt to see much else interesting in the room right now.
+<%}%>
+<div></br>
+[[Next|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
+:: Home_callout
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+"Hello? ....Hello?....Anyone here" you listen for a response of your call out.</br>
+But there is none.</br>
+<div></br>
+[[Next|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
