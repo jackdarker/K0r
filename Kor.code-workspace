@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "src"
+		},
+		{
+			"path": "project\\twee"
+		}
+	],
+	"settings": {
+		"twee3LanguageTools.storyformat.current": "snowman-2"
+	}
+}

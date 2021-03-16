@@ -13,12 +13,12 @@
 <%} %>
 
 <div></br>
-[[Inspect the room|Home_Inspect]] [[Take a look at yourself|Home_self]]  [[Call out|Home_callout]]</br>
+[[Inspect the room|Home_Inspect]] [[Take a look at yourself|Home_checkself]]  [[Call out|Home_callout]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_self [_back]
+:: Home_checkself [_back]
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
 Looking down at yourself, you find beeing clad in a jumpsuite of light gray color. The material is smooth to the touch and thin. Its not just simple cotton, maybe some kind of silk or, much more likely, synthetic fiber.</br>

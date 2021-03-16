@@ -3,13 +3,41 @@
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--set next location before-->
 That didnt work out as expected. </br>
-Now you have to select your punishment. And you better select quickly or someone else will do and maybe you get some bonus punishment.</br>
+Now you have to select your punishment. And you better select quickly or someone else will do and maybe you are granted some bonus punishment.</br>
 A bunch of icons flicker in front of you. You can only guess what they mean.</br>
 
-<div></br>
-<img alt="tweegoicon" src="assets/favicon.png" ><div hidden id='${id}'>${descr}</div></br>
-</div> <hr>
-<div></br>
+<div id="choice">
+<table><tbody>
+<tr>
+<td><img id="armbinder" src="assets/icon/armbinder.svg" onclick='downgrade_option(this);'></td>
+<td><img id="male_plus" src="assets/icon/male_plus.svg" onclick='downgrade_option(this);'></td>
+</tr>
+</tbody></table>
+</div>
+<div id="info">
+<p id="armbinder" hidden>That could be a person. Not sure what that V-shape means. Will I get some medal?</br>
+<a0 onclick='function() {window.story.state.Lisa.upArmbinder+=1;window.story.show("downgrade_Done");}()'>Choose this icon</a></br></p>
+<p id="male_plus" hidden>Symbol for male, thats easy. But what does it mean, and whats the meaning of the cross?</br>
+<a0 onclick='function() {window.story.state.Kor.upMale+=1;window.story.show("downgrade_Done");}()'>Choose this icon</a></br></p>
+</div>
 [[Use joker|skip_downgrade]]   [[dont choose|rnd_downgrade]] </br>
-[[Into the city]]</br></div>
+</article><article id="LogPanel"></article></section>
+<script>
+function downgrade_option(elmnt) {
+    window.gm.onSelect(elmnt,"div#choice table tbody tr td *","div#info");
+}
+</script>
+
+:: downgrade_Done
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--set next location before-->
+You selected the icon and flickers up while the others vanish. </br>
+But nothing happens. Was it meaningless then?
+
+There is no reaction from the robot behind you except that removes its iron grip around your neck.</br>
+Thankfully you straighten up and timidly glance back at it. </br>
+Making some steps backward the robot gives you some room but seems still to stare at you.</br>
+
+[[Better go with them|Home_Arrival]]</br>
 </article><article id="LogPanel"></article></section>

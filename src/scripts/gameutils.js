@@ -9,7 +9,8 @@ window.gm.refreshScreen= function() {
 };
 //updates only sidepanle,logpanel
 window.gm.updateOtherPanels = function(){
-    renderToSelector("#sidebar", "sidebar");renderToSelector("#LogPanel", "LogPanel"); 
+    renderToSelector("#sidebar", "sidebar");
+    //unused renderToSelector("#LogPanel", "LogPanel"); 
 };
 window.gm.pushLog=function(msg,Cond=true) {
     if(!Cond) return;
@@ -45,6 +46,29 @@ window.gm.roll=function(n,sides) { //rolls n x dies with sides
 }
 window.gm.printOutput= function(text) {
     document.querySelector("section article div output").innerHTML = text;
+};
+//connect to onclick to toggle selected-style for element + un-hiding related text
+//the elmnt (f.e.<img>) needs to be inside a parentnode f.e. <div id="choice">
+//ex_choice is jquery path to fetch all selectable elmnt
+//for a table in a div this could be "div#choice table tbody tr td *"
+//text-nodes needs to be inside a parent node f.e. <div id="info"> and have matching id of elmnt
+//ex_info is jquery path to fetch all info elmnt
+//for a <p> in div this could be "div#info  
+window.gm.onSelect = function(elmnt,ex_choice,ex_info) {
+    var all = $(ex_choice);//[0].children;
+    for(var i=0;i<all.length;i++) {
+      if(all[i].id === elmnt.id) {
+        all[i].classList.add("selected");
+      }
+      else all[i].classList.remove("selected");
+    }
+    all = $(ex_info)[0].children;
+    for(var i=0;i<all.length;i++) {
+        if(all[i].id === elmnt.id) {
+          all[i].hidden=false;
+        }
+        else all[i].hidden=true;
+    }
 };
 //prints the same kind of link like [[Next]] but can be called from code
 window.gm.printPassageLink= function(label,target) {

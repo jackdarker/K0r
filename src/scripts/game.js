@@ -55,18 +55,31 @@ window.gm.initGame= function(forceReset) {
         scenePic : 'assets/bg_park.png'
       }
     }
-    if (!s.Lisa||forceReset) {  
-      s.Lisa ={  
-        name: 'Lisa',
-        location : "Home",
-        XP: 0,  
-        level: 1,  
+    if (!s.Kor||forceReset) {  
+      s.Kor ={  
+        name: 'Kor',
+        location : "Home", 
         inv: [],  //inventory data, needs to be mapped to Inventory-Instance
         wardrobe: [],  //separate wardobe data, needs to be mapped to outfit-Instance
         outfit: [],  // needs to be mapped to outfit-Instance
         stats: [],
         effects: [],
-        rel: []
+        rel: [],
+        upMale: 0,
+        upMouth: 0
+      }
+    } 
+    if (!s.Lisa||forceReset) {  
+      s.Lisa ={  
+        name: 'Lisa',
+        location : "Home", 
+        inv: [],  //inventory data, needs to be mapped to Inventory-Instance
+        wardrobe: [],  //separate wardobe data, needs to be mapped to outfit-Instance
+        outfit: [],  // needs to be mapped to outfit-Instance
+        stats: [],
+        effects: [],
+        rel: [],
+        upArmbind: 0
       }
     }      
     window.gm.switchPlayer(s.Lisa.name); //start-player

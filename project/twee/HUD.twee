@@ -214,7 +214,6 @@ Status of <%=window.gm.player.name%>:</br>
 </article><article id="LogPanel"></article></section>
 
 :: PassageTemplate [template]
-The page should be setup like this:
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 content here !

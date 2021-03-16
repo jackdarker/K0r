@@ -164,7 +164,12 @@ statdown {
     border-width: 3px;
     border-style: solid;
 }
- 
+.selected {
+    border-style: double;
+    border-width: thick;
+    /* border-spacing: 20px; */
+    border-color: coral;
+} 
 div.scroll {
   height: 100%;
   overflow-x: hidden;

@@ -1,0 +1,52 @@
+:: Riddle1
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<!---->
+The room looks similiar like your own except that there is only a round desk in the middle.
+Again, there are no windows, doors or other gadgets. At least you annot see them.
+Assuming that you should go to the desk you walk toward it.
+Its not very large in diameter, half a meter or so . There is nothing else, not on the desk nor in the room.
+</br>
+You look around scanning for a hint why they brought you here, as the surface of the desk changes to black and then shows some symbols.</br>
+"A touchscreen ?" you ask "you know there are now tablets available. No need to waste an entire room to have a desk with a touchsreen."</br>
+Of course you said that to provoke a response and look around to see if something happens. You are pretty sure they have something like one-way mirrors here or spy-cams. </br>
+But nothing happens.</br>
+Your gaze drop again to the screen and you notice that number in the top right corner has changed, at least you think so. </br>
+You stare some more at the icons and try to make sense of it all. Is this a riddle?</br> 
+The number just changed again one count lower. </br>
+Better start solving that puzzle befor the countdown runs out. </br
+</br
+[[Make a choice|Riddle1_Move1]]
+</article><article id="LogPanel"></article></section>
+
+:: Riddle1_Move1
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<!---->
+The room looks similiar like your own except that there is only a round desk in the middle.
+Again, there are no windows, doors or other gadgets. At least you annot see them.
+Assuming that you should go to the desk you walk toward it.
+Its not very large in diameter, half a meter or so . There is nothing else, not on the desk nor in the room.
+</br>
+You look around scanning for a hint why they brought you here, as the surface of the desk changes to black and then shows some symbols.</br>
+"A touchscreen ?" you ask "you know there are now tablets available. No need to waste an entire room to have a desk with a touchsreen."</br>
+Of course you said that to provoke a response and look around to see if something happens. You are pretty sure they have something like one-way mirrors here or spy-cams. </br>
+But nothing happens.</br>
+Your gaze drop again to the screen and you notice that number in the top right corner has changed, at least you think so. </br>
+You stare some more at the icons and try to make sense of it all. Is this a riddle?</br> 
+The number just changed again one count lower. </br>
+Better start solving that puzzle befor the countdown runs out. </br>
+</br>
+[[Just wait until countdown finishs|Riddle1_Countdown]] [[Ignore the riddle and check the room|Riddle1_Countdown]]
+</article><article id="LogPanel"></article></section>
+
+:: Riddle1_Countdown
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+You still ponder about the logic as the countdown reaches 0. </br>
+The screen goes black. After a while waiting for something to happen you ask "Are we done now?"</br>
+Listening for an answer you check the white wall again. </br>
+A new set of ions appear and they look different.
+
+[[Look at them|]][[ignore them|]]
+</article><article id="LogPanel"></article></section>
