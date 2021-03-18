@@ -2,7 +2,7 @@
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Here you can find some information about the gameplay.</br></br>
-[[Your goal|Help_Background]]</br>
+[[FAQ|Help_Background]]</br>
 [[Basics|Help_Basics]]</br>
 [[What should I do, where should I go|Help_Quest]]</br>
 [[Im stuck!|Help_Fixes]]</br>
@@ -10,18 +10,22 @@ Here you can find some information about the gameplay.</br></br>
 
 
 :: Help_Background [_back]
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-Your goal is - to save the earth.</br>
-No, just joking. You are far from a superhero and earth has so many serious problems, you cant do much about it.</br>
-If you can make a living for yourself and find friends then you are on a good way.</br>  </br>
-Here is a task-list for you: </br>
-1. explore your surroundings to unlock new places and events</br>
-2. talk to others and help them to build your relationship and unlock content</br>
-3. work on your carreer (whichever that is). Partake in schooling f.e. </br>
-4. find ways to earn money. Money can unlock things,you know? </br>
-5. dont eat yellow snow</br>
-</br>
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+"What kind of game is this?"</br>
+Mostly a walking simulator. For sure not an RPG with turnbased combat or a sophisticated simulation game. </br></br>
+"Why is the writing so bad"</br>
+Im a noob. Are you willing to improve it? </br></br>
+"Some choices do nothing"</br>
+Some of the offered choices (actually) dont have direct tangible impact. They might just help showing different mindsets of the PC.</br></br>
+"There are no images"</br>
+I would like to do some renders in Blender but - Im a noob.</br></br>
+"There are some downgrades mixed up with the upgrades"</br>
+Sometimes it depends on the viewpoint. For some, free Pony-Boots are downgrades, for others the opposite.</br></br>
+"How many possible ends are there?"</br>
+"Check the Achivements (that I still havent implemented yet)."</br></br>
+"I want to send you some cash because I appreciate your work so much"</br>
+I dont have a patron-account since I cannot work regulary on things except my regulary work. Lets see if I can find another way that allows this kind of game to be supported.
+</br></br>
 [[Next|_back]]</br>
 </article><article id="LogPanel"></article></section>
 
@@ -29,9 +33,7 @@ Here is a task-list for you: </br>
 :: Help_Basics [_back]
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-For many activities you have to spend energy and time. F.e. walking into the city takes some time and effort.</br>
-Energy can be recovered by sleeping. Also some activities, food or drugs can restore energy.</br>
-Use the sleep-option in your own bedroom to rest.</br>
+Use the sleep-option in your own room to rest.</br>
 </br>
 [[Next|_back]]</br>
 </article><article id="LogPanel"></article></section>

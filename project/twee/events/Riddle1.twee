@@ -15,7 +15,7 @@ Your gaze drop again to the screen and you notice that number in the top right c
 You stare some more at the icons and try to make sense of it all. Is this a riddle?</br> 
 The number just changed again one count lower. </br>
 Better start solving that puzzle befor the countdown runs out. </br
-</br
+</br>
 [[Make a choice|Riddle1_Move1]]
 </article><article id="LogPanel"></article></section>
 
@@ -36,17 +36,60 @@ Your gaze drop again to the screen and you notice that number in the top right c
 You stare some more at the icons and try to make sense of it all. Is this a riddle?</br> 
 The number just changed again one count lower. </br>
 Better start solving that puzzle befor the countdown runs out. </br>
-</br>
-[[Just wait until countdown finishs|Riddle1_Countdown]] [[Ignore the riddle and check the room|Riddle1_Countdown]]
+</br>[[Try to guess|Riddle1_Step1]] 
+[[Just wait until countdown finishs|Riddle1_CountdownFail]] [[Ignore the riddle and check the room|Riddle1_CountdownFail]]
 </article><article id="LogPanel"></article></section>
 
-:: Riddle1_Countdown
+:: Riddle1_CountdownFail
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 You still ponder about the logic as the countdown reaches 0. </br>
 The screen goes black. After a while waiting for something to happen you ask "Are we done now?"</br>
-Listening for an answer you check the white wall again. </br>
-A new set of ions appear and they look different.
+Listening for an answer you check the white walls again. </br>
+The screen changes to red and a new set of icons appear but they look different.</br>
+"Hmm, Red is usually a bad sign." you mumble to yourself "but not always. Stawberrys and red pantys are fine."</br>
+The door behind you opens and a robot steps in. It could be the same like before, how an you proof.</br>
+You turn your head back to the screen and decide what to do. </br>
+The robot moves suddenly closer after he was standing idle right before the door. </br>
+You try to not let show that you are intimidated and would like to leap up and run away.</br>
+Suddenly the android is right behind you and you feel his hands pressing down on your shoulders. </br>
+It is pushing you forward and you have to brace yourself against the desk to not be squashed face first against its surface.
+[[Next|downgrade]]
+</article><article id="LogPanel"></article></section>
 
-[[Look at them|]][[ignore them|]]
+:: Riddle1_Step1
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+There are some numbers here written in one row but with an empty rectangle at some point. Below are more rectangles with numbers int it.</br>
+Maybe this is the good old guess the missing number-riddle.</br>
+<table><tbody>
+<tr><td>1</td><td>2</td><td>3</td><td class="selected">_</td></tr>
+<tr><td class="selected">[[5|Riddle1_Fail]]</td><td class="selected">[[4|Riddle1_Step2]]</td><td class="selected">[[3|Riddle1_Fail]]</td></tr>
+</tbody></table>
+</article><article id="LogPanel"></article></section>
+
+:: Riddle1_Step2
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+The next number appear.</br>
+<table><tbody>
+<tr><td>37</td><td>48</td><td>51</td><td class="selected">_</td></tr>
+<tr><td class="selected">[[62|Riddle1_Fail]]</td><td class="selected">[[65|Riddle1_Fail]]</td><td class="selected">[[52|Riddle1_OK]]</td></tr>
+</tbody></table>
+</article><article id="LogPanel"></article></section>
+
+:: Riddle1_Fail
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+After you made your selection, the screen goes red. So, your guess was wrong?</br>
+How about another chance? </br>
+[[Next|downgrade]]</br>
+</article><article id="LogPanel"></article></section>
+
+
+:: Riddle1_OK
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+The screen switches to green.  </br>
+[[Next|upgrade]]
 </article><article id="LogPanel"></article></section>

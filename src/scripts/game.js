@@ -41,7 +41,12 @@ window.gm.initGame= function(forceReset) {
         //queststates  // see passage
         qHomeInspect : 0  
         }; 
-
+    }
+    if (!s.tmp||forceReset) { // storage of temporary variables; be careful if you use them in stacking passages
+        s.tmp = {
+          rnd : 0,  // can be used as a random variable for use in CURRENT passage
+          args: []  // can be used to set arguments before another passage is called (passage-arguments) 
+        }
     }
     if (!s.combat||forceReset) { //see encounter & combat.js
       s.combat = {

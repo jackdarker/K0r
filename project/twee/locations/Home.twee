@@ -1,19 +1,19 @@
 :: Home_Arrival
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
-<% if(s.vars.qHomeInspect<==0){ %>
+<% if(s.vars.qHomeInspect<=0){ %>
 	Waking up, you find yourself in a white room, or better to say a white box.</br>
 	Raising from your lying position, you look around puzzled.</br>
 	There are no windows or doors. Not even a lamp. The light seems to come just out of the walls and from the ceiling.</br>
 	After sitting up you nervously move your hands around, finally setting on stroking your legs in an effort to calm you.</br>
 	Is this a hospital? How did you get here?</br>
-<% else if(s.vars.qHomeInspect>==2){ %>
+<% } else if(s.vars.qHomeInspect>=2){ %>
 	There is a desk and a stool over there where you can [[sit|Home_UseDesk]] at. </br>
-<%} if(s.vars.qHomeInspect>==3)%
-<%} %>
+<% } if(s.vars.qHomeInspect>=3){%>
+<% } %>
 
-<div></br>
-[[Inspect the room|Home_Inspect]] [[Take a look at yourself|Home_checkself]]  [[Call out|Home_callout]]</br>
+<div></br>[[Pound against what look like a sliding door]] [[Just sit back on the matress and wait]] [[Call out|Home_callout]]</br>
+[[Inspect the room|Home_Inspect]] [[Take a look at yourself|Home_checkself]]  </br>
 </div>
 </article><article id="LogPanel"></article></section>
 
@@ -35,13 +35,18 @@ Do you wear pantys below the jumpsuite? For sure the bra is missing.</br>
 :: Home_Inspect
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
-<% if(s.vars.qHomeInspect<==0){ s.vars.qHomeInspect+=1;%>
+<!--qHomeInspect
+1 = bed
+2 = desk
+3 = holoscreen
+-->
+<% if(s.vars.qHomeInspect<=0){ s.vars.qHomeInspect+=1;%>
 You stand up and walk through the room. Its much bigger then a usual prison cell. You guess its around the size 4 by 4 meters and you cant reach the ceiling when standing tip-toed, so its at least 2.5 or een 3m. </br>
-<%} else if(s.vars.qHomeInspect===1){ s.vars.qHomeInspect+=1;%>
+<% } else if(s.vars.qHomeInspect==1){ s.vars.qHomeInspect+=1;%>
 Turning around you can see where you have been initialy lying on. Its some kind of futon-bed with a lengthy, white pillow. But there is no blanket. </br>
-<%} else if(s.vars.qHomeInspect===2){ s.vars.qHomeInspect+=1;%>
+<% } else if(s.vars.qHomeInspect==2){ s.vars.qHomeInspect+=1;%>
 The next thing you can clearly identify is a small desk and stool next to a wall. Both are mounted to the floor and are made from some sort of synthetic material.  </br>
-<%} else %>
+<% } else { %>
 There isnt to see much else interesting in the room right now.
 <%}%>
 <div></br>
@@ -57,5 +62,27 @@ There isnt to see much else interesting in the room right now.
 But there is none.</br>
 <div></br>
 [[Next|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+:: Home_UseDesk [_back]
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+There isn't much you can do at the desk. You dont have pen and paper to write down your memoir.</br>
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+:: Home_Wait [_back]
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+<% } if(s.vars.qHomeInspect==2){%>
+Just a while after you placed yourself on the matress, you here an humming noise from the wall to the left of your bedding.</br>
+<% } else { %>
+Laying down on the futon and pulling yourself into fetal curl, you muse about your situation.</br>
+<% } %>
+<div></br>
+[[Back|_back]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
