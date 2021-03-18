@@ -31,8 +31,10 @@ a:hover {
   color: black;
 }
 tw-story {
+  height:100vh; 
+  /*width:95vW;*/
   max-width: 60em;
-    margin: 0 auto;
+    margin: 0 0/*auto*/; 
     line-height: 100%;
     display: block;
 }
@@ -141,16 +143,20 @@ div.scroll {
   overflow-x: hidden;
   overflow-y: auto;
 }
-@media (min-width: 30em) { 
+/*@media (min-width: 30em) { */
   body {
     background-image:url('assets/bg_hex.jpg');
     color:lightgrey;
+    padding:0;
+    margin:0;
   }
   section {
     background-color:rgba(40, 40, 40, 0.2);
     display: grid;
     grid-template-columns: 0.5fr 1fr 1fr 1fr;
     grid-template-rows: 80% 20%;
+    height:100vh;
+    /*width:95vw;*/ /*scrollbars*/
   }
   .section_swap {
     grid-template-rows: 2% ;
@@ -166,7 +172,7 @@ div.scroll {
 	  grid-column: 2;
 	  grid-column-end: -1;
     line-height: 130%;
-    height: 100%;
+    /*height: 100%;*/
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -177,4 +183,4 @@ div.scroll {
     height:300px;
   }
 
-}
+/*}*/

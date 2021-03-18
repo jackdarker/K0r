@@ -1,0 +1,43 @@
+:: ??Corridor
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+Just after you walked mere meters into the corridor, the door you walked through closes. You have an urge to walk back and see if it can be opened again.
+But wenn das nicht der Fall wäre würde das dich ja nur weiter beunruhigen. So you just assume that it will open and continue your path.
+A shadow and some moments later that one causing it appears at the end of the corridor.
+Its one of those tiger-beasts you have seen before. While you stopped startled right away, the creature just continue to stride down the hallway.
+It will only take some more steps until it is on your height. While it passes by you should: </br> 
+[[stand with your back to the wall and look timidly down ]]  -> [[trace its spine up to its tailbase while it passes by]]</br> 
+[[just continue your walk]]</br> 
+[[face against the wall ]]  -> [[spread your legs while leaning against the wall]]</br> 
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+:: WhyYou1
+Rolling to a ball on the bedding, you ponder why you are here.
+'Maybe Steve has something to do with it.'
+You remember that you were glad that he invited you to travel in his car back to your city.
+Flyby had just finally suffered total breakdown and you were trying to hitch-hike placing your thumb out at the main road leaving moms small town.
+Flyby was your car, the first you bought, but you were not the first to drie it. After the long years it coughed up its final puff of exhaust fumes and stuttered to silence.
+You will miss it.
+Anyway, Steve gave you a ride. He seems very self-confident in his third-hand sportscar and tried to hit on you.
+He tried so hard that it got somehow annoying.
+todo    
+
+
+:: ??Steve1 
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+You are surprised as you find yourself into the face of another human.
+Is this Steve? So they captured them too and it wasnt he that got you in this situation?
+"Hey...hey can you hear me" you pound against the glas with both hands.
+For sure he can hear you, his staggered reaction cleary shows that. 
+With an somewhat reliefed but also worried expression he walks toward the glass pane.
+He wears the same outfit like you, a snuggly fitting jumpsuite. You give him a once over. 
+'I bet hes doing some sports' you think as you notice his firm body and exersiced legs. Your gaze returns quickly to his face as you find yourself staring at his nice bulge. 
+He doesnt seem to be harmed.
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
