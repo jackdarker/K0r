@@ -1,22 +1,22 @@
 :: sidebar {"position":"551,513.3000030517578","size":"100,100"}
 <h3><%=window.story.name%></h3>V<%=window.gm.getSaveVersion().toString().replaceAll(",",".")%></br>
-<img src="https://twinery.org/homepage/img/logo.svg" width="256" height="256">
+<img width="256" height="256">
 </hr>
 <div style="font-size: smaller;"><%=window.gm.player.location%></br>
 <%=window.gm.getTimeString()%> <%=window.gm.getDateString()%></br>
 </div>
 </hr>
 <form>
-<label>Info:    <output></output>  </label></br>
+<label><output></output>  </label></br>
 <button type="button" id="dashboard">More</button>
-<!--<button type="button" id="wait" style="width: 100%">Rest 45min</button>-->
+<!--<button type="button" id="wait" style="width: 80%">Rest 45min</button>-->
 </hr>
-<button type="button" id="save" style="width: 100%">Save/load</button>
-<button type="button" id="help" style="width: 100%">Help</button>
-<button type="button" id="settings" style="width: 100%">Settings</button>
+<button type="button" id="save" style="width: 80%">Save/load</button>
+<button type="button" id="help" style="width: 80%">Help</button>
+<button type="button" id="settings" style="width: 80%">Settings</button>
 
 <%if(s.vars.debug & 0x1>0){%>
-<button type="button" id="debug" style="width: 100%">Debug</button>
+<button type="button" id="debug" style="width: 80%">Debug</button>
 <script>document.querySelector('#debug').addEventListener('click', function(){window.story.show('debug');});</script>
 <%}%>
 </form>
