@@ -1,4 +1,4 @@
-:: debug [_back]
+:: debug [_back] {"position":"400,0"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Some things for debugging:</br>
@@ -7,7 +7,7 @@ qHomeInspect=0x<%=s.vars.qHomeInspect.toString(16)%></br>
 [[Back|_back]]</br>
 </article><article id="LogPanel"></article></section>
 
-:: debug_cheat [_back]
+:: debug_cheat [_back] {"position":"500,0"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Cheat buttons:</br>

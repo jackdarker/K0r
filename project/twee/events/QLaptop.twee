@@ -1,4 +1,4 @@
-:: QLaptop
+:: QLaptop {"position":"1100,600"}
 <script>
 //quest milestones
 var qLaptopLib = [ [0,'Laptop PS missing'],
@@ -7,7 +7,7 @@ var qLaptopLib = [ [0,'Laptop PS missing'],
     [0x300 , 'webcam fixed']
 ];</script>
 
-:: qLaptop_Status
+:: qLaptop_Status {"position":"1100,700"}
 <!--called  to print status--->
 <li><label><input type="checkbox" name="y" value="x" readonly disabled>
 <%=function(){
@@ -21,7 +21,7 @@ var qLaptopLib = [ [0,'Laptop PS missing'],
 </label></li>
 
 
-:: _Laptop_ [_back]
+:: _Laptop_ [_back] {"position":"1200,700"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 You seat yourself in front of your laptop. </br>

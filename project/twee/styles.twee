@@ -1,4 +1,4 @@
-:: Story Stylesheet [stylesheet]
+:: Story Stylesheet [stylesheet] {"position":"900,200"}
 a {
     line-height: 150%;
     background-color: transparent;

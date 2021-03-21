@@ -1,4 +1,4 @@
-:: sidebar {"position":"551,513.3000030517578","size":"100,100"}
+:: sidebar {"position":"1100,400"}
 <h3><%=window.story.name%></h3>V<%=window.gm.getSaveVersion().toString().replaceAll(",",".")%></br>
 <img width="256" height="256">
 </hr>
@@ -14,6 +14,7 @@
 <button type="button" id="save" style="width: 80%">Save/load</button>
 <button type="button" id="help" style="width: 80%">Help</button>
 <button type="button" id="settings" style="width: 80%">Settings</button>
+<button type="button" id="achievements" onclick='window.story.show("Achievements");' style="width: 80%">Achievements</button>
 
 <%if(s.vars.debug & 0x1>0){%>
 <button type="button" id="debug" style="width: 80%">Debug</button>
@@ -29,11 +30,11 @@ document.querySelector('#settings').addEventListener('click', function(){window.
 </script>
 
 
-:: CenterDialogs
+:: CenterDialogs {"position":"1200,400"}
 <!--called to include important dialogs; mainly the save-Dialog because of special behaviour-->
 <%=window.story.render("SaveDialog") %></br>
 
-:: playerstats
+:: playerstats {"position":"1500,50"}
 <!--called to render stats in combat-->
 <table><tbody>
 <tr><td></td><td><%=window.gm.player.name%></td>
@@ -42,7 +43,7 @@ document.querySelector('#settings').addEventListener('click', function(){window.
 <tr><td>State:</td><td><%=window.gm.Encounter.printCombatEffects(window.gm.player)%></td></tr>
 </tbody></table>
 
-:: enemystats
+:: enemystats {"position":"1500,150"}
 <!--called to render stats in combat-->
 <table><tbody>
 <tr><td></td><td><%=s.enemy.name%></td>
@@ -52,7 +53,7 @@ document.querySelector('#settings').addEventListener('click', function(){window.
 </tbody></table>
 
 
-:: LogPanel
+:: LogPanel {"position":"1350,150"}
 <div class="scroll" style="font-size: smaller;"><%=window.gm.getLog()%></br></br></div>
 <button type="button" id="toggleview" onclick=toggleview()>toggle View</button>
 <button type="button" id="clearview" onclick=clearview()>clear View</button>
@@ -65,11 +66,13 @@ function clearview(){
 }
 </script>
 
-:: SaveDialog
+:: SaveDialog {"position":"400,100"}
 <dialog role="dialog" id='dialog_save' aria-labelledby="dialog-heading">
     <button id="close-dialog">Back</button>
     <form>
     <label><output></output></label></br>
+    <button type="button" id="saveAuto" hidden> </button><button type="button" id="loadAuto">load Auto</button>
+    <button type="button" id="deleteAuto">delete Auto</button><label><outputAuto></outputAuto></label></br>
     <button type="button" id="save1">save 1</button><button type="button" id="load1">load 1</button>
     <button type="button" id="delete1">delete 1</button><label><output1></output1></label></br>
     <button type="button" id="save2">save 2</button><button type="button" id="load2">load 2</button>
@@ -93,35 +96,35 @@ function clearview(){
 <script>
 var infodisp = 'dialog form label output'; //Url to output according nesting node classes; see structure of dialog below
 var x = 1; 
-var maxSlots = 8; //number saveslots available; has to fit form below
- do {
-   const _x = x;
-   const slot = 'save'.concat(x);
-  document.querySelector('#save'.concat(x)).addEventListener('click', function(){
+var _slots = ['Auto','1','2','3','4','5','6','7','8']; //number saveslots available; has to fit save form
+for(var i=0; i< _slots.length;i++) {
+  const _x = _slots[i];
+  const slot = 'save'.concat(_x);
+  document.querySelector('#save'.concat(_x)).addEventListener('click', function(){
     document.querySelector(infodisp).textContent='';
     window.storage.saveBrowser(slot);
     refresh(_x);
     document.querySelector(infodisp).textContent=slot;
     });
-  document.querySelector('#load'.concat(x)).addEventListener('click', function(){
+  document.querySelector('#load'.concat(_x)).addEventListener('click', function(){
     window.storage.loadBrowser(slot);
     div = document.querySelector('#backdrop');
     div.parentNode.removeChild(div);
     });
-  document.querySelector('#delete'.concat(x)).addEventListener('click', function(){
+  document.querySelector('#delete'.concat(_x)).addEventListener('click', function(){
       window.storage.delete(slot);
       refresh(_x);
       });
   document.querySelector(infodisp).textContent='';
-   refresh(x);
-   x = x + 1;
- } while (x <= maxSlots);
+   refresh(_x);
+}
  document.querySelector('#saveFile').addEventListener('click', function(){
     document.querySelector(infodisp).textContent='';
     window.storage.saveFile();
  });
  function refresh(slot){
-  var ok = window.storage.getSaveInfo('save'.concat(slot));
+    var ok = window.storage.getSaveInfo('save'.concat(slot));
+    document.querySelector('#load'.concat(slot)).disabled=(ok==='');
     var out = document.querySelector('dialog form output'.concat(slot));
     if(out) out.textContent = ok;
 }
@@ -134,7 +137,7 @@ var maxSlots = 8; //number saveslots available; has to fit form below
 </script>
 
 
-:: Inventory [_back]
+:: Inventory [_back] {"position":"600,200"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 [[Back|_back]]</br>
@@ -152,7 +155,7 @@ for(var i=0;i<maxSlots;i++){
 </article><article id="LogPanel"></article></section>
 
 
-:: Relations [_back]
+:: Relations [_back] {"position":"300,200"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 [[Back|_back]]</br>
@@ -161,7 +164,15 @@ for(var i=0;i<maxSlots;i++){
 </article><article id="LogPanel"></article></section>
 
 
-:: Player_Dashboard [_back]
+:: Achievements [_back] {"position":"500,200"}
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+[[Back|_back]]</br>
+<%=window.gm.printAchievements()%>
+</article><article id="LogPanel"></article></section>
+
+
+:: Player_Dashboard [_back] {"position":"300,100"}
 <!--a dashboard where the player can check his other stuff-->
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
@@ -171,7 +182,7 @@ Your outfit can only be changed by using a wardrobe.</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Wardrobe [_back]
+:: Wardrobe [_back] {"position":"875,525"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 [[Back|_back]]</br>
@@ -190,7 +201,7 @@ for(var i=0;i<maxSlots;i++){
 %>
 </article><article id="LogPanel"></article></section>
 
-:: Settings [_back]
+:: Settings [_back] {"position":"200,100"}
 <!--TODO what settings ?-->
 <section> 
 <!--<aside id="sidebar"></aside>--><article><%=window.story.render("CenterDialogs") %>
@@ -205,7 +216,7 @@ If you enable this your route to bad end by sex-related action is much shorter. 
 </article><article id="LogPanel"></article></section>
 
 
-:: Status [_back]
+:: Status [_back] {"position":"400,200"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Status of <%=window.gm.player.name%>:</br> 
@@ -213,13 +224,13 @@ Status of <%=window.gm.player.name%>:</br>
 [[Back|_back]]</br>
 </article><article id="LogPanel"></article></section>
 
-:: PassageTemplate [template]
+:: PassageTemplate [template] {"position":"1000,400"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 content here !
 </article><article id="LogPanel"></article></section>
 
-:: SubpanelTemplate [_back]
+:: SubpanelTemplate [_back template] {"position":"900,400"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 If this is a subpanel you can use back-tag and _back-Link

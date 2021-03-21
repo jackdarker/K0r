@@ -1,4 +1,4 @@
-:: Riddle1
+:: Riddle1 {"position":"500,400"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <!---->
@@ -19,7 +19,7 @@ Better start solving that puzzle befor the countdown runs out. </br
 [[Make a choice|Riddle1_Move1]]
 </article><article id="LogPanel"></article></section>
 
-:: Riddle1_Move1
+:: Riddle1_Move1 {"position":"500,600"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <!---->
@@ -40,7 +40,7 @@ Better start solving that puzzle befor the countdown runs out. </br>
 [[Just wait until countdown finishs|Riddle1_CountdownFail]] [[Ignore the riddle and check the room|Riddle1_CountdownFail]]
 </article><article id="LogPanel"></article></section>
 
-:: Riddle1_CountdownFail
+:: Riddle1_CountdownFail {"position":"700,800"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 You still ponder about the logic as the countdown reaches 0. </br>
@@ -57,7 +57,7 @@ It is pushing you forward and you have to brace yourself against the desk to not
 [[Next|downgrade]]
 </article><article id="LogPanel"></article></section>
 
-:: Riddle1_Step1
+:: Riddle1_Step1 {"position":"500,500"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 There are some numbers here written in one row but with an empty rectangle at some point. Below are more rectangles with numbers int it.</br>
@@ -68,7 +68,7 @@ Maybe this is the good old guess the missing number-riddle.</br>
 </tbody></table>
 </article><article id="LogPanel"></article></section>
 
-:: Riddle1_Step2
+:: Riddle1_Step2 {"position":"500,700"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 The next number appear.</br>
@@ -78,7 +78,7 @@ The next number appear.</br>
 </tbody></table>
 </article><article id="LogPanel"></article></section>
 
-:: Riddle1_Fail
+:: Riddle1_Fail {"position":"600,800"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 After you made your selection, the screen goes red. So, your guess was wrong?</br>
@@ -87,7 +87,7 @@ How about another chance? </br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Riddle1_OK
+:: Riddle1_OK {"position":"500,800"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 The screen switches to green.  </br>

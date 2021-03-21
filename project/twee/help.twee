@@ -1,4 +1,4 @@
-:: Help_Index [_back]
+:: Help_Index [_back] {"position":"600,100"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Here you can find some information about the gameplay.</br></br>
@@ -9,7 +9,7 @@ Here you can find some information about the gameplay.</br></br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Help_Background [_back]
+:: Help_Background [_back] {"position":"900,100"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 "What kind of game is this?"</br>
 Mostly a walking simulator. For sure not an RPG with turnbased combat or a sophisticated simulation game. </br></br>
@@ -30,7 +30,7 @@ I dont have a patron-account since I cannot work regulary on things except my re
 </article><article id="LogPanel"></article></section>
 
 
-:: Help_Basics [_back]
+:: Help_Basics [_back] {"position":"800,100"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Use the sleep-option in your own room to rest.</br>
@@ -39,7 +39,7 @@ Use the sleep-option in your own room to rest.</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Help_Quest [_back]
+:: Help_Quest [_back] {"position":"500,100"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 
@@ -47,7 +47,7 @@ Use the sleep-option in your own room to rest.</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Help_Fixes [_back]
+:: Help_Fixes [_back] {"position":"700,100"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 If you are stuck on a page and you cannot escape. Press this [[Button|Home]] to get back to your Home.</br></br>

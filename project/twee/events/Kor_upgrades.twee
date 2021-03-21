@@ -1,4 +1,4 @@
-:: Kor_MaleUp
+:: Kor_MaleUp {"position":"1700,900"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--set next location before-->
@@ -8,7 +8,7 @@ You want to go back but the door has already closed silently.
 [[Better go with them|Home_Arrival]]</br>
 </article><article id="LogPanel"></article></section>
 
-:: Kor_sex_1
+:: Kor_sex_1 {"position":"1500,900"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--set next location before-->
@@ -25,7 +25,7 @@ To your disappointment he just turns around and walks away, his artificial cock 
 </article><article id="LogPanel"></article></section>
 
 
-:: Kor_sex_BoundDoggyInternalCam
+:: Kor_sex_BoundDoggyInternalCam {"position":"1500,1000"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--set next location before-->

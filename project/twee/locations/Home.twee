@@ -1,4 +1,4 @@
-:: Home_Arrival
+:: Home_Arrival {"position":"300,850"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 <% if(s.vars.qHomeInspect<=0){ %>
@@ -18,7 +18,7 @@
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_checkself [_back]
+:: Home_checkself [_back] {"position":"300,1100"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
 Looking down at yourself, you find beeing clad in a jumpsuite of light gray color. The material is smooth to the touch and thin. Its not just simple cotton, maybe some kind of silk or, much more likely, synthetic fiber.</br>
@@ -32,7 +32,7 @@ Do you wear pantys below the jumpsuite? For sure the bra is missing.</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Home_Inspect
+:: Home_Inspect {"position":"450,1100"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
 <!--qHomeInspect
@@ -55,7 +55,7 @@ There isnt to see much else interesting in the room right now.
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_callout
+:: Home_callout {"position":"300,1225"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
 "Hello? ....Hello?....Anyone here" you listen for a response of your call out.</br>
@@ -65,7 +65,7 @@ But there is none.</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Home_UseDesk [_back]
+:: Home_UseDesk [_back] {"position":"450,975"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
 There isn't much you can do at the desk. You dont have pen and paper to write down your memoir.</br>
@@ -74,7 +74,7 @@ There isn't much you can do at the desk. You dont have pen and paper to write do
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Home_Wait [_back]
+:: Home_Wait [_back] {"position":"300,975"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
 <% } if(s.vars.qHomeInspect==2){%>

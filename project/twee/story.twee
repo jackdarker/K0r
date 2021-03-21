@@ -1,8 +1,8 @@
-:: StoryTitle
+:: StoryTitle {"position":"1000,200"}
 White Cell
 
 
-:: StoryData
+:: StoryData {"position":"1100,200"}
 {
 	"ifid": "6396C055-7E04-4B93-A56D-3AE6375E6E56",
 	"format": "Snowman",
@@ -14,9 +14,9 @@ White Cell
 	"zoom": 1
 }
 
-:: Story JavaScript [script]
+:: Story JavaScript [script] {"position":"800,200"}
 
-:: Start
+:: Start {"position":"200,400"}
 Select a Link:
 <ul>
     <li>[[StartPage]]</li>

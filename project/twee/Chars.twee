@@ -1,4 +1,4 @@
-:: Info_Jake [_back]
+:: Info_Jake [_back] {"position":"1500,600"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Jake is here.</br>
@@ -6,7 +6,7 @@ You barely know anything about him.</br>
 [[Back|_back]]</br></br>
 </article></section>
 
-:: Talk_Cyril [_back]
+:: Talk_Cyril [_back _del] {"position":"725,525"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Cyril is here.</br>
@@ -16,7 +16,7 @@ Cyril is here.</br>
 </article></section>
 
 
-:: Info_Mom [_back]
+:: Info_Mom [_back] {"position":"1400,600"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Your mom is here.</br>

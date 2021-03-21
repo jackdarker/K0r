@@ -10,7 +10,7 @@ window.gm.refreshScreen= function() {
 //updates only sidepanle,logpanel
 window.gm.updateOtherPanels = function(){
     renderToSelector("#sidebar", "sidebar");
-    //unused renderToSelector("#LogPanel", "LogPanel"); 
+	//unused renderToSelector("#LogPanel", "LogPanel"); 
 };
 window.gm.pushLog=function(msg,Cond=true) {
     if(!Cond) return;
@@ -292,6 +292,22 @@ window.gm.printRelationSummary= function() {
         if(ids[k].split("_").length===1) {   //ignore _min/_max
             var data = window.gm.player.Rel.get(ids[k]);
             result+='<tr><td>'+data.id+':</td><td>'+data.value+' of '+window.gm.player.Rel.get(ids[k]+"_Max").value+'</td></tr>';
+        }
+    }   //todo print mom : 10 of 20
+    result+='</table>';
+    return(result);
+};
+//prints achievements
+window.gm.printAchievements= function() {
+    var elmt='';
+    var result ='';
+    var ids = [];
+    result+='<table>';
+    var ids = Object.keys(window.gm.achievements);
+    ids.sort();
+    for(var k=0;k<ids.length;k++){
+        if(ids[k].split("_").length===1) {   //ignore _min/_max
+            result+='<tr><td>'+ids[k]+':</td><td>'+window.gm.achievements[ids[k]]+'</td></tr>';
         }
     }   //todo print mom : 10 of 20
     result+='</table>';

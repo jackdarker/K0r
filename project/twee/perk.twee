@@ -1,4 +1,4 @@
-:: downgrade
+:: downgrade {"position":"900,800"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--set next location before-->
@@ -8,36 +8,27 @@ A bunch of icons flicker in front of you. You can only guess what they mean.</br
 
 <div id="choice" >
 <table><tbody>
-<tr>
-<td><img id="lisa_armbinder" src="assets/icon/lisa_armbinder.svg" onclick='downgrade_option(this);'></td>
-<td><img id="kor_male_plus" src="assets/icon/kor_malePlus.svg" onclick='downgrade_option(this);'></td>
-<td><img id="kor_male_X" src="assets/icon/kor_maleX.png" onclick='downgrade_option(this);'></td>
-<td><img id="kor_mouth" src="assets/icon/Kor_Mouth.png" onclick='downgrade_option(this);'></td>
-<td><img id="kor_tongue" src="assets/icon/Kor_Tongue.png" onclick='downgrade_option(this);'></td>
-</tr>
+<%=window.story.render("Lisa_Armbinder") %>
+<%=window.story.render("Kor_MalePlus") %>
+<%=window.story.render("Kor_MaleX") %>
+<%=window.story.render("Kor_Mouth") %>
+<%=window.story.render("Kor_Tongue") %>
+<%=window.story.render("Lisa_Anal_Vortex") %>
 </tbody></table>
 </div>
-<div id="info">
-<p id="lisa_armbinder" hidden>That could be a person. Not sure what that V-shape means. Some kind of outfit?</br>
-<a0 onclick='(function(){window.story.state.Lisa.upArmbinder+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></br></p>
-<p id="kor_male_plus" hidden>Symbol for male, thats easy. But what does it mean, and whats the meaning of the cross?</br>
-<a0 onclick='(function(){window.story.state.Kor.upMale+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></br></p>
-<p id="kor_male_X" hidden>That symbol you saw already. The cross looks different this time.</br>
-<a0 onclick='(function(){window.story.state.Kor.upMaleX+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></br></p>
-<p id="kor_mouth" hidden>Are those lips? A mouth that speaks. I think I get insane if I dont meet someone to speak with soon.</br>
-<a0 onclick='(function(){window.story.state.Kor.upMouth+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></br></p>
-<p id="kor_tongue" hidden>A tongue maybe? Most likely something ompletely different.</br>
-<a0 onclick='(function(){window.story.state.Kor.upMouth+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></br></p>
-</div>
+
 [[Use joker|skip_downgrade]]   [[dont choose|rnd_downgrade]] </br>
 </article><article id="LogPanel"></article></section>
 <script>
 function downgrade_option(elmnt) {
     window.gm.onSelect(elmnt,"div#choice table tbody tr td *","div#info");
 }
+function downgrade_option2(elmnt) {
+    window.gm.onSelect(elmnt,"div#choice table tbody tr td img","div#choice table tbody tr td span");
+}
 </script>
 
-:: downgrade_Done
+:: downgrade_Done {"position":"900,900"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--set next location before-->
@@ -50,3 +41,34 @@ Making some steps backward the robot gives you some room but seems still to star
 
 [[Better go with them|Home_Arrival]]</br>
 </article><article id="LogPanel"></article></section>
+
+
+:: Lisa_Anal_Vortex
+<tr><td><img id="lisa_anal_vortex" src="assets/icon/Icon_Vortex.png" style='background: url("assets/icon/Icon_Lisa.png") no-repeat center,url("assets/icon/Icon_bg.png") no-repeat center;color:black;'></td>
+<td><span id="lisa_anal_vortex">Swirling vortex, a black hole that sucks everthing in. Or portal that sends you home?</br>
+<a0 onclick='(function(){window.story.state.Kor.upMouth+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
+
+:: Lisa_Armbinder
+<tr><td><img id="lisa_armbinder" src="assets/icon/lisa_armbinder.png"style='background: url("assets/icon/Icon_Lisa.png") no-repeat center,url("assets/icon/Icon_bg.png") no-repeat center;color:black;'></td>
+<td><span id='lisa_armbinder'>That could be a person. Not sure what that V-shape means. Some kind of outfit?</br>
+<a0 onclick='(function(){window.story.state.Lisa.upArmbinder+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
+
+:: Kor_MalePlus
+<tr><td><img id="kor_male_plus" src="assets/icon/kor_malePlus.png"></td>
+<td><span id="kor_male_plus" >Symbol for male, thats easy. But what does it stand for and whats the meaning of the cross?</br>
+<a0 onclick='(function(){window.story.state.Kor.upMale+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
+
+:: Kor_MaleX
+<tr><td><img id="kor_male_X" src="assets/icon/Kor_Mouth.png"></td>
+<td><span id="kor_male_X" >That symbol you saw already. The cross looks different this time.</br>
+<a0 onclick='(function(){window.story.state.Kor.upMaleX+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
+
+:: Kor_Tongue
+<tr><td><img id="kor_tongue" src="assets/icon/Kor_Tongue.png"></td>
+<td><span id="kor_tongue" >A tongue maybe? Or something ompletely different.</br>
+<a0 onclick='(function(){window.story.state.Kor.upMouth+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
+
+:: Kor_Mouth
+<tr><td><img id="kor_mouth" src="assets/icon/Kor_Mouth.png"></td>
+<td><span id="kor_mouth" >Are those lips? A mouth that speaks. I think I get insane if I dont meet someone to speak with soon.</br>
+<a0 onclick='(function(){window.story.state.Kor.upMouth+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>

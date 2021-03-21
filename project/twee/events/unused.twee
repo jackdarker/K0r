@@ -1,4 +1,4 @@
-:: ??Corridor
+:: ??Corridor {"position":"2025,500"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 Just after you walked mere meters into the corridor, the door you walked through closes. You have an urge to walk back and see if it can be opened again.
@@ -19,7 +19,7 @@ Well that was easy enough. But will it also be easy to make it leave the room at
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: WhyYou1
+:: WhyYou1 {"position":"1025,75"}
 Rolling to a ball on the bedding, you ponder why you are here.
 'Maybe Steve has something to do with it.'
 You remember that you were glad that he invited you to travel in his car back to your city.
@@ -31,7 +31,7 @@ He tried so hard that it got somehow annoying.
 todo    
 
 
-:: ??Steve1 
+:: ??Steve1 {"position":"2000,825"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 You are surprised as you find yourself into the face of another human.
@@ -48,7 +48,7 @@ He doesnt seem to be harmed.
 </article><article id="LogPanel"></article></section>
 
 
-:: Lisa_Pregnant1
+:: Lisa_Pregnant1 {"position":"1000,1000"}
 You let your hand wander over your domed belly. This is for sure not caused by overindulge yourself on the meals.
 Something is growing inside you. The question is, is it a tumor or another living beeing.
 You cannot tell which one frightens you more.
@@ -68,7 +68,7 @@ As your memory sends of those 'situation' in your mind, you try to dismiss them 
 Should you try to [[communicate your problem to Kor]] or just [[ignore]] it for now. 
 
 
-:: Lisa_Pregnant2
+:: Lisa_Pregnant2 {"position":"1000,1100"}
 Kor leads you into a room. There is a contraption in the middle. 
 Its some kind of scaffold where a square pad has 4 rectangular boards connected to it forming a T-cross with the pad int the middle.
 The cross is now arranged to be positioned edgewise, leaning a little bit back. 
@@ -87,7 +87,7 @@ The dive continues through the walls of your womb. The colors might be realistic
 ...
 
 
-:: BlackStream
+:: BlackStream {"position":"675,1200"}
 From this point of view it looks like that gooey liquid is flowing up instead following gravity.
 
 It gets harder to move through the muck. And it is not just because you are now up to your hips inside the stream. The mass seems to get roopier to just like cooling off caramel.   
@@ -101,7 +101,173 @@ You are more than worried now, you have to act quickly and
 
 
 
-:: VaginaAching
+:: VaginaAching {"position":"1125,1000"}
 You feel fidgety and your mind gets distracted easily by recurring thought about feisty sex. Your cunt feels achingly empty and cause waves of needy heat passing through your body.
 You were even desperate enough to bother those you are unfamilar with to seduce them to have a good time with you.  
 But they all ignored your pleas and just left you with added humilation and hornyness.      
+
+
+
+:: Vaginal Defense Grid
+
+A round, domed disk is bit by bit dispensed by a machine that might be an 3d printer in upside down design. 
+Its diameter is a little bit smaller than that of the palm of your hand. From the table you are lying on you have a good view how it is beeing produced.
+The surface of the object reminds you on the armorplating you saw on some of those bots. But what ould be reinforced with such delicate armor plate. 
+And why the heck are you there again being deposited nude on this medical desk.
+Kor takes the disk and slides it into the muzzle of something that looks like a hair dryer or odd gun. The disk seems to be somewhat flexible because you saw him to sqash it together before placing it in the muzzle.
+Noticing him walking around the desk where your legs are propped up, you can feel some incresing tension in your guts.
+And that bad feeling is soon reinfored as he places that guns opening right between your legs.
+"The fuck you are shoving that thing up there.. " you esclaim. But your shout is cut off by inhaling a deep breath as you feel the muzzle being pressed at your vaginal opening.
+Wiggling away from it is not that easy with those restraints holding you in place so you concentrate to close down your anal with those muscles.
+But you can only hold that tension for a limited time and as your muscles flag the smooth pipe glides in to the end. A pained yelp escapes your panting mouth as it hits the barrier in your womb.
+Its a reminder that the cervix is quite sensitive as that gun bumps into it. Before you recover the disk is deposited into your depths and you can feel it slip into place, sealing of that mouth of uterus.
+"God damit what the heck is this? Some kind of diaphragma?" you shout "they make them of rubber, not of steel plates. Why the fuck would someone use steel plates for this !"
+"UUhhh.." you gasp as the pipe gets pulled out from your nethers.
+You dont get it, why would they NOW, after all the stuff they have done, care if you get pregnant or not.
+Carefully wriggling your hips, you probe if you can feel it. A slight pressure might be present but its bearable.
+...          
+
+Vulva shielding
+external vulva bulkhead sealed
+shielding removel attempt detected
+shielding dislodged, vulva and clitoris exposed
+
+Clitoral depressor
+stimulation reduction  80%
+dampener excitiation at limit, stimulation reduction 20%
+depressor malfunction detected, stimulation amplification +100% 
+
+Vaginal muscle strengthener
+strengthener recharging
+strengthener closure mode active
+strengthener dislodge mode activated 
+strengthener massage mode activated
+strengthener exhausted
+vaginal muscke sagging imminent
+
+Diaphragma
+100% integrity cervix sealing secured
+50% integrity repair in progress
+20% inte. major armor plating failure imminent
+10% inte. repair resources exhausted
+cervix sealing break down, high risk of inordinate uterus access
+progressive surface degradition by aggressive alterants detected
+structural weakening by mechanical strain
+
+
+:: Penile defense gird
+Defensive Jockstrap
+
+Glans shielding
+
+Urethrea pipe plug
+
+Prostate sealing ballon
+
+
+
+:: rubber seed worms
+Cowering beneath a bush you spy on one of the smaller,fawn-like animals. Not to hunt it. That would be futile without a ranged weapon or a prepared trap.
+Those critters are quite alert and quick on the heels at the slightest suspicion.  <- erst versuchen zu jagen, dann beobachten welche berries !
+No, you want to know what they eat. Those plant around you arent familiar to you. Better not to risk eating anything poisonous.
+Remebering on of storys you might have read in a book, other adventurers too observed animals in foreign enviroments to gain knowledge what could be eatable.
+Unfortunatly you cannot remember if this was a real story or a made up one. It would be really good to know that small detail to decide if the approach is trustable.
+The deer is nuzzling one of those bushes to collect some kind of berries. So you decide to walk over and get some before there is nothing more to collect.
+As soon as you even try to stand up the deer spots you, stares for the blink at an eye at you and then vanishs with several large jumps in the opposite direction.
+You walk other to the bushes and check what is left. Indeed there are several umbels of berries left. A lot of them at the top right side of the bush.
+A few of them on the bottom left where the deer was busy.
+[[Check those berries]]
+You pick a berry squeezing it with your fingers and smelling it. You dont smell much and the berrys itslef seem very springy. Not even with your fingernails you can tear the rubbery peel open.
+You notice that those on the top left side are more or less yellow, while many on the lower part of the bush has some violett splotches. 
+Maybe the upper part of the bush gets more sunlight and therefore the berrys are ripe more quickly. Or yellow doesnt indicate that they are ripe but that they are noxious.
+Or it doesnt matter a bit how they look like. There arent much of those splotched berries left anyway.
+[[Eat yellow]]
+[[Eat splotched ones]]
+[[Try both]][[Eat none]]
+You collect some of the berries and put 3 in your mouth. Its difficult to chew them, even if you get a good hold on them they are though as car tires.
+At some point you deide to just swallow them whole instead of wasting energy trying to break them with your theeth. The acid in your growling stomach will take care of them.
+'Lets just not eat more of them in case they are not biocompatible'
+...
+There arent so many larvas hidden in the berries. But your immun system doesnt recognize them because they are much bigger than a virus or bacteria.
+So it doesnt react as they dig into your gutts walls. Around one and a half after you chugged down the berries you have quite the runs.
+But you endured it and after another day its gone. 'Maybe something in the water I drunk.' you think.
+But you are wrong. It wasnt the water. 
+Its caused by the larva. And even worse, they are still here , settling themself at home just below the surface of your intestine walls.
+The first thing they do is, give you the impression those spoiled berries are a tasty threat.
+To make your mouth water whenever you see some, munching a bunch of them down and sending some recruitments to your visitors. 
+And they spread. They are already loaded with eggs that they now deposit in the guttswalls up from the stomach down to the colon.
+Within a week, smaller larva hatch from the eggs and are quickly colonizing the intestine walls.
+Somehow your body is still working, you are still able to drink and eat and your intestines are able to supply your body with water and nutrients.
+But the larva are there and they are working together to adapt their host to be able to spread themself even further.    
+...
+Another weak has passed and you are always hungry now. Well its not as easy to find food in the wilds you think. 
+But of course also the larvas pilfer some food from those supplys you get.
+...
+Oddly, you arent so hungry anymore. maybe you have adjusted to the limited amount of food you can scavenge.
+Little do you know that all the hard work of those larvas now comes to an end and they just need some undisturbed amount of time.
+First of all they created a feeling of satiety to make you stop filling those bowels of yours with something if you get hold on it.
+Intestines are densly interweaved with nerves and nerve tracks, some people call it therefor also the 'stomach brain'. It might even have a longer ancestry than the rest of the nervous system.
+Those larvas just needed to attach themself to this organic network to hack into your system.
+Of course just not eating wouldnt they get them anywhere.
+...
+Its just late afternoon but you are already very tired. Yawning, you decide to retreat into your hiding place and take a nap an.
+After laying down on your makeshift bedding, you feel that something needs to be prepared. Its still bright day but you have the urge to seal you in like you do before every nights sleep.
+This should also help you dim the light down to have an easier rest.
+You quickly recide to deep sleep. The evenning goes by as does the night. At late morning you are still asleep. And you will not awake soon.
+Of course thats not just normal tiredness. Again its caused by the parasites now working all shifts to getting things wrappped up.
+Larvas where already in position days before, evenly distributed now in your gutts walls. And now they start converting the surrounding tissue with their mutagenic secretions, merging themself togehter forming a quiet different kind of organs.
+...
+There are no larvas anymore. They are all merged together into one large beeing. A worm going straight through your body from behind your tonsils stretching down to your still unsuspicious looking backdoor.
+Well, and its an odd worm. Maybe you could think of a upended earthworm: the outside of the worm is the replacement of your gutts walls, while its inside is deeply merged with your flesh.    
+If someone would send a intestinal probe up your backdoor, he might find quite the sight.
+The worm itself is composed from ringlike muscels, just as if one sphincter is stacked on another.
+Most of their surface is covered by fingerlike excresence.Those small tentacles are up to some centimeters long and able to wriggle on their own around.
+They swirl around the slimey concotion that is secreted off the worms surface. The muscles working continously to not get to much of it vanish through your rectum.  
+There are several larger cavities insettled in the passage. Some might be used to store bigger quantities of food. Other, pocketlike structures, to store a good amount of egg-containing slime to be deposited.
+The length of the worm itslef is much shorter then your original intestines. A probe length of around 1m would prove that its going in a straight line.
+...
+You awake. The worm did that. And while you fley your legs and arms, there is one very present thought in your mind 'HUNGER'. 
+...
+Their is more then one reason why rubber seed worms is a fitting name for those parasites. Of course they hide in the berries of the rubber seed bush.
+The other one is that their design makes them prefer certain kind of food. Their is now acid-filled cavern to dissolve things in and their rather short length requires an easily absorbable food.
+A rather chewy liquid diet, full of delicious protein, salt, water and sugar fits them best.
+You better find some before your guest starts complaining.
+...
+As you rest at the side of a grove, a quaddruped herbivore comes into view. Its quite similiar to a deer, the antlers more dense but less protruding than you saw on some pictures of a stag.
+Its dashing on the grass field and spins around as it passes half the diameter of the treeless plain.
+Another one of this kind is troting out of the treeline but stops after some steps. It raises its head and starts bellowing.
+The answer from the other one comes immediatly. After some minutes the second stag turns around and prances back where he came from.
+'Could be the rut and they are fighting about the females.'
+You slowly rise to your feet. The animal notice you, but to your surpise only shows mild interest.
+'They possibly dont know what a human is and dont see me as a threat'. The deer lowers its head and starts nipping at the grass again.
+... noticing that feisty ballsack betwen his hindlegs. And those dripping tip emerged from its hidding hood. 
+'Juicy' somehow this thought crosses your mind. You gnaw at your upper lip. 'Lets see how close I can get.'
+...
+You kneel down and stare the stag in the eyes. This would normally cause some unease to animals as far as you know. But for some reason it seems the right thing to do now.
+The stag stares back. And comes a step closer. And another one. In between it casually checks the surrounding.
+'its so close, I can nearly touch it...uups please dont step on me'. Now your goal is in reach, literally. 
+You didnt consciously set it as your goal. But somehow that objective made its way into your brain, deep down from your guts.
+You touch the flank of the stag. 'Such a pretty stag, looks like you are quite troubled.'
+...
+He is quite leaking now. 'Oh y, what a waste.' Huh, where came that thought from?
+You subconsciously lick your lip and make a decision.
+[[lets just stroke him]] -> bucks his hips and sprays its loads down into the grass and all ove your hands. Before you can even think you bring those sticky hands to your mouth and swipe them on your lips.
+
+[[I need a taste, just once]] -> salty stickiness tingles on your palate. You just taste it once. That was the plan. Maybe twice. 
+'Tasty' For some reason you are unable to retreat. 'Just some more'  You dont want to withdraw. You may not pullback until he emptys all that pentup seed into your gullet.
+He bucks his hips desperatly, making it difficult to keep conencted to his spear of flesh. And some intake of air would also be a necessity.
+Just as you let them slip out between your lips to take a breather, he starts to cum, painting your face and hair with ropes of his sticky jizm.
+You reflexivly open your mouth to catch as many as possible.
+...
+The stag stalks away. Its still busy over there, maybe he is undecided if he should give you another chance to properly serve him.
+You feel kinda happy which is odd, since another voice screams at you what the hell you have done. But, better happy then sorry they say.
+
+
+...
+Thats what seed worms do. They make their host crave for seminal fluid. The source doesnt matter much. And the parasite learns quickly which rope it has to pull to make the host comply.
+In the end its a win-win. Host and worm survive if they work together. The host takes care of opening up supplies of spunk, and the worm - makes the host happy. AND doesnt let him starve to death.   
+Yes, sometimes the parasites might be to excessie with the stimulus of happiness. Which might, at a good pace, creates some mental addiction to this kind of supply-gathering. 
+If the opportunity is given, the host is encouraged to utilitize both ends of the worm for faster food intake. Which might lead to some feisty spitroasting. 
+Thanks to the interlaced connection of the worms nervous-system with the hosts one, applied stimulus to the worm can be directly forwared to designated areas in the hosts brain.
+This can create a nice feedback loop, that only requires some supervising from the parasite. 
+...

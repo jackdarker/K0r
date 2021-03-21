@@ -1,4 +1,4 @@
-:: Encounter
+:: Encounter {"position":"1400,300"}
 <!--this passage is entry-point for combat-statemachine (use together with combat.initCombat) -->
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
@@ -7,7 +7,7 @@ A <%=window.story.state.enemy.name%> appears ! </br>
 [[Next|EncounterStartTurn]]
 </article><article id="LogPanel"></article></section>
 
-:: EncounterStartTurn
+:: EncounterStartTurn {"position":"1500,300"}
 <section> 
 <!--hide this because could interfere with combat <aside id="sidebar"></aside>-->
 <article><%=window.story.render("CenterDialogs") %>
@@ -23,12 +23,12 @@ window.gm.Encounter.printCombatHud();
 </script>
 </section>
 
-:: GameOver
+:: GameOver {"position":"100,800"}
 Game Over. I hope you learned something.</br>
 </br>[[New Game|Start]]
 
 
-:: Mole Submit
+:: Mole Submit {"position":"2275,1000"}
 <section> 
 <!--hide this, we are not in a state ready to save <aside id="sidebar"></aside>-->
 <article><%=window.story.render("CenterDialogs") %>
