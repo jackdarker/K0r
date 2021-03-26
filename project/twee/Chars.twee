@@ -1,17 +1,8 @@
-:: Info_Jake [_back] {"position":"1500,600"}
+:: Info_Steve [_back] {"position":"1500,600"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-Jake is here.</br>
+Steve is here.</br>
 You barely know anything about him.</br>
-[[Back|_back]]</br></br>
-</article></section>
-
-:: Talk_Cyril [_back _del] {"position":"725,525"}
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-Cyril is here.</br>
-<a0 onclick='window.gm.giveCyrilFood()'>Give him some food</a></br>
-</br><div><output></output></div></br>   <!--message is rendered here-->
 [[Back|_back]]</br></br>
 </article></section>
 
@@ -25,6 +16,16 @@ She gives you a hug.
 <% } else { %>
 You can see a disapproving look on her face.
 <% }  %>
+</br>
+
+[[Back|_back]]</br></br>
+</article></section>
+
+
+:: History_Lisa [_back]
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+You never were very 
 </br>
 
 [[Back|_back]]</br></br>

@@ -1,0 +1,99 @@
+:: Work_SportsMachine
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+The robot guides you into another large room. There is plenty of space but not much to see.  </br>
+You follow suit as he walks over to the only thing there. 
+'Looks like a gym machine to me' you comment after gazing doubtful at the contraption. </br> 
+'Or maybe its just some powergenerator using human muscles work?'</br>
+Indeed its design is simple. Two treads to place the feets on, each placed on a crank connected to a base. Two more long cranks jutting out from the base with some handholds at their upper parts.
+There is also a screen in front of it. At first you thought its hovering in the air but now you notice the 2 thin cords thats it hung to.</br>
+Somehow you have the feeling the bot expects you to give it a try. Did they show you this because they noticed doing exercises.
+[[Reject]] [[Do it]]
+
+Stepping onto the treads you find your guessing confirmed. The treads can move up and down in a stepping manner and also the handles can be pushed around to support the cyclic movement.
+As you get into a workout rythm, the screen dims up and shows 2 symbols and also a number. 
+You guess this is some kind of test again and you will be awarded depending on your exertion.
+One symbol has a distinct frame around it. Probably this means your reward that you would get after the exercise is finished. And if you would workout harder you could get the better one.
+[[tasty food]][[simple food]][[nothing]]
+
+Laboring on a slow | mid | good | fast | high rythm, you feel energetic | good | exerted | feeble | drop dead.
+The countdown shows  xx 
+
+[[faster]][[keep speed]][[slower]] [[stop it]]
+
+After the countdown reaches zero, the other symbols from the screen vanish and only the framed one remains. 
+'Puhh, Im rellay beat. Lets see what we got.' >symbol<
+
+Stepping out of the treads, you make your way back to your room.
+
+You get the machine to halt and release the handles. As soon as you do so the screen goes off. No reward then.
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
+:: Work_BoxSorting
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+One side of the spacious hall is filled with boxes of different sizes and colored markings. Some of them could be easily arried with a hand, while otheres are as width and high as Lisa herself.</br>
+They are stacked one on another, easily 4 times as high than Lisa could reach. The other side of this warehouse is empty.
+You wonder what is inside of those parcels. Reshipments of Amazon? </br>
+...
+The bot picks up one of the boxes. As soon as he does so, a frame of light appears on the ground of the empty space. </br>
+Carrying the parcel over to this marking, the bot places it carefully in the marked rectangle.</br>
+Again you have the feeling that he looks expectantly at you.</br> 
+So they want you to move those boxes from their origin to another position? </br>
+- Manually - </br>
+How silly is that! They are robots. They where meant to do this stupid work. </br>
+Is that some kind of getting back on how humans threated robots as work slaves? </br>
+[[Reject]] [[Do it]]
+
+You notice that the parcels with the red markings are the smallest, the yellow ones could be carried with both hands. 
+There are also bigger ones but they have no colored marking.
+They are made out of that same kind of grayish plastic material most of the other furniture is made in this place. Your fingers slide around the smooth surface and beveld edges of one smaller box.
+There is no flap or latch and it seems impossible to open the parcel without tools.   
+...Tower of hanoi...
+One of the parcels seems to be damaged, there is a crack that you might be able to open further with your fingers.
+[[Lets do it]][[Better not]]
+Its a ... You could try to take it with you. But where to hide it - you jumpsuite dont have pockets. You remember to have seen at least one movie where a prisoner hides a small item in his own, very private "pocket". You shudder at that thought. 
+
+To your sudden surprise all markings on the remaining boxes suddenly vanish. As it seems your workshift is done. You hope you get some good compensation for your effort.
+[[food]]
+
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
+:: Work_BowTraining
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+How stupid is that? In what kind of prison they encourage to train shooting with a bow.
+Is that part of some rehabilitation process like "improve your better self by understanding the Zen of using a bow".
+'OK. If you want that I shoot with a bow.' you have some doubt because you never used one.
+'At least they are clever enough to not hand me a gun.'
+The bow is made from some tec-material, not from wood. Its not that big. When held out in your left hand, the lower tip is around your hips.
+'Didn't they call those kind composite-bows.' 
+Stretching out your left hand holding the handle of the bow, you pull the bowstring to your breast. The strength of the pull increases quite quickly.
+Still, you doubt that size of bow could deal muh damage.
+...
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
+:: Lisa_TrainingThoughts
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+Your muscles feel quite strained after the last training session. On the other hand those sessions keep your mind diverted from thoughts about beeing imprisoned here.
+All in all you feel a lot fitter then the day you awoke in that cell. And you learned something too. So you arent to unhappy about those activities.
+But one question is nagging at your mind: what are those trainings good for?
+To keep me healthy. Or in a good mood?
+Or are they doing that because vested interest? Like some upoming contest you have to take part in.
+
+
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>

@@ -88,3 +88,56 @@ Laying down on the futon and pulling yourself into fetal curl, you muse about yo
 </article><article id="LogPanel"></article></section>
 
 
+:: Home_Sports
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+You decide that doing something exercises would be a way to decive you from your panickiness. </br>
+It was way back when you did anything related to sport and you have to admit that this also shows in your actual body shape. </br>
+Your muscles arent really visible and your tummy shows clearly. You get not called fat, but at times you would like to be in a bit firmer shape.
+But you were always to busy, to tired or to discouraged by something about it.</br>
+'Now I have time and not much else to do. Lets start with ..' </br> 
+[[Squats]] [[Pushups]] [[Leglifting (sideways)]] [[Hiplifting]]
+
+You feel energetic | good | exerted | feeble | drop dead.
+[[Press on]] [[Stop it]]
+
+At least in your impression its easier to do those exercises than the last time. 
+
+Going another round would for sure help you improve your fitness, at least to some point.
+
+Maybe you overdid it. Your muscles strain and you feel quite exhausted, catching your breath. Lets just hope they arent picking you up now for some interogation.
+
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
+
+
+
+:: Home_Mediathek
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<!--<%window.gm.player.location=window.passage.name;%>-->
+It takes you a while until you grasp how to navigate the catalog. However designed that user interface was an idiot or he has never seen a good shop-system.
+There are several books. Some of the titles you know, not due the fact that you have read them, but because they are kind of all time sellers.
+
+You are surprised to see some mangas and comics intermixed with grave novels and historic acccount.
+
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
+:: Lisa_Tease
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+Thinking back to your past meet up with Steve and how his jumpsuite hugged his curves, you feel a tiny spark of arousal within you.
+Maybe that well-exercised rump and muscled legs where just accented nicely by that skintight fabric, as was his bulge.
+Or just the impression that his cocksure confidence got severly damaged gives you some reassuring sensation.
+Maybe you could spent some private time.
+[[For sure not when they probably spy on me]][[just a little]][[show them a show]] 
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
