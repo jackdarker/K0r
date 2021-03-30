@@ -1,0 +1,12 @@
+
+
+
+qHomeInspect
+1 = bed
+2 = desk
+3 = holoscreen
+
+
+qPart1
+100 = KorMeeetup1 done
+200 = did sports

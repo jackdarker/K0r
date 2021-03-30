@@ -70,6 +70,14 @@ window.gm.onSelect = function(elmnt,ex_choice,ex_info) {
         else all[i].hidden=true;
     }
 };
+//call this onclick to make the connected element vanish and to unhide another one (if the passage is revisited the initial state will be restored)
+//unhidethis needs to be jquery-path to a div,span,.. that is initially set to hidden
+//cb can be a function(id) that gets called
+window.gm.printTalkLink =function(elmt,unhideThis,cb=null) {
+    elmt.toggleAttribute("hidden");
+    if(cb!==null) cb(elmt.id);
+	$(unhideThis)[0].toggleAttribute("hidden");
+}
 //prints the same kind of link like [[Next]] but can be called from code
 window.gm.printPassageLink= function(label,target) {
     return("<a href=\"javascript:void(0)\" data-passage=\""+target+"\">"+label+"</a></br>");

@@ -4,6 +4,7 @@
 </hr>
 <div style="font-size: smaller;"><%=window.gm.player.location%></br>
 <%=window.gm.getTimeString()%> <%=window.gm.getDateString()%></br>
+Energy: <%=window.gm.player.energy%></br>
 </div>
 </hr>
 <form>

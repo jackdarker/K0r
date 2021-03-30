@@ -39,7 +39,8 @@ window.gm.initGame= function(forceReset,NGP=null) {
         day : 1,
         activePlayer : 'Lisa', //id of the character that the player controls currently
         //queststates  // see passage
-        qHomeInspect : 0  
+        qHomeInspect : 0,
+        qPart1: 0  
         }; 
     }
     if (!s.tmp||forceReset) { // storage of temporary variables; be careful if you use them in stacking passages
@@ -90,7 +91,12 @@ window.gm.initGame= function(forceReset,NGP=null) {
         stats: [],
         effects: [],
         rel: [],
-        upArmbind: 0
+        energy: 0,
+        strength: 3,
+        smart: 5,
+        submissive: 10,
+        libido: 0,
+        upArmbind: 0        
       }
     }  
     //#todo NGP
@@ -139,11 +145,12 @@ window.gm.addTime= function(min) {
     window.story.state.vars.time -= 2400;
     window.story.state.vars.day += 1;
   }
-  window.gm.player.Effects.updateTime();
+  //window.gm.player.Effects.updateTime();
 };
 window.gm.getTimeString= function() {
   var c=window.gm.getTimeStruct();
-  return (c.hour<10?"0":"")+c.hour.toString()+":"+(c.min<10?"0":"")+c.min.toString()+"("+c.daytime+")";
+  return("");
+  //return (c.hour<10?"0":"")+c.hour.toString()+":"+(c.min<10?"0":"")+c.min.toString()+"("+c.daytime+")";
 };
 // DoW = DayOfWeek  7 = Sunday, 1 = Monday,...6 = Saturday 
 window.gm.getTimeStruct=function() {
@@ -169,7 +176,7 @@ window.gm.getTimeStruct=function() {
 window.gm.getDateString= function() {
   var v=window.story.state.vars;
   const DoW=['Monday', 'Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  return v.day.toString()+". day "+ DoW[(v.day%7)-1];
+  return v.day.toString();//+". day "+ DoW[(v.day%7)-1];
 };
 //forward time to until (1025 = 10:25), regenerate player
 //warning dont write 0700 because this would be take as octal number
@@ -188,10 +195,11 @@ window.gm.sleep=function(until) {
   }
   msg+="</br>Slept for "+min/60+" hours.</br>";
   window.gm.addTime(min);
-  var regen = min>420 ? 999 : min/60*15;  //todo scaling of regeneration
+  window.story.state.Lisa.energy =3;  //can do 3 thinks
+  /*var regen = min>420 ? 999 : min/60*15;  //todo scaling of regeneration
   window.gm.player.Stats.increment('health',regen);
   window.gm.player.Stats.increment('energy',regen);
-  window.gm.pushLog(msg);
+  window.gm.pushLog(msg);*/
   return(msg);
 };
 

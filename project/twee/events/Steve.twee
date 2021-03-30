@@ -1,0 +1,41 @@
+:: Talk_Steve1 [_back] {"position":"2000,825"}
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+You are surprised as you find yourself into the face of another human.</br>
+Is this Steve? So they captured them too and it wasnt he that got you in this situation?</br>
+"Hey...hey can you hear me" you pound against the glas with both hands.</br>
+For sure he can hear you, his staggered reaction cleary shows that. </br>
+With an somewhat reliefed but also worried expression he walks toward the glass pane.</br>
+He wears the same outfit like you, a snuggly fitting jumpsuite. You give him a once over. 
+'I bet hes doing some sports' you think as you notice his firm body and exersiced legs. Your gaze returns quickly to his face as you find yourself staring at his nice bulge. 
+At least he doesnt seem to be harmed.</br>
+"Lisa? is that you ? yes .. yes I can hear you."</br>
+...
+"You said you are an hacker. So cant you just hack into those bots and take control or shut them down?"</br>
+"I never said I'm a hacker! " you object. That dull lad doesnt even remember what I told him.  </br>
+"I said I'm a web-developer. Thats a kind of programer that creates web-pages. A programer is not automatically a hacker."</br>
+"But isnt't a hacker a good programer too?" he asks.</br>
+"Most hacker wouldnt be able to design a working program. They just search for weak points. </br>
+Its like saying a burglar is good in building houses because he is able to pick a doorlock. </br>
+Some programers might know how to hack into a syste but most dont."</br>
+"So you aren't good enough for hacking. " he reasons.</br>
+You groan. "Even if I would be able to hack into ONE system that doesnt mean I can hack into all different kinds. Maybe I could fake a website or spoil a PC with some tracking-cookie."
+"But I'm really sure that those robots arent built on webservices."</br>
+"So you guess they are not connected to the internet?"</br>
+"Yes and no. For sure they wouldnt put them at risk by making them accessible from internet. But of course they have to be linked up to a secure network."</br>
+"If its possible to hack one we could try and send a message to someone for help."</br>
+"Look, to hack into a system someone would at least have an computer at hand that is able to connect to the network." you show him your bare palms. "Do you have one?"</br>
+"And without some idea about possible weak spots that wouldnt be enough."</br>
+"Hmh" he mumbles and nods thoughtfully.</br>
+Then you remember something, but now its to late anyway:</br>
+"Besides, in my opinion they are able to spy on us all the time." He looks frenzies around, for sure he hadn't thought on that.</br>
+"So it might not be very clever to talk about that something aloud."</br>
+He is still gawking in all the corners at the roof.</br>
+"I dont see any cameras, maybe you are wrong."</br>
+"Todays cameras dont have to be large boxes with red lights on them, you know?" you answer smart-alec.</br>
+"OK, so better not speak right now." with that he walks away and sits on his matress. Seems that kinda spooked him for sure.   </br>
+
+<div></br>
+[[Back|_back]]</br>
+</div>
+</article><article id="LogPanel"></article></section>

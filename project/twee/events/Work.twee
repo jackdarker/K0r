@@ -1,4 +1,4 @@
-:: Work_SportsMachine
+:: Work_SportsMachine {"position":"0,1125"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
 The robot guides you into another large room. There is plenty of space but not much to see.  </br>
@@ -33,7 +33,7 @@ You get the machine to halt and release the handles. As soon as you do so the sc
 </article><article id="LogPanel"></article></section>
 
 
-:: Work_BoxSorting
+:: Work_BoxSorting {"position":"0,1025"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--<%window.gm.player.location=window.passage.name;%>-->
 One side of the spacious hall is filled with boxes of different sizes and colored markings. Some of them could be easily arried with a hand, while otheres are as width and high as Lisa herself.</br>
@@ -67,7 +67,7 @@ To your sudden surprise all markings on the remaining boxes suddenly vanish. As 
 </article><article id="LogPanel"></article></section>
 
 
-:: Work_BowTraining
+:: Work_BowTraining {"position":"100,1025"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 How stupid is that? In what kind of prison they encourage to train shooting with a bow.
 Is that part of some rehabilitation process like "improve your better self by understanding the Zen of using a bow".
@@ -79,21 +79,19 @@ Stretching out your left hand holding the handle of the bow, you pull the bowstr
 Still, you doubt that size of bow could deal muh damage.
 ...
 <div></br>
-[[Back|_back]]</br>
+[[Home]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
 
-:: Lisa_TrainingThoughts
+:: Lisa_TrainingThoughts {"position":"650,525"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 Your muscles feel quite strained after the last training session. On the other hand those sessions keep your mind diverted from thoughts about beeing imprisoned here.
-All in all you feel a lot fitter then the day you awoke in that cell. And you learned something too. So you arent to unhappy about those activities.
-But one question is nagging at your mind: what are those trainings good for?
-To keep me healthy. Or in a good mood?
-Or are they doing that because vested interest? Like some upoming contest you have to take part in.
-
-
+All in all you feel a lot fitter then the day you awoke in that cell. And you learned something too. So you arent to unhappy about those activities.</br>
+But one question is nagging at your mind: what are those trainings good for? </br>
+To keep me healthy. Or in a good mood?</br>
+Or are they doing that because vested interest? Like some upoming contest you have to take part in.</br>
 <div></br>
-[[Back|_back]]</br>
+[[Home]]</br>
 </div>
 </article><article id="LogPanel"></article></section>

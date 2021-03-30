@@ -1,3 +1,22 @@
+:: Home
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+You are in your box-like cell. </br>
+Some kind of futon-bed is lined up with wall. You might [[Rest|Home_Sleep]] there. </br>
+There is a desk and a stool over there where you can [[sit|Home_UseDesk]] at. </br>
+At the wall opposed to your bed is a black panel showing some symbols, some of them seem to be numbers. </br>
+As you already learned, if you [[push the panel]], a doorway may open that let you go to other areas. </br>
+<% if(window.gm.player.energy===0) {%>
+You feel tired. Time for some rest.</br>
+<% } else if(window.gm.player.energy>=2) {%>
+You feel energetic. Lets do something.</br>
+[[Exercise|Home_Sports]]
+<%}%>
+<div></br>[[Take a look at yourself|Home_checkself]]  </br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
 :: Home_Arrival {"position":"300,850"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
@@ -7,12 +26,15 @@
 	There are no windows or doors. Not even a lamp. The light seems to come just out of the walls and from the ceiling.</br>
 	After sitting up you nervously move your hands around, finally setting on stroking your legs in an effort to calm you.</br>
 	Is this a hospital? How did you get here?</br>
+<% } else if(s.vars.qHomeInspect>=1){ %>
+	Some kind of futon-bed is lined up with wall. You might [[Rest|Home_FirstRest]] there. </br>
 <% } else if(s.vars.qHomeInspect>=2){ %>
-	There is a desk and a stool over there where you can [[sit|Home_UseDesk]] at. </br>
+	There is a desk and a stool over there where you can sit at. </br>
 <% } if(s.vars.qHomeInspect>=3){%>
+	At the wall opposed to your bed is a black panel showing some symbols. </br>
 <% } %>
 
-<div></br>[[Pound against what look like a sliding door]] [[Just sit back on the matress and wait]] [[Call out|Home_callout]]</br>
+<div></br>[[Pound against the walls]] [[Call out|Home_callout]]</br>
 [[Inspect the room|Home_Inspect]] [[Take a look at yourself|Home_checkself]]  </br>
 </div>
 </article><article id="LogPanel"></article></section>
@@ -20,11 +42,11 @@
 
 :: Home_checkself [_back] {"position":"300,1100"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<!--<%window.gm.player.location=window.passage.name;%>-->
-Looking down at yourself, you find beeing clad in a jumpsuite of light gray color. The material is smooth to the touch and thin. Its not just simple cotton, maybe some kind of silk or, much more likely, synthetic fiber.</br>
-The sleeves are reaching down to the wrists and overall it is rather fitting thanks to the stretchy material. 
-You feet a covered up by the suite too. It feels like some feel-good sox, not just as thick. </br>
-There is line running from the front of the neck down to your crotch but it doesnt seem to be a simple zipper or button-up style. Puzzled how you will get out of it you check also other areas of the cloth.</br>
+Looking down at yourself, you find beeing clad in a jumpsuite of light gray color.</br> 
+The material is smooth to the touch and thin. Its not just simple cotton, maybe some kind of silk or, much more likely, synthetic fiber.</br>
+The sleeves are reaching down to the wrists and overall it is rather fitting thanks to the stretchy material.</br> 
+Your feet a covered up by the suite too. It feels like some feel-good sox for wearing at home instead of slippers. They are just a little less giving. </br>
+There is a line running from the front of the neck down to your crotch but it doesnt seem to be a simple zipper or button-up style. Puzzled how you will get out of it you check also other areas of the cloth.</br>
 No pockets and as it seems no label or sign, at least at the front.</br>
 Do you wear pantys below the jumpsuite? For sure the bra is missing.</br>
 <div></br>
@@ -32,19 +54,13 @@ Do you wear pantys below the jumpsuite? For sure the bra is missing.</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Home_Inspect {"position":"450,1100"}
+
+:: Home_Inspect [_back] {"position":"450,1100"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<!--<%window.gm.player.location=window.passage.name;%>-->
-<!--qHomeInspect
-1 = bed
-2 = desk
-3 = holoscreen
--->
 <% if(s.vars.qHomeInspect<=0){ s.vars.qHomeInspect+=1;%>
-You stand up and walk through the room. Its much bigger then a usual prison cell. You guess its around the size 4 by 4 meters and you cant reach the ceiling when standing tip-toed, so its at least 2.5 or een 3m. </br>
-<% } else if(s.vars.qHomeInspect==1){ s.vars.qHomeInspect+=1;%>
+You stand up and walk through the room. Its much bigger then a usual prison cell. You guess its around the size 4 by 4 meters and you cant reach the ceiling when standing tip-toed, so its at least 2.5 or even 3m. </br>
 Turning around you can see where you have been initialy lying on. Its some kind of futon-bed with a lengthy, white pillow. But there is no blanket. </br>
-<% } else if(s.vars.qHomeInspect==2){ s.vars.qHomeInspect+=1;%>
+<% } else if(s.vars.qHomeInspect==1){ s.vars.qHomeInspect+=1;%>
 The next thing you can clearly identify is a small desk and stool next to a wall. Both are mounted to the floor and are made from some sort of synthetic material.  </br>
 <% } else { %>
 There isnt to see much else interesting in the room right now.
@@ -55,9 +71,8 @@ There isnt to see much else interesting in the room right now.
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_callout {"position":"300,1225"}
+:: Home_callout [_back] {"position":"300,1225"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<!--<%window.gm.player.location=window.passage.name;%>-->
 "Hello? ....Hello?....Anyone here" you listen for a response of your call out.</br>
 But there is none.</br>
 <div></br>
@@ -65,74 +80,148 @@ But there is none.</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
+:: Home_FirstRest
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+While laying on the matress you suddenly hear a single beep and you quickly look around to see whats going on.
+
+You see a pillar of flickering blue light over there in the opposite corner of the room.
+<a0 onclick='window.gm.printTalkLink(this,"div#choice1")'>Inspect the light</a>
+<div id='choice1' hidden>"Please stay calm and relaxed. Everything will be taken care fore. Complying to the rules is preffered."
+Is this some kind of hologram?</br> That looks like some holos that are often showed in scifi movies.</br>
+The upper body of a human woman is shown. She wears a similiar jumpsuite like yours. On the other hand she doesnt look like a normal human, at least her face seems to be off and she has no hairs.</br>
+The voice you heard sounded like a female too but it had a very robotic feel to it.</br></br>
+"Where am I ? Who are you? I need to leave!" you <a0 onclick='window.gm.printTalkLink(this,"div#choice2")'>blurt</a> out.</br>
+</div>
+<div id='choice2' hidden>You wait for some reaction, but there is none. </br>
+[[Next|Home]] </br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
 :: Home_UseDesk [_back] {"position":"450,975"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<!--<%window.gm.player.location=window.passage.name;%>-->
-There isn't much you can do at the desk. You dont have pen and paper to write down your memoir.</br>
+There isn't much you can do at the desk. You dont have pen and paper to write down your memoirs.</br>
 <div></br>
 [[Back|_back]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Home_Wait [_back] {"position":"300,975"}
+
+:: Home_Sleep [_back] {"position":"300,975"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<!--<%window.gm.player.location=window.passage.name;%>-->
-<% } if(s.vars.qHomeInspect==2){%>
-Just a while after you placed yourself on the matress, you here an humming noise from the wall to the left of your bedding.</br>
-<% } else { %>
-Laying down on the futon and pulling yourself into fetal curl, you muse about your situation.</br>
-<% } %>
+A <a0 onclick='sleep(this)'>nap</a> sounds like an good idea right now. </br>
+<div id='choice' hidden>You lay down and close your eyes. </br></div>
 <div></br>
 [[Back|_back]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
+<script>
+function sleep(elmt){
+	window.gm.printTalkLink(elmt,"div#choice");
+	$("tw-passage").fadeOut(1500, function() {window.gm.sleep(700);window.story.show("Home_Wake");})
+	}
+</script>
+
+:: Home_Wake [_back]
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+After a indefinite amount of time you awake.</br>
+You didnt sleep very well. 'Can't they switch of that damned light for some time?'</br>
+<div></br>
+<%if(window.story.state.vars.qPart1<100) { %>
+[[Next|Kor_Meetup1]]</br>
+<% } else {%>
+[[Next|Home]]</br>
+<% } %>
+</div>
+</article><article id="LogPanel"></article></section>
+
 
 
 :: Home_Sports
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<!--<%window.gm.player.location=window.passage.name;%>-->
 You decide that doing something exercises would be a way to decive you from your panickiness. </br>
 It was way back when you did anything related to sport and you have to admit that this also shows in your actual body shape. </br>
 Your muscles arent really visible and your tummy shows clearly. You get not called fat, but at times you would like to be in a bit firmer shape.
-But you were always to busy, to tired or to discouraged by something about it.</br>
+But you were always to busy, to tired or to discouraged by something to start doing something about it.</br>
+
+<div id='select1' >
 'Now I have time and not much else to do. Lets start with ..' </br> 
-[[Squats]] [[Pushups]] [[Leglifting (sideways)]] [[Hiplifting]]
+<a href="javascript:void(0)" onclick='(function(){window.story.state.tmp.args[0]="Squats";window.story.state.tmp.args[1]=0;window.story.show("Home_Sports2");}())'>Squats</a></br>
+<a href="javascript:void(0)" onclick='(window.story.state.tmp.args[0]="Pushups";window.story.state.tmp.args[1]=0;window.story.show("Home_Sports2");)' <%=(s.Lisa.strength>3)?"":"disabled"%>>Pushups</a></br>
+<a href="javascript:void(0)" onclick='(window.story.state.tmp.args[0]="Leglifting";window.story.state.tmp.args[1]=0;window.story.show("Home_Sports2");)'>Leglifting</a></br>
+<a href="javascript:void(0)" onclick='(window.story.state.tmp.args[0]="Hiplifting";window.story.state.tmp.args[1]=0;window.story.show("Home_Sports2");)'>Hiplifting</a></br>
+</div>
+</article><article id="LogPanel"></article></section>
 
-You feel energetic | good | exerted | feeble | drop dead.
-[[Press on]] [[Stop it]]
 
-At least in your impression its easier to do those exercises than the last time. 
+:: Home_Sports2
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<% if(window.story.state.tmp.args[0]==="Squats"){ window.story.state.tmp.args[1]+=1; %>
+You start doing some squats counting up every time you return to your start position. "1..2..3..4.."</br>
+<%} else { window.story.state.tmp.args[1]+=2; %>
+Getting into doing <%=window.story.state.tmp.args[0]%>, you are far to soon sweating and breathing heavily.</br>
+<% } %>
+<%="You feel "+(["energetic","energetic","good","exerted","feeble","drop dead"])[window.story.state.tmp.args[1]]+"."%></br>
+At least in your impression its easier to do those exercises than the last time. </br>
+Going another round would for sure help you improve your fitness, at least to some point.</br>
+Maybe you overdid it. Your muscles strain and you feel quite exhausted, catching your breath. Lets just hope they arent picking you up now for some interogation.</br></br>
 
-Going another round would for sure help you improve your fitness, at least to some point.
+<% if(window.story.state.tmp.args[1]>=5){ window.game.player.energy-=2; %>
+'Puh...That nearly killed me. I think thats enough for today, </br>
+[[Next |Home]]</br>
+<% } else {%>
+<a0 onclick='(function(){window.story.show("Home_Sports2");}())'>Press on</a></br>
+<% } %>
+</article><article id="LogPanel"></article></section>
 
-Maybe you overdid it. Your muscles strain and you feel quite exhausted, catching your breath. Lets just hope they arent picking you up now for some interogation.
-
+:: Home_Desk [_back]
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+You sit down on the desk. 
+A panel can be pulled out from its surface. Its some kind of touch-screen that can be used to access [[Home_Mediathek]].</br>
 <div></br>
 [[Back|_back]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
-
-
-
-
-:: Home_Mediathek
+:: Home_Mediathek [_back]
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<!--<%window.gm.player.location=window.passage.name;%>-->
 It takes you a while until you grasp how to navigate the catalog. However designed that user interface was an idiot or he has never seen a good shop-system.
 There are several books. Some of the titles you know, not due the fact that you have read them, but because they are kind of all time sellers.
 
 You are surprised to see some mangas and comics intermixed with grave novels and historic acccount.
+Tucked in between some Lyric-Anthologys you find some movies - dedicated to adult recipients.
 
-<div></br>
+Maybe you ca divert yourself and read a little bit. </br>
+<div id="choice">
+<table><tbody>
+<tr>
+<td><a0 id="Kamasutra" onclick='read_option(this);'>Kamasutra</td>
+<td><a0 id="BertVisitsGranny" onclick='read_option(this);'>Bert visits Granny</td>
+<td><a0 id="BertVisitsGranny2" onclick='read_option(this);'>Bert visits Granny (but in a weird language)</td>
+<td><a0 id="unreadableBook" onclick='read_option(this);'>a quadratic book with some symbols on it</td>
+</tr>
+</tbody></table>
+</div>
+<div id="info">
+<p id="Kamasutra" hidden>Oh my. How did that end up here in this collection?</br><a0 onclick='window.story.show("")'>Read</a></br></p>
+<p id="BertVisitsGranny" hidden>Thats a book for childs to learn words. </br><a0 onclick='window.story.show("")'>Read</a></br></p>
+<p id="BertVisitsGranny2" hidden>Didn't you see the same book before? But this one has those odd symbols too in place of familiar characters. </br><a0 onclick='window.story.show("")'>Read</a></br></p>
+<p id="unreadableBook" hidden>The writing of this book consists of lines of indecipherable symbols. </br><a0 onclick='window.story.show("")'>Read</a></br></p>
+</div><div></br>
 [[Back|_back]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
+<script>
+function read_option(elmnt) {
+    window.gm.onSelect(elmnt,"div#choice table tbody tr td *","div#info");
+}
+</script>
 
 
-:: Lisa_Tease
+
+:: Lisa_Tease [_back]
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-Thinking back to your past meet up with Steve and how his jumpsuite hugged his curves, you feel a tiny spark of arousal within you.
+Thinking back to your recent meet up with Steve and how his jumpsuite hugged his curves, you feel a tiny spark of arousal within you.
 Maybe that well-exercised rump and muscled legs where just accented nicely by that skintight fabric, as was his bulge.
 Or just the impression that his cocksure confidence got severly damaged gives you some reassuring sensation.
 Maybe you could spent some private time.
