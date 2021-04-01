@@ -32,7 +32,6 @@ todo
 
 
 
-
 :: Lisa_HackingThoughts
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 That talk about hacking with Steve still lingers in your mind.
@@ -42,7 +41,7 @@ You could at least find some clues where you are and who arested you.
 But how likely is it that they let you get acccess somehow.
 In your mind you can see an image of yourself pulling cables out of a pryed open panel rewiring them to make a door open.
 'Thats hilarious, for sure its not that easy like they show in those actionmovies.' 
-
+<!--todo-->
 <div></br>
 [[Back|_back]]</br>
 </div>

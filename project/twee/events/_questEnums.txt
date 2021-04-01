@@ -5,6 +5,8 @@ qHomeInspect
 1 = bed
 2 = desk
 3 = holoscreen
+4 = foodbowl
+5 = urinal
 
 
 qPart1

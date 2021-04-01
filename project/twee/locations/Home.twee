@@ -2,15 +2,17 @@
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 You are in your box-like cell. </br>
-Some kind of futon-bed is lined up with wall. You might [[Rest|Home_Sleep]] there. </br>
+Some kind of futon-bed is lined up along the wall. You might [[Rest|Home_Sleep]] there. </br>
 There is a desk and a stool over there where you can [[sit|Home_UseDesk]] at. </br>
 At the wall opposed to your bed is a black panel showing some symbols, some of them seem to be numbers. </br>
 As you already learned, if you [[push the panel]], a doorway may open that let you go to other areas. </br>
 <% if(window.gm.player.energy===0) {%>
 You feel tired. Time for some rest.</br>
-<% } else if(window.gm.player.energy>=2) {%>
+<% } if(window.gm.player.energy>=2) {%>
 You feel energetic. Lets do something.</br>
 [[Exercise|Home_Sports]]
+<% } else if(window.gm.player.energy>=1) {%>
+Keep yourself otherwise busy. [[Look|Home_Inspect]] more closely at the room.
 <%}%>
 <div></br>[[Take a look at yourself|Home_checkself]]  </br>
 </div>
@@ -58,13 +60,17 @@ Do you wear pantys below the jumpsuite? For sure the bra is missing.</br>
 :: Home_Inspect [_back] {"position":"450,1100"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <% if(s.vars.qHomeInspect<=0){ s.vars.qHomeInspect+=1;%>
-You stand up and walk through the room. Its much bigger then a usual prison cell. You guess its around the size 4 by 4 meters and you cant reach the ceiling when standing tip-toed, so its at least 2.5 or even 3m. </br>
+You stand up and walk through the room. Its much bigger then you would expect from a prison cell. You guess its around the size 4 by 4 meters and you cant reach the ceiling when standing tip-toed, so its at least 2.5 or even 3m. </br>
 Turning around you can see where you have been initialy lying on. Its some kind of futon-bed with a lengthy, white pillow. But there is no blanket. </br>
 <% } else if(s.vars.qHomeInspect==1){ s.vars.qHomeInspect+=1;%>
 The next thing you can clearly identify is a small desk and stool next to a wall. Both are mounted to the floor and are made from some sort of synthetic material.  </br>
 <% } else { %>
 There isnt to see much else interesting in the room right now.
 <%}%>
+Not far from the desk you notice a steel pipe thick as your lower arm jutting out from the floor. Around your waists hight, it ends in a bend, pointing down into a bowl that is placed into a fitting at the pipe. The bowl is made from those plastic that is all around and remembers you at a dogs feeding bowl.
+As you touch the top of the bend, clear liquid is flowing out of the pipe, right into the bowl.
+'Could be water..' you dip a finger into the trickling stream and lick a drop from it. Yes, most likely water.
+
 <div></br>
 [[Next|_back]]</br>
 </div>
@@ -82,12 +88,11 @@ But there is none.</br>
 
 :: Home_FirstRest
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-While laying on the matress you suddenly hear a single beep and you quickly look around to see whats going on.
-
+While laying on the matress you suddenly hear a single beep and you quickly look around to see whats going on.</br>
 You see a pillar of flickering blue light over there in the opposite corner of the room.
 <a0 onclick='window.gm.printTalkLink(this,"div#choice1")'>Inspect the light</a>
 <div id='choice1' hidden>"Please stay calm and relaxed. Everything will be taken care fore. Complying to the rules is preffered."
-Is this some kind of hologram?</br> That looks like some holos that are often showed in scifi movies.</br>
+<!--todo-->Is this some kind of hologram?</br> That looks like some holos that are often showed in scifi movies.</br>
 The upper body of a human woman is shown. She wears a similiar jumpsuite like yours. On the other hand she doesnt look like a normal human, at least her face seems to be off and she has no hairs.</br>
 The voice you heard sounded like a female too but it had a very robotic feel to it.</br></br>
 "Where am I ? Who are you? I need to leave!" you <a0 onclick='window.gm.printTalkLink(this,"div#choice2")'>blurt</a> out.</br>
@@ -136,7 +141,6 @@ You didnt sleep very well. 'Can't they switch of that damned light for some time
 </article><article id="LogPanel"></article></section>
 
 
-
 :: Home_Sports
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 You decide that doing something exercises would be a way to decive you from your panickiness. </br>
@@ -146,13 +150,22 @@ But you were always to busy, to tired or to discouraged by something to start do
 
 <div id='select1' >
 'Now I have time and not much else to do. Lets start with ..' </br> 
-<a href="javascript:void(0)" onclick='(function(){window.story.state.tmp.args[0]="Squats";window.story.state.tmp.args[1]=0;window.story.show("Home_Sports2");}())'>Squats</a></br>
-<a href="javascript:void(0)" onclick='(window.story.state.tmp.args[0]="Pushups";window.story.state.tmp.args[1]=0;window.story.show("Home_Sports2");)' <%=(s.Lisa.strength>3)?"":"disabled"%>>Pushups</a></br>
-<a href="javascript:void(0)" onclick='(window.story.state.tmp.args[0]="Leglifting";window.story.state.tmp.args[1]=0;window.story.show("Home_Sports2");)'>Leglifting</a></br>
-<a href="javascript:void(0)" onclick='(window.story.state.tmp.args[0]="Hiplifting";window.story.state.tmp.args[1]=0;window.story.show("Home_Sports2");)'>Hiplifting</a></br>
+<a href="javascript:void(0)" id="Squats" onclick='startSport(this)'>Squats</a></br>
+<a href="javascript:void(0)" id="Pushups" onclick='startSport(this)' >Pushups</a></br>
+<a href="javascript:void(0)" id="Leglifting" onclick='startSport(this)' >Leglifting</a></br>
+<a href="javascript:void(0)" id="Hiplifting" onclick='startSport(this)' >Hiplifting</a></br>
 </div>
 </article><article id="LogPanel"></article></section>
-
+<script>
+function startSport(elmt){
+	if(elmt.id!=='Squats' && window.story.state.Lisa.strength<4) {
+		elmt.replaceWith("You dont feel strong enough to do "+elmt.id+".");
+	} else {
+		window.story.state.tmp.args[0]=elmt.id;
+		window.story.state.tmp.args[1]=0;
+		window.story.show("Home_Sports2");
+	}}
+</script>
 
 :: Home_Sports2
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
@@ -166,13 +179,17 @@ At least in your impression its easier to do those exercises than the last time.
 Going another round would for sure help you improve your fitness, at least to some point.</br>
 Maybe you overdid it. Your muscles strain and you feel quite exhausted, catching your breath. Lets just hope they arent picking you up now for some interogation.</br></br>
 
-<% if(window.story.state.tmp.args[1]>=5){ window.game.player.energy-=2; %>
-'Puh...That nearly killed me. I think thats enough for today, </br>
+<% if(window.story.state.tmp.args[1]>=5){ window.gm.player.energy-=2; %>
+'Puh...That nearly killed me. I think thats enough for today.' </br>
+<!--todo--> Those exercises where actually quite a strain and you are still building up sweat all over you. That jumpsuite you wear seems to be quite breathy, letting the sweat steam easily from your body. 
+Still you would prefer to get some fresh clothes soon and also a shower.
+
 [[Next |Home]]</br>
 <% } else {%>
 <a0 onclick='(function(){window.story.show("Home_Sports2");}())'>Press on</a></br>
 <% } %>
 </article><article id="LogPanel"></article></section>
+
 
 :: Home_Desk [_back]
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>

@@ -120,7 +120,7 @@ The glass pane is gone.</br>
 Thats what you feared for. </br>
 You wait a minute.</br>
 You wait another minute.</br>
-
+<!--todo-->
 'Do they expect me to walk out of my safe, well iluminated room into that dark one where some thing might be lurking around?'</br>
 [Lets go] [Just go a little bit closer] [Stay here and sit it out]</br>
 
@@ -133,3 +133,69 @@ So what now? Should you [wait until something happens] [run back to the safety o
 
 [[Next|Home]]</br>
 </article><article id="LogPanel"></article></section>
+
+:: Kor_Collared
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<%window.gm.player.location=window.passage.name;%>
+"Hey hey everything is fine no need to get close and personal" raising your hand as K0r steps forward.</br>
+The bot still gets closer and you paddle backwards until your back hits the wall.</br>
+Your thoughts race: [[you could try an dash away out of the corner]]. And then? You are still stuck in the room, all dors shut. But at least you could test how quick it is.</br>
+Or maybe an [[surprise attack]]. Maybe that robot isnt that though and will just topple over if you push hard enough.</br>
+Or just [[wait]]. Its difficult to read his intentions but he doesnt seem threatening.</br>
+...
+Dam it, he grabbed you just as you made a dive. In a fluid motion his arm slipped around your waist and using your momentumhe turned in place around until he could push you face first against the wall.</br>
+He did that surprisingly skilled - and gentle. Somehow you would have expected a much more clumsy move.
+Netherless, now you are in a even worse position then before. One of his arms pushs your upper back against the wall. Because you used one arm to brace your impact, that one is now trapped between the wall and your breast. Your other arm is free but as soon as you try to move it around its grabed at its wrist. The grip is thight but it doesnt hurt and thankfully he doesnt twist it on your back. Not yet.
+He is really close now. If this was a human, you would now feel his breath in your neck. And the position could invite some serious trouble.</br>
+For some reason a scene flashs into your mind just like you see yourself now just with the disturbing detail: that you are stripped naked.</br>
+That idea tingles only a blink of an eye in your mind but it got you [frightened][indifferent][aroused].</br>
+K0r moves in. He doesnt even need to use his arm to hold you against the wall because his torso now rest against your back.</br>
+"Its just a machine, it wont do anything ..." you reassure yourself but still your body tighten up.</br>
+Now that his pecs, or what you would call it, rest against your back you feel a rumbling going from him right into your spine. Its not like a vibration, more like a - purr ?!</br>
+Distracted by this sensation you don't notice what his now idle arm is doing. You cant turn your head in that direction, only from the corner of an eye you notice some movement in shoulder height.</br>
+"Iek" you sqeal as some cold metal touches your neck and you try to avoid it by pulling your shoulders in. But there isnt much space to move away and he simply follows your movement.</br>
+The metal is still there and now you an also feel it at the sides of your neck. It seems to grow or bend around your throat until it closes up at the front.</br>
+After some more moments he steps suddenly back. You are still in shock pressing yourself against the wall. K0r is still looking at you but you dont dare to move.</br>
+Finally he turns around and struts away. After the humming sound of the closing wall your knees buckle out and you futiliy slide down the the wall.</br>
+Your hand crawling up to your throat feeling around what is there. You trail the shape of the metal with one hand and soon also use the other one to get the full image:</br>
+Its a collar.  A goddam metall collar.</br>
+You move your neck in this and that direction. Thats still possible. Its pressing in here and there but its not too thight to strangle you or inhibit blood flow, at least right now.</br>
+You can wiggle one finger in between neck and collar and pull. But its not giving.</br>
+Again you use your fingertips to slide above the material trying to find the hint of a locking mechansim. There are some bumps and crannys but no button, no keyhole nothing you could push or pull even with your fingernails.</br>
+Maybe this is some kind of monitoring device? Why didnt they install it before they put you in the cell. Why did they do it now, in this certain frightening way. Did you do something that made them decide you deserved to be collared?</br>
+She had to think back at her mom. When she and her mom bought Cherry, their house cat, they also bought a collar. </br>
+"This collar shows that this cat is not just a stray but belongs to us. And it helps against fleas."</br>
+Does the collar mean she belongs now to them, that they are going to keep her - like a pet?</br>
+[[Next|Home]]</br>
+</article><article id="LogPanel"></article></section>
+
+:: Kor_Panel
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<%window.gm.player.location=window.passage.name;%>
+The bot walks up to the black display at the side of your prison. </br>
+Making sure it has your attention, it places one of its odd hands at the side of the panel. A confirmative beep can be heard and a doorway opens, right next to the panel.
+You wonder if this would work for you too. But first lets see where the doorway is leading.</br>
+[[Better stay here]] [[Follow him into the dark doorway]]
+You decide to follow him and find yourself in a corridor passing in parallel to the doorway. That corridor is not really dark, just a little bit more dimly lit then your cell.
+Walls,ground and roof look like stage-setting from a cheap sci-fi movie. There are some structures at the walls that could be doors or just some fake elements.
+Meanwhile the bot was strutting down the path through the next gate. 
+You hurry after him, not wanting to be left behind.
+
+You find yourself in another 8-sided room that seems to be a crossway connecting to other corridors. 
+Maybe you should give it a try and dash away to make your [[escape]].
+You sprint down one of the corridors but quickly find it a death end. Swiping your hands around the maybe-doors in hope to find a way to open them.
+Without luck.</br>
+Looking back at the center room, you find the bot watching your effortless attempts. It didnt even care to run after you.
+The bot walks over to one door and it whirs open without further interactions. Without any other choice you hurry after through the door.
+[[Next]]
+
+
+
+
+:: Expelled
+You are lead into a round chamber with a circular marking in the center of it. It takes some nudges from the bot to move yourself right in the middle of it.
+As soon as this is done a tube of glass traps you in that spot. </br>  
+They are probably disappointed from you. Its difficult to say, because you are unable to pickup any sentiments from them. </br>
+Thats the last you have in mind as you notice your body beeing disintegrated.</br> </br>
+Maybe you should have shown some more explorative and curious urges.
+

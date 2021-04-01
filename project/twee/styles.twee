@@ -100,13 +100,13 @@ statdown {
   color:red;
 }
 .talkKor {
-  color: darkgray;
+  color: steelblue;
 }
 .talkLisa {
-  color:steelblue;
+  color:lightyellow;
 }
 .talkSteve {
-  color: Brown;
+  color: lightskyblue;
 }
 @keyframes alarm {
         0% {

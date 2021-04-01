@@ -83,6 +83,39 @@ Still, you doubt that size of bow could deal muh damage.
 </div>
 </article><article id="LogPanel"></article></section>
 
+:: Work_ParcourTraining 
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+As a child you begged your parents to allow you to have a go at the high ropes course that was built into the trees of a forest. They visited the area every once in a while as a weekend activity, to get a good walk and do some picknick somewhere that is not covered in concrete .
+And always they declined your plea: you are not old enough, to expensive, not enough time left, whatever.
+And now you are here in this hall and have your very own private obstacle course. 
+Of course there are no trees here and your memorys really made you want to inhale some fresh, leaf filtered oxygen. 
+Its also something different if you do those course all alone or with someone to cheer you on or challenge you.
+[[Lets do it]]
+'Lets give it a try. But I better be careful. Dont want to get my neck broken.'
+While walking over to what looks like a start point, you check out the route you will have to take.
+...
+climb different height of walls
+climb ladders, poles, ropes
+jump down
+walk through kneehigh Grid
+snake through poles
+crawl through tunnel
+balance on poles and ropes
+swing on ropes and beams
+jump from platform to platform
+...
+'Yeah I did it.' you are quite happy that you were able to finish the course, even if there are also other routes with obstacles far beyond your capabilities.
+'Thats a good way to train my agility and balance. And to get my bones broken.' 
+...
+You just passed several obstacles and take a moments rest as you notice a robot creature following you. It looks quite different then Kor: more like a spider with 4 legs arranged around a torso.
+Its 
+
+
+<div></br>
+[[Home]]</br>
+</div>
+</article><article id="LogPanel"></article></section>
+
 
 :: Lisa_TrainingThoughts {"position":"650,525"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
