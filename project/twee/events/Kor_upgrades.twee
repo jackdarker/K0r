@@ -1,4 +1,4 @@
-:: Kor_MaleUp {"position":"1700,900"}
+:: Kor_MaleUp {"position":"425,1950"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <!--set next location before-->

@@ -7,7 +7,7 @@ You take a look at the bot.
 </article><article id="LogPanel"></article></section>
 
 
-:: Kor_Alcoven [_back]
+:: Kor_Alcoven [_back] {"position":"700,1400"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
 You step closer to the booth.</br>
@@ -37,7 +37,7 @@ You touch its "belly". For some reason it feels warm and does it push against yo
 </article><article id="LogPanel"></article></section>
 
 
-:: Kor_Meetup1
+:: Kor_Meetup1 {"position":"600,1300"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
 As you hear a humming sound you turn around just to get a glance that one of the walls moves up in a quick and fluent fashion.</br>
@@ -88,7 +88,7 @@ No response.</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Kor_Meetup2
+:: Kor_Meetup2 {"position":"600,1400"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
 Again the wall is removed. You notice a reflection that tells you that the glass-pane is still there.</br>
@@ -111,7 +111,7 @@ The wall goes down again.</br>
 [[Next|Home]]</br></div>
 </article><article id="LogPanel"></article></section>
 
-:: Kor_Meetup3
+:: Kor_Meetup3 {"position":"600,1500"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
 Wall up. Dark room. Zone of light but no robot?</br>
@@ -134,7 +134,7 @@ So what now? Should you [wait until something happens] [run back to the safety o
 [[Next|Home]]</br>
 </article><article id="LogPanel"></article></section>
 
-:: Kor_Collared
+:: Kor_Collared {"position":"700,1600"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
 "Hey hey everything is fine no need to get close and personal" raising your hand as K0r steps forward.</br>
@@ -169,7 +169,7 @@ Does the collar mean she belongs now to them, that they are going to keep her - 
 [[Next|Home]]</br>
 </article><article id="LogPanel"></article></section>
 
-:: Kor_Panel
+:: Kor_Panel {"position":"200,1500"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
 The bot walks up to the black display at the side of your prison. </br>
@@ -192,7 +192,7 @@ The bot walks over to one door and it whirs open without further interactions. W
 
 
 
-:: Expelled
+:: Expelled {"position":"25,1500"}
 You are lead into a round chamber with a circular marking in the center of it. It takes some nudges from the bot to move yourself right in the middle of it.
 As soon as this is done a tube of glass traps you in that spot. </br>  
 They are probably disappointed from you. Its difficult to say, because you are unable to pickup any sentiments from them. </br>

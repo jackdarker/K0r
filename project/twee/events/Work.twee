@@ -83,7 +83,7 @@ Still, you doubt that size of bow could deal muh damage.
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Work_ParcourTraining 
+:: Work_ParcourTraining {"position":"700,1000"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 As a child you begged your parents to allow you to have a go at the high ropes course that was built into the trees of a forest. They visited the area every once in a while as a weekend activity, to get a good walk and do some picknick somewhere that is not covered in concrete .
 And always they declined your plea: you are not old enough, to expensive, not enough time left, whatever.

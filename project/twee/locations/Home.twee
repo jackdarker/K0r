@@ -1,11 +1,11 @@
-:: Home
+:: Home {"position":"1300,1500"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 You are in your box-like cell. </br>
 Some kind of futon-bed is lined up along the wall. You might [[Rest|Home_Sleep]] there. </br>
 There is a desk and a stool over there where you can [[sit|Home_UseDesk]] at. </br>
 At the wall opposed to your bed is a black panel showing some symbols, some of them seem to be numbers. </br>
-As you already learned, if you [[push the panel]], a doorway may open that let you go to other areas. </br>
+As you already learned, if you [[push the panel|Home_Corridor]], a doorway may open that let you go to other areas. </br>
 <% if(window.gm.player.energy===0) {%>
 You feel tired. Time for some rest.</br>
 <% } if(window.gm.player.energy>=2) {%>
@@ -19,7 +19,32 @@ Keep yourself otherwise busy. [[Look|Home_Inspect]] more closely at the room.
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_Arrival {"position":"300,850"}
+:: Home_Corridor {"position":"1500,1500"}
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+The corridor leads further down into a [[hall]]. </br>
+The door to your [[own room|Home]] is open.</br>
+<div></br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+:: Home_Crossroad {"position":"1700,1500"}
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+This hall seems to be a small center-point with several passages leading in different directions. But every one lead into a dead end or a locked door. </br>
+But some doors are accessible: </br>
+[[Fitness Training]]
+[[Parcour]]
+[[Holodeck]]
+[[Med-center]]
+[[Kors Alcoven]]
+You could also return to your [[own room|Home]].</br>
+<div></br>
+</div>
+</article><article id="LogPanel"></article></section>
+
+
+:: Home_Arrival {"position":"900,1300"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 <% if(s.vars.qHomeInspect<=0){ %>
@@ -42,7 +67,7 @@ Keep yourself otherwise busy. [[Look|Home_Inspect]] more closely at the room.
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_checkself [_back] {"position":"300,1100"}
+:: Home_checkself [_back] {"position":"1100,1700"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 Looking down at yourself, you find beeing clad in a jumpsuite of light gray color.</br> 
 The material is smooth to the touch and thin. Its not just simple cotton, maybe some kind of silk or, much more likely, synthetic fiber.</br>
@@ -77,7 +102,7 @@ As you touch the top of the bend, clear liquid is flowing out of the pipe, right
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_callout [_back] {"position":"300,1225"}
+:: Home_callout [_back] {"position":"1025,1300"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 "Hello? ....Hello?....Anyone here" you listen for a response of your call out.</br>
 But there is none.</br>
@@ -86,7 +111,7 @@ But there is none.</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Home_FirstRest
+:: Home_FirstRest {"position":"1000,1600"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 While laying on the matress you suddenly hear a single beep and you quickly look around to see whats going on.</br>
 You see a pillar of flickering blue light over there in the opposite corner of the room.
@@ -112,7 +137,7 @@ There isn't much you can do at the desk. You dont have pen and paper to write do
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_Sleep [_back] {"position":"300,975"}
+:: Home_Sleep [_back] {"position":"1100,1500"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 A <a0 onclick='sleep(this)'>nap</a> sounds like an good idea right now. </br>
 <div id='choice' hidden>You lay down and close your eyes. </br></div>
@@ -127,7 +152,7 @@ function sleep(elmt){
 	}
 </script>
 
-:: Home_Wake [_back]
+:: Home_Wake [_back] {"position":"1300,1700"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 After a indefinite amount of time you awake.</br>
 You didnt sleep very well. 'Can't they switch of that damned light for some time?'</br>
@@ -141,7 +166,7 @@ You didnt sleep very well. 'Can't they switch of that damned light for some time
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_Sports
+:: Home_Sports {"position":"1500,1300"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 You decide that doing something exercises would be a way to decive you from your panickiness. </br>
 It was way back when you did anything related to sport and you have to admit that this also shows in your actual body shape. </br>
@@ -167,7 +192,7 @@ function startSport(elmt){
 	}}
 </script>
 
-:: Home_Sports2
+:: Home_Sports2 {"position":"825,1175"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <% if(window.story.state.tmp.args[0]==="Squats"){ window.story.state.tmp.args[1]+=1; %>
 You start doing some squats counting up every time you return to your start position. "1..2..3..4.."</br>
@@ -191,7 +216,7 @@ Still you would prefer to get some fresh clothes soon and also a shower.
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_Desk [_back]
+:: Home_Desk [_back] {"position":"1425,1700"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 You sit down on the desk. 
 A panel can be pulled out from its surface. Its some kind of touch-screen that can be used to access [[Home_Mediathek]].</br>
@@ -200,7 +225,7 @@ A panel can be pulled out from its surface. Its some kind of touch-screen that c
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Home_Mediathek [_back]
+:: Home_Mediathek [_back] {"position":"1425,1825"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 It takes you a while until you grasp how to navigate the catalog. However designed that user interface was an idiot or he has never seen a good shop-system.
 There are several books. Some of the titles you know, not due the fact that you have read them, but because they are kind of all time sellers.
@@ -236,7 +261,7 @@ function read_option(elmnt) {
 
 
 
-:: Lisa_Tease [_back]
+:: Lisa_Tease [_back] {"position":"25,500"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 Thinking back to your recent meet up with Steve and how his jumpsuite hugged his curves, you feel a tiny spark of arousal within you.
 Maybe that well-exercised rump and muscled legs where just accented nicely by that skintight fabric, as was his bulge.

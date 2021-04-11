@@ -43,32 +43,32 @@ Making some steps backward the robot gives you some room but seems still to star
 </article><article id="LogPanel"></article></section>
 
 
-:: Lisa_Anal_Vortex
+:: Lisa_Anal_Vortex {"position":"300,1700"}
 <tr><td><img id="lisa_anal_vortex" width="64" src="assets/icon/Icon_Vortex.png" style='background: url("assets/icon/Icon_Lisa.png") no-repeat center,url("assets/icon/Icon_bg.png") no-repeat center;color:black;'></td>
 <td><span id="lisa_anal_vortex">Swirling vortex, a black hole that sucks everthing in. Or portal that sends you home?</br>
 <a0 onclick='(function(){window.story.state.Kor.upMouth+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
 
-:: Lisa_Armbinder
+:: Lisa_Armbinder {"position":"100,875"}
 <tr><td><img id="lisa_armbinder" width="64" src="assets/icon/lisa_armbinder.png"style='background: url("assets/icon/Icon_Lisa.png") no-repeat center,url("assets/icon/Icon_bg.png") no-repeat center;color:black;'></td>
 <td><span id='lisa_armbinder'>That could be a person. Not sure what that V-shape means. Some kind of outfit?</br>
 <a0 onclick='(function(){window.story.state.Lisa.upArmbinder+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
 
-:: Kor_MalePlus
+:: Kor_MalePlus {"position":"100,1350"}
 <tr><td><img id="kor_male_plus" width="64" src="assets/icon/kor_malePlus.png"></td>
 <td><span id="kor_male_plus" >Symbol for male, thats easy. But what does it stand for and whats the meaning of the cross?</br>
 <a0 onclick='(function(){window.story.state.Kor.upMale+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
 
-:: Kor_MaleX
+:: Kor_MaleX {"position":"100,1700"}
 <tr><td><img id="kor_male_X" width="64" src="assets/icon/Kor_Mouth.png"></td>
 <td><span id="kor_male_X" >That symbol you saw already. The cross looks different this time.</br>
 <a0 onclick='(function(){window.story.state.Kor.upMaleX+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
 
-:: Kor_Tongue
+:: Kor_Tongue {"position":"200,1700"}
 <tr><td><img id="kor_tongue" width="64" src="assets/icon/Kor_Tongue.png"></td>
 <td><span id="kor_tongue" >A tongue maybe? Or something ompletely different.</br>
 <a0 onclick='(function(){window.story.state.Kor.upMouth+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>
 
-:: Kor_Mouth
+:: Kor_Mouth {"position":"200,1800"}
 <tr><td><img id="kor_mouth" width="64" src="assets/icon/Kor_Mouth.png"></td>
 <td><span id="kor_mouth" >Are those lips? A mouth that speaks. I think I get insane if I dont meet someone to speak with soon.</br>
 <a0 onclick='(function(){window.story.state.Kor.upMouth+=1;window.story.show("downgrade_Done");}())'>Choose this icon</a></span></td></tr>

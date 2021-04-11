@@ -9,7 +9,7 @@ You barely know anything about him.</br>
 
 
 
-:: History_Lisa [_back]
+:: History_Lisa [_back] {"position":"250,1175"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 You never were a very outgoing person. Mom always tried to catch some more friends to have fun with. But you found it always difficult to just approach someone and melt the ice with some idle chatter. 

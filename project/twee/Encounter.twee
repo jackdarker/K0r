@@ -23,7 +23,7 @@ window.gm.Encounter.printCombatHud();
 </script>
 </section>
 
-:: GameOver
+:: GameOver {"position":"0,625"}
 Game Over. I hope you learned something.</br>
 </br>[[New Game|Start]]
 

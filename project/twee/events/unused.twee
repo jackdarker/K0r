@@ -32,7 +32,7 @@ todo
 
 
 
-:: Lisa_HackingThoughts
+:: Lisa_HackingThoughts {"position":"875,1000"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 That talk about hacking with Steve still lingers in your mind.
 You know about javascript and databases and programing in general. Not that much to call yourself an expert, but quite good enough to not have for help all the time. And for sure much better then Steve.
@@ -165,7 +165,7 @@ Prostate sealing ballon
 
 
 
-:: rubber seed worms {"position":"0,150"}
+:: rubber seed worms {"position":"1675,175"}
 Cowering beneath a bush you spy on one of the smaller,fawn-like animals. Not to hunt it. That would be futile without a ranged weapon or a prepared trap.
 Those critters are quite alert and quick on the heels at the slightest suspicion.  <- erst versuchen zu jagen, dann beobachten welche berries !
 No, you want to know what they eat. Those plant around you arent familiar to you. Better not to risk eating anything poisonous.
@@ -274,7 +274,7 @@ Herbivore animals hae learned to avoid infested berry bushes. But some might sti
 Carnivores might also catch the plague by consuming a infested herbivore together with parasite eggs.
 
 
-:: cub milk
+:: cub milk {"position":"0,1600"}
 The cub looks fearfully down at his mother. She sent him up on that spindly tree for his own safety.
 That seemed to be the better option then to start running as that male appeared from between the bushes.
 Of course now his mother has to defend that shriveld dead tree he is trying to latch on.
@@ -288,7 +288,7 @@ She is quite an eager one with her maw.
 The cub feels disappointed and enious as the male struts away. He is quite envious on his mother for all that milk she gobbled. But that male was just to intimidating to approach him.
 Maybe next time he can find the courage to get his fill too. 
 
-:: AssimovsLaw
+:: AssimovsLaw {"position":"125,1600"}
 There was this author, a russian maybe. Or was it a philosoph. You cant remember exactly his name but he said something about laws that a rbot should have programmed into.
 ...
 There it is: Isaac Asimov’s three laws of robotics is also an example of a fictional code. The First Law states that “A robot may not injure a human being or, through inaction, allow a human being to come to harm. A robot must obey orders given it by human beings except where such orders would conflict with the First Law. A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.”
