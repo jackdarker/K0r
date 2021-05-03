@@ -1,2 +1,2 @@
-Another testgame.
+Another totally broken testgame.
 Dont use !
