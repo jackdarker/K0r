@@ -1,28 +1,175 @@
 "use strict";
-/*
-core functionality
-*/
-
 
 window.gm = window.gm || {}; //game related operations
 window.gm.util = window.gm.util || {};  //utility functions
-// define save-game-file-version 1
 
-window.gm.switchPlayer = function(playername) {
-  var s = window.story.state;
-  window.gm.player= s[playername]; 
-  s.vars.activePlayer = playername;
+// helper for publisher/subscriber-pattern; myObject.ps =PubSub(); myObject.ps.subscribe(...
+// !! warning, dont use for objects that need to be loaded from savegame
+// the reviver calls constructor of nested objects multiple times which lead to multiple registrations with partially incomplete objects in the PubSub;
+// since there are no destructors, there is no easy way to cleanup
+window.gm.util.PubSub = function(){ 
+  return ({
+    events: {},
+    subscribe: function (event, handler) {
+        if (!this.events[event]) {
+            this.events[event] = [];    
+        }
+        this.events[event].push(handler);
+    },
+    unsubscribe: function (event, handler) {
+      if (!this.events[event]) return;
+      let i= this.events[event].indexOf(handler);
+      if(i>=0) this.events.splice(i,1);
+    },
+    publish: function (event, data) {
+        this.events[event] && this.events[event].forEach(publishData);
+        function publishData(handler) {
+            handler(data);   
+        };
+    }
+  }); 
+};
+//create pretty name for passage; requires a tag (replace space with _ !) [name:"My_Room"]
+window.gm.util.printLocationName=function(passage) {
+  let tags = window.story.passage(passage).tags;
+  for(el of tags) {
+    let ar = el.split(":");    
+    if(ar.length>1 && ar[0]==='name') {
+      return(ar[1].split('_').join(' '));
+    }
+  }
+  return(passage);
 }
-//you might need to reimplement this to handle version upgrades on load
+//prints a div with text "value/max" and bargraph-background
+window.gm.util.bargraph=function(value,max,color,text="") {
+  let msg ='';
+  let rel = value/max*100;
+  msg ='<div class="progressbar"><div style="background-color:'+color+'; width: '+rel.toString()+'%;"><div style="width: max-content;">'+text+value.toString()+'/'+max.toString()+'</div></div></div>';
+  return(msg); //todo bargraph css-animation doesnt work because the whole page is reloaded instead of just width change
+}
+/* Uploads SVG files from local file system, based on file selected in input; https://github.com/fizzstudio/svg-load-save */
+window.gm.util.loadLocalSVG=function(event) {
+    let file = event.target.files[0]; // FileList object
+    if (file) {
+      const file_reader = new FileReader();
+      if (`image/svg+xml` == file.type) {
+        file_reader.readAsText(file);
+        file_reader.addEventListener(`load`, function () {
+          var file_content = file_reader.result;
+          window.gm.util.insertSvg(file_content);
+        }.bind(this), false);
+      }
+    }
+};
+  /* Inserts SVG files into HTML document */
+window.gm.util.insertSvg=function(file_content) {
+    // insert SVG file into HTML page
+    const svg_container = document.getElementById("svg_container");
+    svg_container.innerHTML = file_content;
+    // TODO: insert any SVG handler here
+    // adds `click` event listener to inserted SVG to test modification of SVG file, for later saving
+    if (this.event_handler) {
+      svg_container.firstChild.addEventListener("click", this.event_handler, false)
+    }
+};
+//-------------------------------------------------
+// reimplement to setup the game !
+window.gm.initGame= function(forceReset,NGP=null) {
+  window.gm.toasty= new Toasty();
+    $(window).on('sm.passage.showing', function(event, eventObject) {
+        // Current Passage object
+        $("tw-passage").fadeIn(500);  //fade in if was previously faded out
+      //console.log('showing '+eventObject.passage.name);
+    });
+    // Render the passage named HUD into the element todo replace with <%=%>??
+    $(document).on('sm.passage.shown', function (ev,eventObject) { window.gm.refreshSidePanel();});
+    var s = window.story.state; //s in template is window.story.state from snowman!
+    if (!window.gm.timeEvent||forceReset) {
+      window.gm.timeEvent = window.gm.util.PubSub();  //subscribe to "change" event to receive time updates
+      // !! make sure to reregister after load !
+    }
+    if(!s.quests || forceReset) {
+      s.quests =  new QuestData();
+      window.gm.quests = new QuestManager(window.gm.questDef);
+      window.gm.quests.setQuestData(s.quests);
+      window.gm.quests.pubSub.subscribe("change",function(data){window.gm.toasty.info("Quest "+data.questId+" updated")});
+    }
+    if (!s._gm||forceReset) {
+      s._gm = {
+        version : window.gm.getSaveVersion(),
+        style: 'default', //ss profile to use
+        log : [],
+        passageStack : [], //used for passage [back] functionality
+        defferedStack : [], //used for deffered events
+        onholdStack : [], //used for deffered events
+        time : 700, //represented as hours*100 +minutes
+        day : 1,  //daycount
+        activePlayer : '', //id of the character that the player controls currently
+        nosave : false,
+        playerParty: [],  //names of NPC in playerParty 
+        debug : false,    //globally enables debug
+        dbgShowCombatRoll : false,  //log combat calculation details
+        dbgShowQuestInfo : false,  //show internal quest state
+        dbgShowMoreInfo : false
+      }
+    }
+    if (!s.dng||forceReset) { //stores the state of the current dungeon
+      s.dng = {
+        id : "",
+        floorId : "",
+        roomId : ""
+      }
+    }
+    if (!s.tmp||forceReset) { 
+      // storage of temporary variables; dont use them in stacking passages or deffered events      
+      s.tmp = {
+        args: [],  // can be used to set arguments before another passage is called (passage-arguments) 
+        msg: ''   // memorizes a message to display when returning from _back-passage; please clear it when leaving the passage
+      }
+    }
+    if (!s.GlobalChest||forceReset) {  
+      let ch = new Character();
+      ch.id="GlobalChest";
+      ch.name="GlobalChest";
+      ch.faction="Player";
+      s.GlobalChest=ch;
+    }
+    if (!s.combat||forceReset) { //see encounter & combat.js
+      s.combat = {
+        enemyParty : [],  //collection of enemy-chars involved 
+        enemyIdx : 0,  //index of actual enemy 
+        playerParty : [],
+        playerIdx : 0,
+        enemyFirst : false, //if true, enemy moves first
+        inCombat: false,  //for query window.gm.combat.inCombat
+        turnCount: 0,
+        scenePic : 'assets/bg_park.png'
+      }
+    }
+  }
+//reimplement for your game !
+window.gm.newGamePlus = function() {
+  var NGP = { //be mindful if adding complex objects to NGP, they might not work as expected ! simple types are ok 
+    crowBarLeft: window.story.state.vars.crowBarLeft
+    }
+  window.gm.initGame(true,NGP);
+  window.story.show('Home');
+};
+//reimplement this to handle version upgrades on load !
 window.gm.rebuildObjects= function(){ 
   var s = window.story.state;
-  window.gm.switchPlayer(s.vars.activePlayer);
+  window.styleSwitcher.loadStyle(); //since style is loaded from savegame
+  window.gm.quests.setQuestData(s.quests); //necessary for load support
+  window.gm.switchPlayer(s._gm.activePlayer);
 }
+//--------------- time management --------------
 //returns timestamp since start of game
 window.gm.getTime= function() {
-  return(window.story.state.vars.time+2400*window.story.state.vars.day);
+  return(window.story.state._gm.time+2400*window.story.state._gm.day);
 }
-//calculates timedifference for hhmm time format
+/*
+* calculates timedifference a-b for hhmm time format
+*/
 window.gm.getDeltaTime = function(a,b){
   var m=a%100;         
   var h=((a-m)/100);
@@ -32,18 +179,24 @@ window.gm.getDeltaTime = function(a,b){
 }
 //adds MINUTES to time
 window.gm.addTime= function(min) {
-  var v=window.story.state.vars;
-  var m=v.time%100;         
-  var h=((v.time-m)/100);
+  let v=window.story.state._gm;
+  let m=v.time%100;         
+  let h=parseInt((v.time-m)/100);
   m= m+min;
-  var m2 = m%60;
-  var h2 = h+(m-m2)/60;
-  window.story.state.vars.time = (h2*100+m2%60);
-  while(window.story.state.vars.time>=2400) {
-    window.story.state.vars.time -= 2400;
-    window.story.state.vars.day += 1;
+  let m2 = m%60;
+  let h2 = h+parseInt((m-m2)/60);
+  window.story.state._gm.time = (h2*100+m2%60);
+  while(window.story.state._gm.time>=2400) {
+    window.story.state._gm.time -= 2400;
+    window.story.state._gm.day += 1;
   }
-  window.gm.player.Effects.updateTime();
+  window.gm.timeEvent.publish("change",min);
+  window.gm.player.Effects.updateTime(); //todo not happy with that; see PubSub-comment
+  window.gm.player.Outfit.updateTime();
+  // updating all existing chars might not be wise (some could be dead)
+  // but what if I have to update other chars too?
+  //
+  
 };
 window.gm.getTimeString= function() {
   var c=window.gm.getTimeStruct();
@@ -51,7 +204,7 @@ window.gm.getTimeString= function() {
 };
 // DoW = DayOfWeek  7 = Sunday, 1 = Monday,...6 = Saturday 
 window.gm.getTimeStruct=function() {
-  var v=window.story.state.vars;
+  var v=window.story.state._gm;
   var m=v.time%100;
   var h=((v.time-m)/100);
   var daytime = '';
@@ -66,25 +219,24 @@ window.gm.getTimeStruct=function() {
   } else {
     daytime = 'night';
   }
-  var DoW = window.story.state.vars.day%7;
+  var DoW = window.story.state._gm.day%7;
   return({'hour':h,'min':m, 'daytime': daytime, 'DoW':DoW});
 };
-
+window.gm.DoWs = ['Monday', 'Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 window.gm.getDateString= function() {
-  var v=window.story.state.vars;
-  const DoW=['Monday', 'Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-  return v.day.toString()+". day "+ DoW[(v.day%7)-1];
+  var v=window.story.state._gm;
+  return v.day.toString()+". day "+ window.gm.DoWs[(v.day%8)-1];
 };
 //forward time to until (1025 = 10:25), regenerate player
 //warning dont write 0700 because this would be take as octal number
-window.gm.sleep=function(until) {
-  var v=window.story.state.vars;
-  var msg='';
-  var m=v.time%100;
-  var h=((v.time-m)/100);
-  var m2=until%100;
-  var h2=((until-m)/100);
-  var min = (h2-h)*60+(m2-m);
+window.gm.forwardTime=function(until) {
+  let v=window.story.state._gm;
+  let msg='';
+  let m=v.time%100;
+  let h=parseInt((v.time-m)/100);
+  let m2=until%100;
+  let h2=parseInt((until-m2)/100);
+  let min = (h2-h)*60+(m2-m);
   //if now is 8:00 and until 10:00 we assume you want to sleep 2h and not 2+24h
   //if now is 10:00 and until is 9:00 we assume sleep for 23h
   if(until<v.time) {
@@ -93,44 +245,23 @@ window.gm.sleep=function(until) {
   if(min===0) { //if sleep from 700 to 700, its a day
     min=24*60;
   }
-  msg+="</br>Slept for "+min/60+" hours.</br>";
+  msg+="</br>"+min%60+" hours pass by.</br>";
   window.gm.addTime(min);
-  var regen = min>420 ? 999 : min/60*15;  //todo scaling of regeneration
-  window.gm.player.Stats.increment('health',regen);
-  window.gm.player.Stats.increment('energy',regen);
   window.gm.pushLog(msg);
-  return(msg);
+  return({msg:msg,delta:min});
 };
 
-//Todo
-window.gm.rollExplore= function() {
-  var s=window.story.state;
-  var places=[];   
-  var r = _.random(0,100);
-  //todo:depending of your actual location you have a chance to find connected locations or end up in a known one
-  if(window.gm.player.location=='Park')   places = ['Mall','Beach'];
-  if(window.gm.player.location=='Mall')   places = ['Park','Beach','Downtown']; 
-  if(window.gm.player.location=='Beach')   places = ['Park','Mall']; 
-  if(window.gm.player.location=='Downtown')   {
-    places.push('Pawn shop'); 
-  }
-  if(places.length==0) places = [window.gm.player.location]; //fallback if unspeced location
-  r = _.random(1, places.length)-1; //chances are equal
-  window.gm.addTime(20);
-  window.story.show(places[r]);
-};
-window.gm.newGamePlus = function() {
-  var NGP = { //be mindful if adding complex objects to NGP, they might not work as expected ! simple types are ok 
-    crowBarLeft: window.story.state.vars.crowBarLeft
-    }
-  window.gm.initGame(true,NGP);
-  window.story.show('Home');
-};
 
-// use child._parent = window.gm.util.refToParent(parent);
-window.gm.util.refToParent = function(me){ return function(){return(me);}};
+// use: child._parent = window.gm.util.refToParent(parent);
+window.gm.util.refToParent = function(me){ return function(){return(me);}};  //todo causes problem with replaceState??
+//since there is no builtin function to format numbers here is one: formatNumber(-1002.4353,2) -> 1,002.44  
+window.gm.util.formatNumber = function(n, dp){
+  var s = ''+(Math.floor(n)), d = Math.abs(n % 1), i = s.length, r = '';
+  while ( (i -= 3) > 0 ) { r = ',' + s.substr(i, 3) + r; }  //todo . & , is hardcoded
+  return s.substr(0, i + 3) + r + (dp>0 ? '.' +(d ? Math.round(d * Math.pow(10, dp || 2)) : '0'.repeat(dp)) : '');
+};
 //---------------------------------------------------------------------------------
-//TODO Deferred Event is incomplete
+//TODO 
 //maybe you sometimes dont want to trigger an event immediatly, 
 //f.e. if you send a email, it might take some time until you get a response-email 
 //(you can receive email at anytime on your phone, so we would have to add checks on ALL passages)
@@ -138,108 +269,192 @@ window.gm.util.refToParent = function(me){ return function(){return(me);}};
 //the passage will trigger under the given condition: minimum time, location-tag, at a certain time-window
 //the passage will show when a new passage is requested and will be removed from stack
 //if this passage is already pushed, only its condition will be updated
-window.gm.pushDeferredEvent=function(id) {
-    var cond1 = {waitTime: 6,
+window.gm.pushDeferredEvent=function(id,args,front=false) {
+    /*var cond1 = {waitTime: 6,
                 locationTags: ['Home','City'],      //Never trigger in Combat
                 dayTime: [1100,600]
               },
         cond2 = { waitTime: 60,
                   locationTags: ['Letterbox'],
         };
-  
-    var cond = [cond1,cond2]; //passage is executed if any of the conds is met
-    window.story.state.vars.defferedStack.push({id:id,cond:cond});
-  };
-  window.gm.removeDefferedEvent=function(id=""){
-    if(id!=="") {
-      for(var i=window.story.state.vars.defferedStack.length-1;i>0;i--) {
-        if(window.story.state.vars.defferedStack[i].id===id) 
-        window.story.state.vars.defferedStack.splice(i,1);
-      }
-    }else {
-      window.story.state.vars.defferedStack = [];
-    }
-  }
-  window.gm.hasDeferredEvent = function(id="") {
-    if(id!=="") {
-      for(var i=0;i<window.story.state.vars.defferedStack.length;i++) {
-        if(window.story.state.vars.defferedStack[i].id===id) return(true);
-      }
-      return(false);
+      */
+    let cond = [];//[cond1,cond2]; //passage is executed if any of the conds is met
+    if(front) {
+      window.story.state._gm.defferedStack.unshift({id:id,cond:cond,args:args});
     } else {
-      return(window.story.state.vars.defferedStack.length>0);
+      window.story.state._gm.defferedStack.push({id:id,cond:cond,args:args});
     }
+};
+window.gm.popDeferredEvent= function() {
+  let evt = window.story.state._gm.defferedStack.shift();
+  window.story.state.tmp.args = evt.args;
+  return evt.id;
+}
+window.gm.removeDefferedEvent=function(id=""){
+  if(id!=="") {
+    for(var i=window.story.state._gm.defferedStack.length-1;i>0;i--) {
+      if(window.story.state._gm.defferedStack[i].id===id) 
+      window.story.state._gm.defferedStack.splice(i,1);
+    }
+  }else {
+    window.story.state._gm.defferedStack = [];
   }
-  window.gm.showDeferredEvent= function() {
-    var msg = '';
-  
-    var namenext = window.passage.name;
-    var tagsnext = window.story.passage(namenext).tags;
-    var evt = window.story.state.vars.defferedStack.shift();
-    if(evt!==null) {
-      msg += window.gm.printPassageLink("Next",evt.id);
+}
+/*window.gm.hasDeferredEvent = function(id="") {
+  if(id!=="") {
+    for(var i=0;i<window.story.state._gm.defferedStack.length;i++) {
+      if(window.story.state._gm.defferedStack[i].id===id) return(true);
     }
-    return msg;
+    return(false);
+  } else {
+    return(window.story.state._gm.defferedStack.length>0);
   }
-  //when show is called the previous passage is stored if the new has [_back]-tag
-  //if the new has no back-tag, the stack gets cleared
-  window.gm.pushPassage=function(id) {
-    if(!window.story.state.hasOwnProperty("vars")) return;  //vars exist only after initGame
-    if(window.story.state.vars.passageStack.length>0 && window.story.state.vars.passageStack[window.story.state.vars.passageStack.length-1]===id){
-      //already pushed
-    } else {
-      window.story.state.vars.passageStack.push(id);
-    }
-  };
-  //call on [_back]-passages to get the previous passage
-  window.gm.popPassage=function() {
-      var pass = window.story.state.vars.passageStack.pop();
-      if(!pass) return('nothing to pop from stack');
-      return(pass);
-  };
-  //overriding show:
-  //- to enable back-link
-  //- to intercept with deffered events
-  var _origStoryShow = window.story.__proto__.show;
-  window.story.__proto__.show = function(idOrName, noHistory = false) {
-    var next = idOrName;
-    if(idOrName === '_back') { //going back
-      next = window.gm.popPassage();
-    } else {  //going forward
-      var tagsnext = window.story.passage(next).tags;
-      var namenext = window.story.passage(next).name;
-      if(tagsnext.indexOf('_back')>=0 ) { //push on stack but only if not re-showing itself
-        if(namenext!=window.passage.name) window.gm.pushPassage(window.passage.name); 
-      } else if(window.story.state.hasOwnProperty("vars")) {
-        window.story.state.vars.passageStack.splice(0,window.story.state.vars.passageStack.length);
+}
+window.gm.showDeferredEvent= function() {
+  var msg = '';
+
+  var namenext = window.passage.name;
+  //var tagsnext = window.story.passage(namenext).tags;
+  var evt = window.story.state._gm.defferedStack.shift();
+  if(evt!==null) {
+    msg += window.gm.printPassageLink("Next",evt.id);
+  }
+  return msg;
+}*/
+//when show is called the previous passage is stored if the new has [_back_]-tag
+//if the new has no back-tag, the stack gets cleared
+window.gm.pushBackPassage=function(id) {
+  if(!window.story.state.hasOwnProperty("_gm")) return;  //exist only after initGame
+  if(window.story.state._gm.passageStack.length>0 && window.story.state._gm.passageStack[window.story.state._gm.passageStack.length-1]===id){
+    //already pushed
+  } else {
+    window.story.state._gm.passageStack.push(id);
+  }
+};
+//call on [_back_]-passages to get the previous passage
+window.gm.popBackPassage=function() {
+    let pass = window.story.state._gm.passageStack.pop();
+    if(!pass) throw new Error('nothing to pop from stack');
+    return(pass);
+};
+window.gm.pushOnHold=function(id) {
+  if(!window.story.state.hasOwnProperty("_gm")) return;  //exist only after initGame
+  if(window.story.state._gm.onholdStack.length>0){// && window.story.state._gm.defferedStack[window.story.state._gm.defferedStack.length-1].id===id){
+    throw new Error('passage allready onHold: '+id); //already some pushed
+  } else {
+    window.story.state._gm.onholdStack.push({id:id, args:window.story.state.tmp.args});
+  }
+};
+//
+window.gm.popOnHold=function() {
+    let pass = window.story.state._gm.onholdStack.pop();
+    if(!pass) throw new Error('nothing on hold to pop.');
+    window.story.state.tmp.args=pass.args;
+    return(pass.id);
+};
+//overriding show:
+//- to enable back-link
+//- todo to intercept with deffered events
+let _origStoryShow = window.story.__proto__.show;
+window.story.__proto__.show = function(idOrName, noHistory = false) {
+  let next = idOrName;
+  let inGame = window.story.state.hasOwnProperty("_gm"); //the logic doesnt work if initGame not already done
+  let tagsnext,namenext,nextp,namenow;
+  if(idOrName==='') tagsnext=[];
+  else tagsnext = window.story.passage(idOrName).tags;
+  if(inGame && window.story.state._gm.defferedStack.length>0 && //deffered event if allowed and requested
+    //tagsnext.indexOf('_back_')<0 &&
+    tagsnext.indexOf('_nosave_')<0 && tagsnext.indexOf('_nodeffered_')<0 ) { 
+      //before entering a new passage check if there is a defferedEvent that we should do first
+      //if so, push the normal-passage onto stack, show deffered passage
+      //after the deffered passage(s) finish, make sure to show the original passage
+      //this is a problem?how do I know the deffered passage is done? 
+    if(idOrName!=='') {//if not continue-cmd
+      window.gm.pushOnHold(idOrName);
+      if(tagsnext.indexOf('_back_')>=0 && window.passage.name!==idOrName) { //push on stack but only if not re-showing itself
+        window.gm.pushBackPassage(window.passage.name); //todo do we need extra back-stack for onhold?
       }
+    }
+    next = window.gm.popDeferredEvent();
+    nextp = window.story.passage(next);
+    tagsnext =  nextp.tags;
+  } else if(inGame && idOrName==='' && window.story.state._gm.onholdStack.length>0) { //continue event onhold
+    next =window.gm.popOnHold()
+    if(next === '_back_') { //going back
+      next = window.gm.popBackPassage();
+    }
+    nextp = window.story.passage(next);
+    tagsnext =  nextp.tags;
+  } else if(idOrName === '_back_') { //going back
+    next = window.gm.popBackPassage();
+    tagsnext = window.story.passage(next).tags;
+  } else {  //going forward
+    nextp = window.story.passage(next);
+    if(!nextp) throw new Error('no such passage: '+next);
+    tagsnext = nextp.tags; namenext = nextp.name;
+    if(tagsnext.indexOf('_back_')>=0 ) { //push on stack but only if not re-showing itself
+      namenow = window.passage.name;
+      if(namenext!=namenow) window.gm.pushBackPassage(namenow); 
+    } else if(inGame) { //if not in _back_-passage, drop the _back_-stack
+      window.story.state._gm.passageStack.splice(0,window.story.state._gm.passageStack.length);
+    }
+    //todo not sure about this: a deffered event should not link to normal passages because this would disentangle the original story-chain
+    //this I think could cause issues and should be detected and throw an error
+    //uncoment the following to bypass this 
+    //    window.story.state._gm.onholdStack.splice(0,window.story.state._gm.onholdStack.length);
   }
-    //Todo
-    //before entering a new passage check if there is a defferedEvent that we should do first
-    //if so, push the normal-passage onto stack, show deffered passage
-    //after the deffered passage(s) finish, make sure to show the original passage
-    //this is a problem?how do I know the deffered passage is done? 
-    _origStoryShow.call(window.story,next, noHistory);
-  };
-  //---------------------------------------------------------------------------------
+  if(inGame) {//disable save-menu on _nosave_-tag 
+      window.story.state._gm.nosave = (tagsnext.indexOf('_nosave_')>=0 );
+  }
+  noHistory = true; //the engines object causes problems with history, namely refToParent
+  _origStoryShow.call(window.story,next, noHistory);
+};
+//-----------------------------------------------------------------------------
+//changes the active player and will add him to party!
+window.gm.switchPlayer = function(playername) {
+  var s = window.story.state;
+  window.gm.player= s[playername];
+  s._gm.activePlayer = playername;
+  window.gm.addToParty(playername);
+}
+window.gm.removeFromParty= function(name) {
+  var s=window.story.state;
+  var i = s._gm.playerParty.indexOf(name);
+  if(i>=0) s._gm.playerParty.splice(i,1);
+}
+//adds the character to the party
+//there has to be a CharacterObject for window.story.state[name]
+window.gm.addToParty= function(name) {
+  var s=window.story.state;
+  if(s._gm.playerParty.indexOf(name)<0)
+    s._gm.playerParty.push(name);
+}
+window.gm.isInParty = function(name) {
+  return(window.story.state._gm.playerParty.indexOf(name)>=0);
+}
+//-----------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------
   //updates all panels
-window.gm.refreshScreen= function() {
+window.gm.refreshAllPanel= function() {
   window.story.show(window.passage.name);
 };
 //updates only sidepanle,logpanel
-window.gm.updateOtherPanels = function(){
+window.gm.refreshSidePanel = function(){
   renderToSelector("#sidebar", "sidebar");renderToSelector("#LogPanel", "LogPanel"); 
 };
+///////////////////////////////////////////////////////////////////////
 window.gm.pushLog=function(msg,Cond=true) {
-  if(!Cond) return;
-  var log = window.story.state.vars.log;
-  log.unshift(msg);
+  if(!Cond || msg==='') return;
+  var log = window.story.state._gm.log;
+  log.unshift(msg+'</br>');
   if(log.length>10) {
       log.splice(log.length-1,1);
   }
 };
 window.gm.getLog=function() {
-  var log = window.story.state.vars.log;
+  var log = window.story.state._gm.log;
   var msg ='';
   for(var i=0;i<log.length;i++) {
       msg+=log[i];
@@ -247,14 +462,15 @@ window.gm.getLog=function() {
   return(msg);
 };
 window.gm.clearLog=function() {
-  var log = window.story.state.vars.log;
+  var log = window.story.state._gm.log;
   var msg ='';
   for(var i=0;i<log.length;i++) {
       msg+=log[i];
   }
-  window.story.state.vars.log = [];
+  window.story.state._gm.log = [];
   return(msg);
 };
+//////////////////////////////////////////////////////////////////////
 window.gm.roll=function(n,sides) { //rolls n x dies with sides
   var rnd = 0;
   for(var i=0;i<n;i++) {
@@ -262,8 +478,9 @@ window.gm.roll=function(n,sides) { //rolls n x dies with sides
   }
   return(rnd); 
 }
-window.gm.printOutput= function(text) {
-  document.querySelector("section article div output").innerHTML = text;
+//expects DOM like <section><article>..<div id='output'></div>..</article></section>
+window.gm.printOutput= function(text,where="section article div#output") {
+  document.querySelector(where).innerHTML = text;
 };
 //connect to onclick to toggle selected-style for element + un-hiding related text
 //the elmnt (f.e.<img>) needs to be inside a parentnode f.e. <div id="choice">
@@ -294,151 +511,18 @@ window.gm.onSelect = function(elmnt,ex_choice,ex_info) {
 window.gm.printTalkLink =function(elmt,unhideThis,cb=null) {
   elmt.toggleAttribute("hidden");
   if(cb!==null) cb(elmt);
-$(unhideThis)[0].toggleAttribute("hidden");
+  $(unhideThis)[0].toggleAttribute("hidden");
+  $(unhideThis)[0].scrollIntoView({behavior: "smooth"});
 }
 //prints the same kind of link like [[Next]] but can be called from code
 window.gm.printPassageLink= function(label,target) {
   return("<a href=\"javascript:void(0)\" data-passage=\""+target+"\">"+label+"</a></br>");
 };
-//dynamically build a link representing a buy option including display of cost and restriction
-//count specifys how any items you get for cost
-//cbCanBuy points to a function fn(itemid) that returns if can buy {OK:false,msg:'too expensive'} 
-//cbPostBuy points to a function fn(itemid) that is called after buying ; 
-window.gm.printShopBuyEntry= function(itemid,count,cbCanBuy,cbPostBuy=null){
-  var desc2=itemid+ 'out of stock</br>';
-  var entry = document.createElement('a');    // entry is a link that will expand to item description
-  entry.id=itemid;
-  entry.href='javascript:void(0)';
-  var showDesc=function($event){var elmt =document.querySelector("div#"+$event.srcElement.id);
-      elmt.innerHTML =window.gm.ItemsLib[$event.srcElement.id].desc+"</br>";
-      elmt.toggleAttribute("hidden");};
-  entry.addEventListener("click", showDesc, false);
-  var div = document.createElement('div');
-  div.id=itemid;
-  div.hidden=true;
-  var entryBuy = document.createElement('a'); //entryBuy is a link that actual buys something or shows why not
-  entryBuy.id=itemid;
-  entryBuy.href='javascript:void(0)';
-  entryBuy.textContent="Buy";
-  if(count>0) {
-      var result = cbCanBuy(itemid);
-      desc2 = itemid+" (x"+count+")";
-      if(result.OK===false) {
-          desc2 = desc2 + " "+ result.msg;
-      } else {
-          desc2+= " "+result.msg;
-          var foo = function($event){window.gm.buyFromShop(itemid,count,cbPostBuy)};
-          entryBuy.addEventListener("click", foo, false);
-      }
-  }
-  entry.textContent=desc2;
-  $("div#panel")[0].appendChild(entry);
-  $("div#panel")[0].appendChild(entryBuy);
-  $("div#panel")[0].appendChild(document.createElement('br'));
-  $("div#panel")[0].appendChild(document.createElement('br'));
-  $("div#panel")[0].appendChild(div);
+//prints a link where target is a expression called onClick
+window.gm.printLink= function(label,target) {
+  return("<a href=\"javascript:void(0)\" onclick=\""+target+"\">"+label+"</a></br>");
 };
 
-//a callback function to check if you can buy something;
-//should return {OK:true,msg:'',postBuy:null} where message will be displayed either as reason why you cannot buy or cost
-//unused because makes it unoverridable ->postboy is {fn:foo, cost:x} where fn points to a function that is called after buying (fn(itemid,x));  
-//this implementation checks: money
-window.gm.defaultCanBuy =function(itemid,cost){
-  var result ={OK:true,msg:''};//, postBuy:null};
-  var money= window.gm.player.Inv.countItem('Money');
-  if(money>=cost) {
-      result.msg='buy for '+cost+'$';
-      //result.postBuy = function(x){ return (function(item,y=x){window.gm.defaultPostBuy(item,y);})}(cost);
-      //result.postBuy = {fn:window.gm.defaultPostBuy, cost:cost};
-  } else {
-      result.OK=false;
-      result.msg='requires '+cost+'$';
-  };
-  return(result);
-};
-window.gm.defaultCanSell =function(itemid,cost){
-  var result ={OK:true,msg:''};   //todo check equipped item
-  result.msg='sell for '+cost+'$';
-  return(result);
-};
-//requires a <div id='choice'> </div> for displaying bought-message
-window.gm.defaultPostSell =function(itemid,cost){
-  window.gm.player.Inv.addItem(new Money(),cost);
-  $("div#choice")[0].innerHTML='You sold '+ itemid; 
-  $("div#choice")[0].classList.remove("div_alarm");
-  $("div#choice")[0].offsetWidth; //this forces the browser to notice the class removal
-  $("div#choice")[0].classList.add("div_alarm");
-};
-//requires a <div id='choice'> </div> for displaying bought-message
-window.gm.defaultPostBuy =function(itemid,cost){
-  window.gm.player.Inv.removeItem('Money',cost);
-  $("div#choice")[0].innerHTML='You bought '+ itemid; 
-  $("div#choice")[0].classList.remove("div_alarm");
-  $("div#choice")[0].offsetWidth; //this forces the browser to notice the class removal
-  $("div#choice")[0].classList.add("div_alarm");
-};
-window.gm.cbCanBuyPerverse = function(itemid,cost,pervcost) {
-  var result = window.gm.defaultCanBuy(itemid,cost);
-  if(window.gm.player.Stats.get('perversion').value<pervcost) {
-      result.msg += ' ; requires Perversion> '+pervcost;
-      result.OK=false;
-  }
-  return(result);
-};
-//this will add item to player; money-deduct or other cost has to be done in cbPostBuy ! 
-window.gm.buyFromShop=function(itemid, count,cbPostBuy) {
-  window.gm.player.Inv.addItem(new window.storage.constructors[itemid](),count);   //Todo item or wardrobe
-  if(cbPostBuy) cbPostBuy(itemid);
-  //window.gm.refreshScreen(); dont refresh fullscreen or might reset modified textoutput
-  window.gm.updateOtherPanels(); //just update other panels
-  renderToSelector("#panel", "listsell");
-};
-//this will remove item from player; money-deduct or other cost has to be done in cbPostSell ! 
-window.gm.sellToShop=function(itemid, count,cbPostSell) {
-  window.gm.player.Inv.removeItem(itemid,count);
-  if(cbPostSell) cbPostSell(itemid);
-  //window.gm.refreshScreen(); dont refresh fullscreen or might reset modified textoutput
-  window.gm.updateOtherPanels(); //just update other panels
-  renderToSelector("#panel", "listsell");
-};
-//dynamically build a link representing a sell option including display of cost
-//count defines how many of this item you have to trade in
-window.gm.printShopSellEntry= function(itemid,count,cbCanSell,cbPostSell){
-  var _available = window.gm.player.Inv.countItem(itemid); //only items the player has can be sold
-  if(_available<=0) return; 
-  var entry = document.createElement('a');
-  entry.id=itemid;
-  entry.href='javascript:void(0)';
-  var showDesc=function($event){var elmt =document.querySelector("div#"+$event.srcElement.id);
-      elmt.innerHTML =window.gm.ItemsLib[$event.srcElement.id].desc+"</br>";
-      elmt.toggleAttribute("hidden");};
-  entry.addEventListener("click", showDesc, false);
-  var div = document.createElement('div');
-  div.id=itemid;
-  div.hidden=true;
-  var entrySell = document.createElement('a'); //a link where you can sell
-  entrySell.id=itemid;
-  entrySell.href='javascript:void(0)';
-  entrySell.textContent="Sell";
-  var desc2 = itemid+" (x"+count+")";
-  if(_available>=count) {
-      var result = cbCanSell(itemid);
-      if(result.OK===false) {
-          desc2 = desc2 + " "+ result.msg;
-      } else {
-          desc2+= " "+result.msg;
-          var foo = function($event){window.gm.sellToShop(itemid,count,cbPostSell)};
-          entrySell.addEventListener("click", foo, false);
-      }
-  } else desc2 = desc2 + " not enough items"
-
-  entry.textContent=desc2;
-  $("div#panel")[0].appendChild(entry);
-  $("div#panel")[0].appendChild(entrySell);
-  $("div#panel")[0].appendChild(document.createElement('br'));
-  $("div#panel")[0].appendChild(document.createElement('br'));
-  $("div#panel")[0].appendChild(div);
-};
 //prints a link that when clicked picksup an item and places it in the inventory, if itemleft is <0, no link appears
 window.gm.printPickupAndClear= function(itemid, desc,itemleft,cbAfterPickup=null) {
   var elmt='';
@@ -451,58 +535,127 @@ window.gm.printPickupAndClear= function(itemid, desc,itemleft,cbAfterPickup=null
 };
 window.gm.pickupAndClear=function(itemid, desc,itemleft,cbAfterPickup=null) {
   window.gm.player.Inv.addItem(new window.storage.constructors[itemid]());
-  //window.gm.pushLog("added "+itemid+" to inventory.</br>");
   if(cbAfterPickup) cbAfterPickup();
-  window.gm.refreshScreen();
+  window.gm.refreshAllPanel();
 };
 //prints an item with description; used in inventory
-window.gm.printItem= function( id,descr) {
+window.gm.printItem= function( id,descr,carrier,useOn=null ) {
   var elmt='';
   var s= window.story.state;
   var _inv = window.gm.player.Inv;
   var _count =_inv.countItem(id);
+  if(useOn===null) useOn=carrier;
   elmt +=`<a0 id='${id}' onclick='(function($event){document.querySelector(\"div#${id}\").toggleAttribute(\"hidden\");})(this);'>${id} (x${_count})</a>`;
   var useable = _inv.usable(id);
   if(_count>0 && useable.OK) {
-
-      elmt +=`<a0 id='${id}' onclick='(function($event){var _res=window.gm.player.Inv.use(\"${id}\"); window.gm.refreshScreen();window.gm.printOutput(_res.msg);}(this))'>${useable.msg}</a>`;
+      elmt +=`<a0 id='${id}' onclick='(function($event){var _res=window.gm.player.Inv.use(\"${id}\"); window.gm.refreshAllPanel();window.gm.printOutput(_res.msg);}(this))'>${useable.msg}</a>`;
   }
   elmt +=`</br><div hidden id='${id}'>${descr}</div>`;
   if(window.story.passage(id))  elmt +=''.concat("    [[Info|"+id+"]]");  //Todo add comands: drink,eat, use
       elmt +=''.concat("</br>");
       return(elmt);
 };
+/**
+ * prints a list of items/wardrobe and buttons to transfer them
+ * @param {*} from 
+ * @param {*} to 
+ */
+window.gm.printItemTransfer = function(from,to,wardrobe) {
+  let listFrom,listTo;
+  if(wardrobe) listFrom=from.Wardrobe.getAllIds(), listTo=to.Wardrobe.getAllIds(); 
+  else listFrom=from.Inv.getAllIds(), listTo=to.Inv.getAllIds();
+  let allIds = new Map();
+  for(let el of listTo) {
+    allIds.set(el,{name:wardrobe?to.Wardrobe.getItem(el).name:to.Inv.getItem(el).name});
+  }
+  for(let el of listFrom) {
+    allIds.set(el,{name:wardrobe?from.Wardrobe.getItem(el).name:from.Inv.getItem(el).name});
+  }
+  listFrom = Array.from(allIds.keys());listFrom.sort();
+  function give(id,amount,charA,charB) {
+    let item,count = charA.Inv.countItem(id);
+    if(count===0) {
+      count=charA.Wardrobe.countItem(id);
+      item = charA.Wardrobe.getItem(id);
+    } else item = charA.Inv.getItem(id);
+    count=Math.min(count,amount);
+    charA.changeInventory(item,-1*count);
+    item = window.gm.ItemsLib[id]();
+    charB.changeInventory(item,count);
+    window.gm.refreshAllPanel();
+  }
+  for(let id of listFrom) {
+    let g,entry = document.createElement('p');
+    entry.textContent =allIds.get(id).name;
+    let count = wardrobe?from.Wardrobe.countItem(id):from.Inv.countItem(id);
+    g = document.createElement('a');
+    g.href='javascript:void(0)',g.textContent='store 1 of '+window.gm.util.formatNumber(count,0);
+    g.addEventListener("click",give.bind(null,id,1,from,to));
+    if(count>0) entry.appendChild(g)
+    g = document.createElement('a');
+    g.href='javascript:void(0)',g.textContent='store all';
+    g.addEventListener("click",give.bind(null,id,count,from,to));
+    if(count>0) entry.appendChild(g)
+    count = wardrobe?to.Wardrobe.countItem(id):to.Inv.countItem(id);
+    g = document.createElement('a');
+    g.href='javascript:void(0)',g.textContent='take 1 of '+window.gm.util.formatNumber(count,0);
+    g.addEventListener("click",give.bind(null,id,1,to,from));
+    if(count>0) entry.appendChild(g)
+    g = document.createElement('a');
+    g.href='javascript:void(0)',g.textContent='take all';
+    g.addEventListener("click",give.bind(null,id,count,to,from));
+    if(count>0) entry.appendChild(g)
+    $("div#choice")[0].appendChild(entry);      // <- requires this node in html
+  }
+}
 //prints an equipment with description; used in wardrobe
-window.gm.printEquipment= function( id,descr) {
+window.gm.printEquipment= function( whom,item) {
   var elmt='';
   var s= window.story.state;
-  elmt +=`<a0 id='${id}' onclick='(function($event){document.querySelector(\"div#${id}\").toggleAttribute(\"hidden\");})(this);'>${id}</a>`;
-  if(window.gm.player.Outfit.countItem(id)<=0) {
-      //elmt +=`<a0 id='${id}' onclick='(function($event){window.gm.player.Outfit.addItem(new window.storage.constructors[\"${id}\"]()); window.gm.refreshScreen();}(this))'>Equip</a>`;
-      elmt +=`<a0 id='${id}' onclick='(function($event){window.gm.player.Outfit.addItem(window.gm.player.Wardrobe.getItem(\"${id}\")); window.gm.refreshScreen();}(this))'>Equip</a>`;
+  var res,name,desc;
+  name=item.name, desc=item.desc;
+  if(item.hasTag('body')) return; //skip bodyparts; 
+  let noWear = item.hasTag(['piercing','tattoo']); 
+  let g,entry = document.createElement('p');
+  g = document.createElement('a'),g.href='javascript:void(0)';
+  g.textContent=item.name;g.id=item.id;
+  g.addEventListener("click",(function(evt){document.querySelector("div#"+evt.target.id).toggleAttribute("hidden");}));
+  entry.appendChild(g);
+  g = document.createElement('a'),g.href='javascript:void(0)';
+  if(noWear===true) {
+    g.textContent='';//cannot un-/equip tattoos & piercing 
+  } else if(whom.Outfit.countItem(item.id)<=0) {
+    g.textContent='Equip';
+    g.addEventListener("click",(function(whom,item){
+      return(function(){whom.Outfit.addItem(item);window.gm.refreshAllPanel();});})(whom,item));
   } else {
-      elmt +=`<a0 id='${id}' onclick='(function($event){window.gm.player.Outfit.removeItem(\"${id}\"); window.gm.refreshScreen();}(this))'>Unequip</a>`;
+    res = whom.Outfit.canUnequipItem(item.id,false);
+    if(res.OK) {
+      g.textContent='Unequip';
+      g.addEventListener("click",(function(whom,item){
+        return(function(){whom.Outfit.removeItem(item.id);window.gm.refreshAllPanel();});})(whom,item));
+    } else {
+      g.disabled =true; g.textContent=res.msg;
+    }
   }
-  elmt +=`</br><div hidden id='${id}'>${descr}</div>`;
-
-  if(window.story.passage(id))  elmt +=''.concat("    [[Info|"+id+"]]");  //Todo add comands: drink,eat, use
+  entry.appendChild(g)
+  g=document.createElement('div');
+  g.id=item.id; g.hidden=true;g.textContent=item.desc;
+  entry.appendChild(g)
+  $("div#choice")[0].appendChild(entry); 
+  /*if(window.story.passage(id))  elmt +=''.concat("[[Info|"+id+"]]");  //Todo passages for items?
       elmt +=''.concat("</br>");
-      return(elmt);
+      return(elmt);*/
 };
-
 //prints a string listing equipped items
 window.gm.printEquipmentSummary= function() {
-  var elmt='';
-  var s= window.story.state;
-  var result ='';
-  var ids = [];
-  for(var i=0;i<window.gm.player.Outfit.count();i++){
-      if(i>=window.gm.OutfitSlotpLib.bTorso) continue; //skip bodyparts
-      var id = window.gm.player.Outfit.getItemId(i);
-      if(id!='' && ids.indexOf(id)<0) {
-          ids.push(id);
-          result+=id+',';
-      }
+  var whom=window.gm.player;
+  var result ='', ids = [];
+  ids = whom.Outfit.getAllIds();
+  for(var i=0;i<ids.length;i++){
+    let item = whom.Outfit.getItem(ids[i]);
+    if(item.hasTag('body')) continue;
+    result+=item.name+',';
   }
   return(result);
 };
@@ -541,27 +694,39 @@ window.gm.printAchievements= function() {
   return(result);
 };
 //prints a string listing stats and effects
-window.gm.printEffectSummary= function(who='player') {
+window.gm.printEffectSummary= function(who='player',showstats=true,showfetish=false,showresistane=false) {
   var elmt='';
   var s= window.story.state;
   var result ='';
   var ids = [];
   result+='<table>';
-  var ids =window.gm[who].Stats.getAllIds();
+  var ids =window.story.state[who].Stats.getAllIds();
+  
   ids.sort(); //Todo better sort
   for(var k=0;k<ids.length;k++){
-      var data = window.gm[who].Stats.get(ids[k])
+      var data = window.story.state[who].Stats.get(ids[k])
+      let isFetish = (data.id.slice(0,2)==='ft'); //Fetish starts with ft
+      let isResistance = (data.id.slice(0,4)==='rst_')||(data.id.slice(0,4)==='arm_'); //
       if(data.hidden!==4) {
+        if(isFetish && showfetish && !(data.id.slice(-4,-2)==='_M') ) {
+          //expects names of fetish like ftXXX and limits ftXXX_Min ftXXX_Max
+          let min = window.story.state[who].Stats.get(ids[k]+"_Min");
+          let max = window.story.state[who].Stats.get(ids[k]+"_Max");
+          result+='<tr><td>'+((data.hidden & 0x1)?'???':data.id)+':</td><td>'+((data.hidden & 0x2)?'???':data.value)+'</td>';
+          result+='<td>'+((data.hidden & 0x2)?'???':'('+(min.value+' to '+max.value))+')</td></tr>';
+        }
+        if((!isFetish && !isResistance && showstats) || (!isFetish && isResistance && showresistane)) {
           result+='<tr><td>'+((data.hidden & 0x1)?'???':data.id)+':</td><td>'+((data.hidden & 0x2)?'???':data.value)+'</td></tr>';
+        }//todo show modifier list for each stat  agility: BracerLeather +2
       }
   }
   result+='</table>';
   result+='</br>Active Effects:<table>'
-  ids = window.gm[who].Effects.getAllIds();
+  ids = window.story.state[who].Effects.getAllIds();
   ids.sort(); //Todo better sort
   for(var i=0;i<ids.length;i++){
-      var data = window.gm[who].Effects.get(ids[i]);
-      result+='<tr><td>'+data.id+':</td><td>'+data.name+'</td></tr>';
+      var data = window.story.state[who].Effects.get(ids[i]);
+      result+='<tr><td>'+data.id+':</td><td>'+data.desc+'</td></tr>';
   }
   result+='</table>';
   return(result);

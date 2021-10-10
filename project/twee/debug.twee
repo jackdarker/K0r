@@ -1,13 +1,13 @@
-:: debug [_back] {"position":"400,0"}
+:: debug [_back_] {"position":"400,0"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Some things for debugging:</br>
 qHomeInspect=0x<%=s.vars.qHomeInspect.toString(16)%></br>
 [[Cheats|debug_cheat]]</br>
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 
-:: debug_cheat [_back] {"position":"500,0"}
+:: debug_cheat [_back_] {"position":"500,0"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Cheat buttons:</br>
@@ -29,7 +29,7 @@ Cheat buttons:</br>
 <a href="javascript:void(0)" onclick='window.gm.player.Stats.increment("arousal",-25);window.gm.refreshScreen();'>Arousal -25</a></br>
 
 </br>
-</br>[[Back|_back]]</br>
+</br>[[Back|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 <script>
 function unhideStats() {

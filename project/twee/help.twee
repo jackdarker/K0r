@@ -1,4 +1,4 @@
-:: Help_Index [_back] {"position":"600,100"}
+:: Help_Index [_back_] {"position":"600,100"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Here you can find some information about the gameplay.</br></br>
@@ -9,7 +9,7 @@ Here you can find some information about the gameplay.</br></br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Help_Background [_back] {"position":"900,100"}
+:: Help_Background [_back_] {"position":"900,100"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 "What kind of game is this?"</br>
 Mostly a walking simulator. For sure not an RPG with turnbased combat or a sophisticated simulation game. </br></br>
@@ -26,35 +26,35 @@ Sometimes it depends on the viewpoint. For some, free Pony-Boots are downgrades,
 "I want to send you some cash because I appreciate your work so much"</br>
 I dont have a patron-account since I cannot work regulary on things except my regulary work. Lets see if I can find another way that allows this kind of game to be supported.
 </br></br>
-[[Next|_back]]</br>
+[[Next|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Help_Basics [_back] {"position":"800,100"}
+:: Help_Basics [_back_] {"position":"800,100"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Use the sleep-option in your own room to rest.</br>
 </br>
-[[Next|_back]]</br>
+[[Next|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Help_Quest [_back] {"position":"500,100"}
+:: Help_Quest [_back_] {"position":"500,100"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 
-[[Next|_back]]</br>
+[[Next|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Help_Fixes [_back] {"position":"700,100"}
+:: Help_Fixes [_back_] {"position":"700,100"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 If you are stuck on a page and you cannot escape. Press this [[Button|Home]] to get back to your Home.</br></br>
 If you are even unable to get to this page because you see a weird plain textmessage in your browser:</br>
 Im sorry but no one can help you. I will try to add some debug-log that shows some more information that you can send me.</br>
 Then I might be abel to backtrack the error.</br>
-[[Next|_back]]</br>
+[[Next|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 
 

@@ -1,13 +1,13 @@
-:: Info_Kor [_back] {"position":"1400,600"}
+:: Info_Kor [_back_] {"position":"1400,600"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 You take a look at the bot.
 </br>
 
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Kor_Alcoven [_back] {"position":"700,1400"}
+:: Kor_Alcoven [_back_] {"position":"700,1400"}
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
 You step closer to the booth.</br>
@@ -33,7 +33,7 @@ Next time you face the bot you will look closer if that one also has those symbo
 You arent sure if is "awake". Its movements are somewhat indifferent like someone at sleep having a dream.</br>
 "shh" for some reason you try to calm its sleep just like that of a baby.</br>
 You touch its "belly". For some reason it feels warm and does it push against your hand?</br>
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 
 
@@ -62,14 +62,14 @@ Waiting and staring into the darkness makes you even more anxious.</br>
 <a0 onclick='window.gm.printTalkLink(this,"div#choice2")'>Next</a></div>
 
 <div id='choice2' hidden></br>
-As you stare into the darkness, a zone of light appears. Its some meters inside the room. The light dimmes up quickly. </br>
-After the light is dimed up,still only a small zone is illuminated.  Staring at the light you wait and listen carefully. Is there something moving around?</br>
+As you stare into the darkness, some meters inside the room a zone of light appears. The light get brighter quickly. </br>
+After the light is dimed up,still only a small zone is illuminated. Staring at the light you wait and listen carefully. Is there something moving around?</br>
 You can make out some sounds like footsteps closing in. </br>
 Out of the dark, something steps inside the zone of light making you jump back into an alert position.</br>
 Is that a costume? That something could be quite a human. If that human is wrapped into an odd kind of suite.</br>
 Its around the size of herself. Standing upright on 2 Legs and 2 arms at the side of a torso and a head on top.</br>
-But it doesnt look organic. And it seems to be made out of a similiar material like the walls of her room.</br>
-If a human in her size would have to wear a helmet like that, well then it would be first necessary to cut away parts of the skull.</br>
+But it doesnt look organic. And it seems to be made out of a similiar material like the walls of your room.</br>
+If a human of your size would have to wear a helmet like that, well then it would be first necessary to cut away parts of the skull.</br>
 The torso seems also a little bit off and the legs have some odd bend and an additional knee.</br>
 You try to take in as much detail as you can and your thoughts race.</br>
 <div id='select3' >
@@ -163,9 +163,9 @@ You move your neck in this and that direction. Thats still possible. Its pressin
 You can wiggle one finger in between neck and collar and pull. But its not giving.</br>
 Again you use your fingertips to slide above the material trying to find the hint of a locking mechansim. There are some bumps and crannys but no button, no keyhole nothing you could push or pull even with your fingernails.</br>
 Maybe this is some kind of monitoring device? Why didnt they install it before they put you in the cell. Why did they do it now, in this certain frightening way. Did you do something that made them decide you deserved to be collared?</br>
-She had to think back at her mom. When she and her mom bought Cherry, their house cat, they also bought a collar. </br>
-"This collar shows that this cat is not just a stray but belongs to us. And it helps against fleas."</br>
-Does the collar mean she belongs now to them, that they are going to keep her - like a pet?</br>
+A memory of the past comes up about when your mom got Cherry, your house cat. That cat had a collar too: </br>
+"This collar shows that this cat is not just a stray but belongs to us. And it also helps against fleas."</br>
+</br>Does the collar mean she belongs now to them, that they are going to keep her - like a pet?</br>
 [[Next|Home]]</br>
 </article><article id="LogPanel"></article></section>
 

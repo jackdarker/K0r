@@ -8,6 +8,7 @@ window.storage = {
   // A list of constructors the smart reviver should know about  
   // you need to register the class of each object that you want to serialize to this list
   // and each class also has to have a method toJSON and static method fromJSON (calling Generic_-versions, see below )
+  // the namme of ctor needs to be unique !
   constructors : {}, 
   registerConstructor: function(ctor) {
     window.storage.constructors[ctor.name] = ctor;
@@ -64,7 +65,7 @@ window.storage = {
     data = {};
     for (index = 0; index < keys.length; ++index) {
       key = keys[index];
-      data[key] = obj[key];                 //TODO causes infinite loop on circular ref   Character->Inventory->Character
+      data[key] = obj[key];                 //causes infinite loop on circular ref   Character->Inventory->Character
     }
     return {ctor: ctorName, data: data};
   },
@@ -88,10 +89,11 @@ window.storage = {
      // } else if(setter2 in obj){ // ..or...
      //   obj[setter2](data[name]); 
       } else { // if not, we set it directly
-        if(typeof obj[name] === "object") {
+        if(typeof obj[name] === "object" && data[name]!==null) {  //cannot assign(curse,null)
+          if(obj[name]===null) obj[name]=data[name];//obj[name]={};
           Object.assign(obj[name], data[name]);
         } else {
-          obj[name] = data[name];       //todo ??? obj[name] is constructed properly but will be overwritten with data[namme]; use assign ?!
+          obj[name] = data[name];       //todo ??? obj[name] is constructed properly but will be overwritten with data[name]; use assign ?!
         }
       }
     }
@@ -121,8 +123,8 @@ window.storage = {
       }
   },
   delete: function(slot) {
-    window.localStorage.removeItem(slot);
-    window.localStorage.removeItem(slot.concat('info'));
+    window.localStorage.removeItem(window.story.name +slot);
+    window.localStorage.removeItem(window.story.name +slot.concat('info'));
   },
     getSaveInfo: function(slot) {
         var info=null;
@@ -198,7 +200,7 @@ window.storage = {
       window.story.history = save.history;
       window.story.checkpointName = save.checkpointName;
       window.gm.rebuildObjects();  // this is for handling version-upgrades
-      window.story.show(window.story.history[window.story.history.length - 1], true);      
+      window.gm.postVictory();//teleport into dng or other location   
   },
   getAchievements: function() {
     var ahash = JSON.stringify({achievements : window.gm.achievements});
@@ -254,8 +256,8 @@ class Foo {
     this.a = a, this.b = b;
     this._bar = new Bar('fooboo'+this.a.toString());
     this._bar2 = new Bar('ba2'+this.b.toString());
-    this._bar._parent = (function(me){ return function(){return me;}}(this));
-    this._bar2._parent = (function(me){ return function(){return me;}}(this));
+    //this._bar._parent = (function(me){ return function(){return me;}}(this));
+    //this._bar2._parent = (function(me){ return function(){return me;}}(this));
   }
   toJSON() {return window.storage.Generic_toJSON("Foo", this); };
   static fromJSON(value) { return window.storage.Generic_fromJSON(Foo, value.data);};

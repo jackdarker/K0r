@@ -1,9 +1,9 @@
-:: Talk_Steve1 [_back] {"position":"2000,825"}
+:: Talk_Steve1 [_back_] {"position":"2000,825"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 You are surprised as you find yourself into the face of another human.</br>
 Is this Steve? So they captured them too and it wasnt he that got you in this situation?</br>
-<talkSteve>"Hey...hey can you hear me" you pound against the glas with both hands.</br></talkSteve>
+<p class='tNPC1'>"Hey...hey can you hear me" you pound against the glas with both hands.</br></p>
 For sure he can hear you, his staggered reaction cleary shows that. </br>
 With an somewhat reliefed but also worried expression he walks toward the glass pane.</br>
 He wears the same outfit like you, a snuggly fitting jumpsuite. You give him a once over. 
@@ -11,26 +11,26 @@ He wears the same outfit like you, a snuggly fitting jumpsuite. You give him a o
 At least he doesnt seem to be harmed.</br>
 "Lisa? is that you ? yes .. yes I can hear you."</br>
 He really seems to be tensed up. </br>
-<talkSteve>"Do you know where we are?  What do they want?  Did they speak to you? "</br></talkSteve>
-<talkLisa> "I have no clue where we are and why? And, no they didnt talk to me yet. Are you ok?" you ask.</talkLisa>
-<talkSteve>"Oh.. yes I'm fine.. and you are ok too..they didnt do .. anything to you?"</talkSteve>
-<talkLisa>"No problems so far. And you have now idea what brought us in this situation?"</talkLisa>
-<talkSteve>"I cannot think of anything that I would have done recently to get jailed. To tell the truth I first assumed that you would have to do something with it." As he states that, he seems to observe your reaction closely. </talkSteve>
-<talkLisa>"Funny, I had the same thought." You still are not convinced that he is unblamable about all this. "What is the last thing you remember?"</talkLisa>
-<talkSteve>"Damn,I cant even remember how they dragged us here in those cells and put us into those jumpers. We were just leaving the pitstop talking about this and that. And then nothing."</talkSteve> You give him some time, maybe he remembers another detail.
-<talkSteve>"At first I thought you drugged me .."</talkSteve><talkLisa>"I ? why should I drug you?"</talkLisa> you bark a little bit to annoyed.
-<talkSteve>"I dunno..I heard some storys about getting people drunk or knocked out to hi-jack or rape them .."</talkSteve>
-<talkLisa>"Yeah, thats probably a first class idea to knock out the guy who is driving the car, very logic."</talkLisa>
-<talkSteve>"Oh come on. I said that was my first guess."</talkSteve><!--todo-->
+<p class='tNPC1'>"Do you know where we are?  What do they want?  Did they speak to you? "</br></p>
+<p class='tPC'> "I have no clue where we are and why? And, no they didnt talk to me yet. Are you ok?" you ask.</p>
+<p class='tNPC1'>"Oh.. yes I'm fine.. and you are ok too..they didnt do .. anything to you?"</p>
+<p class='tPC'>"No problems so far. And you have now idea what brought us in this situation?"</p>
+<p class='tNPC1'>"I cannot think of anything that I would have done recently to get jailed. To tell the truth I first assumed that you would have to do something with it." As he states that, he seems to observe your reaction closely. </p>
+<p class='tPC'>"Funny, I had the same thought." You still are not convinced that he is unblamable about all this. "What is the last thing you remember?"</p>
+<p class='tNPC1'>"Damn,I cant even remember how they dragged us here in those cells and put us into those jumpers. We were just leaving the pitstop talking about this and that. And then nothing."</p> You give him some time, maybe he remembers another detail.
+<p class='tNPC1'>"At first I thought you drugged me .."</p><p class='tPC'>"I ? why should I drug you?"</p> you bark a little bit to annoyed.
+<p class='tNPC1'>"I dunno..I heard some storys about getting people drunk or knocked out to hi-jack or rape them .."</p>
+<p class='tPC'>"Yeah, thats probably a first class idea to knock out the guy who is driving the car, very logic."</p>
+<p class='tNPC1'>"Oh come on. I said that was my first guess."</p><!--todo-->
 
 So, to sum up: you still know not much more but at least you are not alone in this situation. Of course it might be more benefical if Steve had somehow managed to not get trapped here too and informed the police about your abduction.
 
 <div></br>
-[[Next|_back]]</br>
+[[Next|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Talk_Steve2 [_back] {"position":"2000,825"}
+:: Talk_Steve2 [_back_] {"position":"2000,825"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 "You said you are an hacker. So cant you just hack into those bots and take control or shut them down?"</br>
@@ -56,8 +56,7 @@ He is still gawking in all the corners at the roof.</br>
 "I dont see any cameras, maybe you are wrong."</br>
 "Todays cameras dont have to be large boxes with red lights on them, you know?" you answer smart-alec.</br>
 "OK, so better not speak right now." with that he walks away and sits on his matress. Seems that kinda spooked him for sure.   </br>
-
 <div></br>
-[[Next|_back]]</br>
+[[Next|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>

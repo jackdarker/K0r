@@ -36,7 +36,7 @@
         // .... re-stylized the plug-in and default toast styles, including CSS3 transitions are lost.
         classname: "toast",
         // STRING: name of the CSS transition that will be used to show and hide all toast by default:
-        transition: "fade",
+        transition: "slideLeftRightFade",
         // BOOLEAN: specifies the way in which the toasts will be inserted in the HTML code:
         // .... Set to BOOLEAN TRUE and the toast messages will be inserted before those already generated toasts.
         // .... Set to BOOLEAN FALSE otherwise.

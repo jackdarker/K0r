@@ -21,3 +21,13 @@ Select a Link:
 <ul>
     <li>[[StartPage]]</li>
 </ul>
+
+
+:: GenericPassage [_nosave_]
+<!--call this passage after setting tmp.args !-->
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<div id='panel'></div><!--description is rendered here-->
+<div id='choice'></div> <!--choice is rendered here-->
+</article><article id="LogPanel"></article></section>
+<script>window.story.state.tmp.args[0]();
+</script>

@@ -1,19 +1,19 @@
-:: Info_Steve [_back] {"position":"1500,600"}
+:: Info_Steve [_back_] {"position":"1500,600"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Steve is here.</br>
 You barely know anything about him.</br>
-[[Back|_back]]</br></br>
+[[Back|_back_]]</br></br>
 </article></section>
 
 
 
 
-:: History_Lisa [_back] {"position":"250,1175"}
+:: History_Lisa [_back_] {"position":"250,1175"}
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 You never were a very outgoing person. Mom always tried to catch some more friends to have fun with. But you found it always difficult to just approach someone and melt the ice with some idle chatter. 
 </br>
 
-[[Back|_back]]</br></br>
+[[Back|_back_]]</br></br>
 </article></section>

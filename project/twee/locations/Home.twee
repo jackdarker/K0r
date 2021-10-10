@@ -6,12 +6,12 @@ Some kind of futon-bed is lined up along the wall. You might [[Rest|Home_Sleep]]
 There is a desk and a stool over there where you can [[sit|Home_UseDesk]] at. </br>
 At the wall opposed to your bed is a black panel showing some symbols, some of them seem to be numbers. </br>
 As you already learned, if you [[push the panel|Home_Corridor]], a doorway may open that let you go to other areas. </br>
-<% if(window.gm.player.energy===0) {%>
+<% if(window.gm.player.energy().value===0) {%>
 You feel tired. Time for some rest.</br>
-<% } if(window.gm.player.energy>=2) {%>
+<% } if(window.gm.player.energy().value>=50) {%>
 You feel energetic. Lets do something.</br>
 [[Exercise|Home_Sports]]
-<% } else if(window.gm.player.energy>=1) {%>
+<% } else if(window.gm.player.energy().value>=20) {%>
 Keep yourself otherwise busy. [[Look|Home_Inspect]] more closely at the room.
 <%}%>
 <div></br>[[Take a look at yourself|Home_checkself]]  </br>
@@ -22,7 +22,7 @@ Keep yourself otherwise busy. [[Look|Home_Inspect]] more closely at the room.
 :: Home_Corridor {"position":"1500,1500"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
-The corridor leads further down into a [[hall]]. </br>
+The corridor leads further down into a [[Home_Crossroad]]. </br>
 The door to your [[own room|Home]] is open.</br>
 <div></br>
 </div>
@@ -33,7 +33,7 @@ The door to your [[own room|Home]] is open.</br>
 <%window.gm.player.location=window.passage.name;%>
 This hall seems to be a small center-point with several passages leading in different directions. But every one lead into a dead end or a locked door. </br>
 But some doors are accessible: </br>
-[[Fitness Training]]
+[[Fitness Training|Home_Sports]]
 [[Parcour]]
 [[Holodeck]]
 [[Med-center]]
@@ -67,7 +67,7 @@ You could also return to your [[own room|Home]].</br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_checkself [_back] {"position":"1100,1700"}
+:: Home_checkself [_back_] {"position":"1100,1700"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 Looking down at yourself, you find beeing clad in a jumpsuite of light gray color.</br> 
 The material is smooth to the touch and thin. Its not just simple cotton, maybe some kind of silk or, much more likely, synthetic fiber.</br>
@@ -77,12 +77,12 @@ There is a line running from the front of the neck down to your crotch but it do
 No pockets and as it seems no label or sign, at least at the front.</br>
 Do you wear pantys below the jumpsuite? For sure the bra is missing.</br>
 <div></br>
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_Inspect [_back] {"position":"450,1100"}
+:: Home_Inspect [_back_] {"position":"450,1100"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <% if(s.vars.qHomeInspect<=0){ s.vars.qHomeInspect+=1;%>
 You stand up and walk through the room. Its much bigger then you would expect from a prison cell. You guess its around the size 4 by 4 meters and you cant reach the ceiling when standing tip-toed, so its at least 2.5 or even 3m. </br>
@@ -97,17 +97,17 @@ As you touch the top of the bend, clear liquid is flowing out of the pipe, right
 'Could be water..' you dip a finger into the trickling stream and lick a drop from it. Yes, most likely water.
 
 <div></br>
-[[Next|_back]]</br>
+[[Next|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_callout [_back] {"position":"1025,1300"}
+:: Home_callout [_back_] {"position":"1025,1300"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 "Hello? ....Hello?....Anyone here" you listen for a response of your call out.</br>
 But there is none.</br>
 <div></br>
-[[Next|_back]]</br>
+[[Next|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
@@ -128,31 +128,31 @@ The voice you heard sounded like a female too but it had a very robotic feel to 
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_UseDesk [_back] {"position":"450,975"}
+:: Home_UseDesk [_back_] {"position":"450,975"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 There isn't much you can do at the desk. You dont have pen and paper to write down your memoirs.</br>
 <div></br>
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_Sleep [_back] {"position":"1100,1500"}
+:: Home_Sleep [_back_] {"position":"1100,1500"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 A <a0 onclick='sleep(this)'>nap</a> sounds like an good idea right now. </br>
 <div id='choice' hidden>You lay down and close your eyes. </br></div>
 <div></br>
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 <script>
 function sleep(elmt){
 	window.gm.printTalkLink(elmt,"div#choice");
-	$("tw-passage").fadeOut(1500, function() {window.gm.sleep(700);window.story.show("Home_Wake");})
+	$("tw-passage").fadeOut(1500, function() {window.gm.player.sleep(700);window.story.show("Home_Wake");})
 	}
 </script>
 
-:: Home_Wake [_back] {"position":"1300,1700"}
+:: Home_Wake [_back_] {"position":"1300,1700"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 After a indefinite amount of time you awake.</br>
 You didnt sleep very well. 'Can't they switch of that damned light for some time?'</br>
@@ -183,7 +183,7 @@ But you were always to busy, to tired or to discouraged by something to start do
 </article><article id="LogPanel"></article></section>
 <script>
 function startSport(elmt){
-	if(elmt.id!=='Squats' && window.story.state.Lisa.strength<4) {
+	if(elmt.id!=='Squats' && window.gm.player.Stats.get("strength")<4) {
 		elmt.replaceWith("You dont feel strong enough to do "+elmt.id+".");
 	} else {
 		window.story.state.tmp.args[0]=elmt.id;
@@ -204,7 +204,7 @@ At least in your impression its easier to do those exercises than the last time.
 Going another round would for sure help you improve your fitness, at least to some point.</br>
 Maybe you overdid it. Your muscles strain and you feel quite exhausted, catching your breath. Lets just hope they arent picking you up now for some interogation.</br></br>
 
-<% if(window.story.state.tmp.args[1]>=5){ window.gm.player.energy-=2; %>
+<% if(window.story.state.tmp.args[1]>=5){ window.gm.player.Stats.increment("energy",-20); %>
 'Puh...That nearly killed me. I think thats enough for today.' </br>
 <!--todo--> Those exercises where actually quite a strain and you are still building up sweat all over you. That jumpsuite you wear seems to be quite breathy, letting the sweat steam easily from your body. 
 Still you would prefer to get some fresh clothes soon and also a shower.
@@ -216,16 +216,16 @@ Still you would prefer to get some fresh clothes soon and also a shower.
 </article><article id="LogPanel"></article></section>
 
 
-:: Home_Desk [_back] {"position":"1425,1700"}
+:: Home_Desk [_back_] {"position":"1425,1700"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 You sit down on the desk. 
 A panel can be pulled out from its surface. Its some kind of touch-screen that can be used to access [[Home_Mediathek]].</br>
 <div></br>
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 
-:: Home_Mediathek [_back] {"position":"1425,1825"}
+:: Home_Mediathek [_back_] {"position":"1425,1825"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 It takes you a while until you grasp how to navigate the catalog. However designed that user interface was an idiot or he has never seen a good shop-system.
 There are several books. Some of the titles you know, not due the fact that you have read them, but because they are kind of all time sellers.
@@ -250,7 +250,7 @@ Maybe you ca divert yourself and read a little bit. </br>
 <p id="BertVisitsGranny2" hidden>Didn't you see the same book before? But this one has those odd symbols too in place of familiar characters. </br><a0 onclick='window.story.show("")'>Read</a></br></p>
 <p id="unreadableBook" hidden>The writing of this book consists of lines of indecipherable symbols. </br><a0 onclick='window.story.show("")'>Read</a></br></p>
 </div><div></br>
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
 <script>
@@ -261,7 +261,7 @@ function read_option(elmnt) {
 
 
 
-:: Lisa_Tease [_back] {"position":"25,500"}
+:: Lisa_Tease [_back_] {"position":"25,500"}
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 Thinking back to your recent meet up with Steve and how his jumpsuite hugged his curves, you feel a tiny spark of arousal within you.
 Maybe that well-exercised rump and muscled legs where just accented nicely by that skintight fabric, as was his bulge.
@@ -269,6 +269,6 @@ Or just the impression that his cocksure confidence got severly damaged gives yo
 Maybe you could spent some private time.
 [[For sure not when they probably spy on me]][[just a little]][[show them a show]] 
 <div></br>
-[[Back|_back]]</br>
+[[Back|_back_]]</br>
 </div>
 </article><article id="LogPanel"></article></section>
