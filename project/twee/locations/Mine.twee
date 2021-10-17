@@ -1,47 +1,40 @@
 
 
-:: Mine_MAP [_back_]
-<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<pre>
-[E]-[A1]-[B1]-[C1]      [E1]
-          |             |
-         [B2]-[C2]-[D2]-[E2]
+:: AM_Lv2_MAP [_back_]
+<hr><p>Map:</p><div id='canvas'></div></br>
+<script> window.gm.printMap("VRMap2",window.gm.player.location,window.story.state.vars.mine.mapReveal);
+</script>
 
-         [B3]-[C3]-[D3]-[E3]
-
-         [B4]------[D4] 
-
-         [B5]
-
-    [A6]-[B6] 
-</pre>
-[[Back|_back_]]
-</article><article id="LogPanel"></article></section>
-
-:: Mine_INFO
+:: Inv_Hud
 <hr><%if(window.story.state.vars.mine){%>
 <p>Inventory:</p>
 <span <%=(window.story.state.vars.mine.qCoverallHP>0)?'':'hidden=""'%>>Coverall:<%=window.story.state.vars.mine.qCoverallHP%>%</span>
 <span <%=window.story.state.vars.mine.qHasSprayer?'':'hidden=""'%>>Sprayer:<%=window.story.state.vars.mine.qSprayerCharge%> dose</span>
+<span <%=window.story.state.vars.mine.qHasPatchkit<=0?'':'hidden=""'%>>Patchkit:<%=window.story.state.vars.mine.qHasPatchkit%></span>
 <span <%=window.story.state.vars.mine.qHasLighter?'':'hidden=""'%>>Lighter</span>
 <span <%=window.story.state.vars.mine.qHasCrowbar?'':'hidden=""'%>>Crowbar</span>
 <span <%=window.story.state.vars.mine.qHasCrank?'':'hidden=""'%>>Crank</span>
-<%}%><hr>
+<%}%>
 <script>
 var _init;
 if(_init!==1) {//run only once,update save to new version
     window.story.state.vars.mine = window.story.state.vars.mine || {};
     var _data = {
+    mapReveal:0,
     qFoundPlantPod:0,
     qHasSprayer:0,
     qSprayerCharge:0,
     qHasCrowbar:0,
     qHasCrank:0,
+    qHasExtinguisher:0,
     qHasLighter:0,
+    qHasPatchkit:0,
     qCoverallHP:100,
     qLingeryHP:100,
-    qC3Foe:100 ,
-    qE3Foe:100 
+    qDoorH2:0,
+    qFoeG2:100,
+    qFoeH3:100,
+    qFoeI2:100 
     };
     Object.assign(_data,window.story.state.vars.mine ); window.story.state.vars.mine=_data;  
     _init=1;
@@ -51,33 +44,33 @@ function damageTerm(HP) {
     return(terms[(Math.floor(terms.length*HP/105))])};
 </script>
 
-:: Mine_Entry
+:: AM_Lv2_Entry
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
-<div> <a0 onclick='window.story.show("Mine_A1");'>Go into mine</a></br></div>
-<%=window.story.render("Mine_INFO")%>
+<div> <a0 onclick='window.story.show("AM_Lv2_E1");'>Go into mine</a></br></div>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_A1
+:: AM_Lv2_E1
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
-<div> <a0 onclick='window.story.show("Mine_Entry");'>Go West</a>
-<a0 onclick='window.story.show("Mine_B1");'>Go East</a></br></div>
-<%=window.story.render("Mine_INFO")%>
+<div> <a0 onclick='window.story.show("AM_Lv2_Entry");'>Go West</a>
+<a0 onclick='window.story.show("AM_Lv2_F1");'>Go East</a></br></div>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
 </article><article id="LogPanel"></article></section>
 
-:: Mine_B1
+:: AM_Lv2_F1
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
-<div> <a0 onclick='window.story.show("Mine_Entry");'>Go West</a>
-<a0 onclick='window.story.show("Mine_C1");'>Go East</a></br>
-<a0 onclick='window.story.show("Mine_E3");'>Go Down</a>
+<div> <a0 onclick='window.story.show("AM_Lv2_Entry");'>Go West</a>
+<a0 onclick='window.story.show("AM_Lv2_G1");'>Go East</a></br>
+<a0 onclick='window.story.show("AM_Lv2_F2");'>Go Down</a>
 </div>
-<%=window.story.render("Mine_INFO")%>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
 </article><article id="LogPanel"></article></section>
 
-:: Mine_C1
+:: AM_Lv2_G1
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 <%if(window.story.state.vars.mine.qHasSprayer===0){%>
@@ -86,108 +79,194 @@ Its of the size of a spray bottle and not one of the bigger version that you hav
 But against what pest would some one use such a tool here?  
 <a0 onclick='window.story.state.vars.mine.qHasSprayer=1,window.story.state.vars.mine.qSprayerCharge=5,window.story.show(window.passage.name);'>Grab it</a>
 <%}%>
-<a0 onclick='window.story.show("Mine_B1");'>Go West</a>
-<%=window.story.render("Mine_INFO")%>
+<a0 onclick='window.story.show("AM_Lv2_F1");'>Go West</a>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_B2
+:: AM_Lv2_F2
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
-<div> <a0 onclick='window.story.show("Mine_C2");'>Go East</a>
-<a0 onclick='window.story.show("Mine_B1");'>Go Up</a></br>
-<a0 onclick='window.story.show("Mine_B3");'>Go Down</a>
-</div>
-<%=window.story.render("Mine_INFO")%>
-</article><article id="LogPanel"></article></section>
-
-:: Mine_B3
-<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<%window.gm.player.location=window.passage.name;%>
-
-<p> 
-<a0 onclick='window.story.show("Mine_B2");'>Go Up</a>
-<a0 onclick='window.story.show("Mine_C3");'>Go East</a>
-<a0 onclick='window.story.show("Mine_B4");'>Go Down</a>
+<p>
+<a0 onclick='window.story.show("AM_Lv2_F1");'>Go Up</a></br>
+<a0 onclick='window.story.show("AM_Lv2_G2");'>Go East</a>
+<a0 onclick='window.story.show("AM_Lv2_F3");'>Go Down</a>
 </p>
-<%=window.story.render("Mine_INFO")%>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_C3
+:: AM_Lv2_G2
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
-<%if(window.story.state.vars.mine.qC3Foe>0){%>
+<%if(window.story.state.vars.mine.qFoeG2>0){%>
 As you walk deeper into the tunnel, you spot some large worms on its walls.
-<a0 onclick='window.story.show("Mine_C3_Sneak");'>Continue and try to avoid them</a>
-<a0 onclick='window.story.show("Mine_C3_Attack");'>Get rid of them</a>
+<a0 onclick='window.story.show("AM_Lv2_G2_Sneak");'>Continue and try to avoid them</a>
+<a0 onclick='window.story.show("AM_Lv2_G2_Attack");'>Get rid of them</a>
+<a0 onclick='window.story.show("AM_Lv2_F2");'>Go West</a>
 <%}else{%>
-<a0 onclick='window.story.show("Mine_C3");'>Go East</a>
+<a0 onclick='window.story.show("AM_Lv2_F2");'>Go West</a>
+<a0 onclick='window.story.show("AM_Lv2_H2");'>Go East</a>
 <%}%>
-<div> 
-<a0 onclick='window.story.show("Mine_B3");'>Go West</a>
-</div>
-<%=window.story.render("Mine_INFO")%>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_D3
+:: AM_Lv2_H2
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+<%if(window.story.state.vars.mine.qDoorH2>0){%>
+<p>The door is open.</p>
+[[Go West|AM_Lv2_G2]][[Go East|AM_Lv2_I2]]
+<%}else{%>
+<p>A heavy door blocks your way further down the tunnel. Du versuchst es mit den Händen anzuheben oder seitlich zu verschieben aber es rührt sich kein Stück. Seitlich befindet sich ein Flansch, möglicherweise ein Mechansimus mit de man die Tür manuell öffnen kann.</p>
+    <%if(window.story.state.vars.mine.qHasCrank>0){%>
+    <p>The crank you carry with you might fit to the coupling.</p>
+    <div id='select1' >
+    <a0 onclick='window.story.state.vars.mine.qDoorH2=1;window.gm.printTalkLink($("div#select1")[0],"div#choice1a")'>use the crank</a>
+    [[Go West|AM_Lv2_G2]]
+    </div><div id='choice1a' hidden>
+    You place the crank in the coupling and start moving it around. It takes a lot of cranks to move the door slowly to the side.  
+    [[Next|AM_Lv2_H2]]
+    </div>
+    <%}else{%>
+    <%}%>
+<%}%>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
+</article><article id="LogPanel"></article></section>
+
+
+:: AM_Lv2_I2
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+<p>You are now in a large room or hall filled with round tanks in different sizes, electric machinery and pipes. The larger tanks have glass windows but when you peek inside you dont see much due the bad lighting and the cloudy fluid inside. The windows on some tanks are broken. </p>
+<%if(window.story.state.vars.mine.qFoeI2>0){%>
+    <div id='select1'>
+    [[Go West|AM_Lv2_H2]]
+    <a0 onclick='window.gm.printTalkLink($("div#select1")[0],"div#choice1a")'>Peek in one of the tanks with the broken window.</a>
+    </div><div id='choice1a' hidden>
+    </br>Checking on one of the steel tanks you peek inside, beeing careful to not touch anything of the sticky fluid beeing smeared about its surface.</br>
+    A wild jumble of thick, rubbery tubes is inside it and you wonder if this was some kind of chemical reactor. </br>
+    You move around the tank to check if there is some label or plate with more information about its content. </br></br>
+    Just as you pass by another damaged window, the rubbery hoses suddenly comes to life. Those are tentacles trying to grab you !
+    <div id='select2' >
+        <a0 onclick='window.gm.printTalkLink($("div#select2")[0],"div#choice2a")'>Jump backward to get out of reach</a>
+        <a0 onclick='window.gm.printTalkLink($("div#select2")[0],"div#choice2b")'>Stop your movement immediatly</a>
+        </div><div id='choice2a' hidden>
+            You want to do a backward leap, but get caught on a hose lying around and fall on your butt. The slimy appendages shoot outward and you quickly crawl backward out of reach.</br>
+            But one of the tentacles grabs you around your ankle and starts pulling you closer to the encasement. 
+            <a0 onclick='window.story.state.tmp.args[1]=null,window.story.state.tmp.args[3]="qFoeI2",window.story.show("AM_Attack");'>Thrash around</a>
+        </div>
+        <div id='choice2b' hidden>
+            TODO
+        </div>
+    </div>
+<%}else{%>
+<p> TODO
+</p>
+[[Go West|AM_Lv2_H2]]
+<%}%>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
+</article><article id="LogPanel"></article></section>
+
+:: AM_Lv2_E3
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+<%if(window.story.state.vars.mine.qHasCrowbar===0){%>
+There is a crowbar other there on a tool panel. That might be useful as a meele weapon or to break open things.</br>
+<a0 onclick='window.story.state.vars.mine.qHasCrowbar=1,window.story.show(window.passage.name);'>Grab it</a>
+<%}%>
+<p> 
+<a0 onclick='window.story.show("AM_Lv2_G3");'>Go East</a>
+</p>
+<%=window.story.render("Inv_Hud")%>
+</article><article id="LogPanel"></article></section>
+
+
+:: AM_Lv2_F3
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+<p> 
+<a0 onclick='window.story.show("AM_Lv2_F2");'>Go Up</a>
+<a0 onclick='window.story.show("AM_Lv2_E3");'>Go West</a>
+<a0 onclick='window.story.show("AM_Lv2_G3");'>Go East</a>
+<a0 onclick='window.story.show("AM_Lv2_F4");'>Go Down</a>
+</p>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
+</article><article id="LogPanel"></article></section>
+
+
+:: AM_Lv2_G3
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 ...</br>
 <p>
-<a0 onclick='window.story.show("Mine_E3");'>Go East</a>
-<a0 onclick='window.story.show("Mine_C3");'>Go West</a></p>
-<%=window.story.render("Mine_INFO")%>
+<a0 onclick='window.story.show("AM_Lv2_F3");'>Go West</a>
+<a0 onclick='window.story.show("AM_Lv2_H3");'>Go East</a>
+</p>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_E3
+:: AM_Lv2_H3_GrabCrank [_nosave_ _back_]
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%if(window.story.state.vars.mine.qFoeH3>0){%>
+    You sneak to the desk to grab the crank. Just as you are passing below the pod, it starts gurgling and twitching slightly.</br> 
+    </br>'Does it react to my movement or is this just a coincidence' you think. A moment later it releases a spray of some fluid through pores scattered around it bulbous stalk.
+    <%=window.gm.printMinePodDamage()%></br>
+    <a0 onclick='window.story.state.tmp.args[1]=null,window.story.state.tmp.args[3]="qFoeH3",window.story.show("AM_Attack");'>Attack</a>
+<%} else if(window.story.state.vars.mine.qHasCrank===0){ window.story.state.vars.mine.qHasCrank=1;%>
+    You grab the crank. 
+    <p>[[Next|_back_]]</p>
+<%}%>
+<%=window.story.render("Inv_Hud")%>
+</article><article id="LogPanel"></article></section>
+
+
+:: AM_Lv2_H3
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
 ...</br>
-<%if(window.story.state.vars.mine.qE3Foe>0){ window.story.state.tmp.args[1]=null; %>
+<%if(window.story.state.vars.mine.qFoeH3>0){ window.story.state.tmp.args[1]=null;window.story.state.tmp.args[2]=window.passage.name %>
     Some kind of <b>graygreen pod</b> is growing in a corner of the ceiling. Could be some kind of plant or fungus.
-    <%if(window.story.state.vars.mine.qSprayerCharge>0){%>
-        <a0 onclick='window.story.show("Mine_E3_Attack");'>Use sprayer</a>
-    <%}else{%>
-        Maybe this thing could be destroyed with some toxic spray.
-    <%}%>
+    Maybe this thing could be destroyed with some toxic spray.
+    <a0 onclick='window.story.state.tmp.args[1]=null,window.story.state.tmp.args[3]="qFoeH3",window.story.show("AM_Attack");'>Damage pod</a>
 <%}%>
 <%if(window.story.state.vars.mine.qHasCrank===0){%>
     A crank handle lies on a workbench. Maybe that could be used to operate a mechanism. 
-    <a0 onclick='window.story.show("Mine_E3_GrabCrank");'>Grab it</a>
+    <a0 onclick='window.story.show("AM_Lv2_H3_GrabCrank");'>Grab it</a>
 <%}%>
-<p>[[Go East|Mine_D3]]</p>
-<%=window.story.render("Mine_INFO")%>
+<p>[[Go West|AM_Lv2_G3]]</p>
+<%=window.story.render("Inv_Hud")%><%=window.story.render("AM_Lv2_MAP")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_C3_Attack [_back_]
+
+:: AM_Lv2_G2_Attack [_back_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%if(window.story.state.vars.mine.qHasSprayer===0){%>
 You dont posses anything useful to use as weapon. And for sure you dont touch those slimy things!  
 <%}else{%>
 You could give a try with the Sprayer. Maybe its content is useful against this kind of vermin. What could go wrong?  
-<a0 onclick='window.story.state.vars.mine.qC3Foe=0,window.story.show("Mine_C3_Kill");'>Use the sprayer</a>
+<a0 onclick='window.story.state.vars.mine.qFoeG2=0,window.story.show("AM_Lv2_G2_Kill");'>Use the sprayer</a>
 <%}%>
 <div> [[Back|_back_]]
 </div>
-<%=window.story.render("Mine_INFO")%>
+<%=window.story.render("Inv_Hud")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_C3_Kill
+:: AM_Lv2_G2_Kill
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 You give those wriggling worms a good shower from the sprayer. Their color changes quickly from dirty black to dark red and they are swelling too.  
 <p class="tPC">'Is this more useful to grow those worms instead of killing them ?'</p>
 Just as you begin to worry that this was a mistake, the swelling worms just pop one after another until only a few of them are left.  
-<a0 onclick='window.story.show("Mine_D3");'>Walk on</a>
-<%=window.story.render("Mine_INFO")%>
+<a0 onclick='window.story.show("AM_Lv2_H2");'>Walk on</a>
+<%=window.story.render("Inv_Hud")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_C3_Sneak
+:: AM_Lv2_G2_Sneak
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <p class="tPC">'I will just walk in the middle of the tunnel'</p>
 Reassuring yourself you carefully stride forward, being careful to stay away from the eels squirming at the walls.</br>
@@ -201,16 +280,15 @@ The tunnel is broad enough, you just hope that there are not more of them furthe
     Opening up the front zipper of your coverall, you hunt them down with your hand, picking them with your bare fingers and disgustedly throw them away from you.  
     You just hope that you got them all removed all.</br>
     <statdown>sanity-2</statdown>
-    <a0 onclick='window.story.show("Mine_D3");'>Walk on</a>
+    <a0 onclick='window.story.show("AM_Lv2_H2");'>Walk on</a>
 </div>
-<%=window.story.render("Mine_INFO")%>
+<%=window.story.render("Inv_Hud")%>
 </article><article id="LogPanel"></article></section>
 
 
-:: Mine_E3_Attack [_nosave_]
+:: AM_Attack [_nosave_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>
-<%=window.gm.printMinePodCombatMenu("qE3Foe")%>
-<%=window.story.render("Mine_INFO")%>
+<%=window.gm.printMineTentacleCombatMenu(window.story.state.tmp.args[3])%>
+<%=window.story.render("Inv_Hud")%>
 </article><article id="LogPanel"></article></section>
-

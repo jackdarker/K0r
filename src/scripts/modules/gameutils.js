@@ -295,7 +295,7 @@ window.gm.printMap=function(MapName,playerTile,reveal) {
   else draw = SVG(draw);//recover svg document instead appending new one
   draw.rect(width, height).attr({ fill: '#303030'});
   var node = SVG(window.gm.images[MapName]());
-  //node.find("#AM_Lv2_A1")[0].addClass('roomNotFound');
+  //node.find("#AM_Lv2_E1")[0].addClass('roomNotFound');
   var el,list= node.find('[data-reveal]');
   for(el of list) {
     var x= parseInt(el.attr('data-reveal'),16);
