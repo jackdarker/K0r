@@ -9,6 +9,7 @@ class Mob extends Character {
         this.levelUp(1);
         this.autoLeveling();
         this.despawn=false;
+        this.unique=false; //true if this is a persistent character
         this.baseName=""; //name might be Slime#1 but baseName is Slime
         this.fconv = null; //lazy init because descfixer depends on gm.player
     }

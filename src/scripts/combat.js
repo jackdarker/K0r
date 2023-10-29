@@ -59,6 +59,7 @@ initCombat(){
   s.combat.actor = s.combat.target = s.combat.action = null;
   s.combat.location = this.location;
   s.combat.scenePic = this.scenePic;
+  s.combat.sceneDecoy = (this.sceneDecoy)?this.sceneDecoy:{fg:[],bg:[]};//{fg:['fg_fog'],bg:[]}  
   s.combat.playerFleeing = false;
   s.combat.playerSubmitting = false;
   s.combat.inCombat=true;
@@ -125,12 +126,12 @@ hideCombatOption(){
 }
 //renders background & combatants to #canvas
 renderCombatScene(){
-  let width=600,height=300;
+  let width=600,height=300,pos,_pic,node,s=window.story.state;
   let holder,draw = document.querySelector("#canvas svg");
   if(!draw){
     draw = SVG().addTo('#canvas').size(width, height);
     draw.rect(width, height).attr({ fill: '#303030'});
-    draw.image(window.story.state.combat.scenePic);
+    draw.image(s.combat.scenePic);
   }
   else {
     draw = SVG(draw);//recover svg document instead appending new one
@@ -145,15 +146,21 @@ renderCombatScene(){
       list.push(list2[i]);
     }
   }
+  if(s.combat.sceneDecoy.bg) {
+    for(i=s.combat.sceneDecoy.bg.length-1;i>=0;i--){ //add background
+      _pic = window.gm.images[s.combat.sceneDecoy.bg[i]]();
+      node = SVG(_pic);node.addTo(holder);
+    }
+  }
   let _pos =[[0.25,0.60,1],[0.75,0.50,1],[0.50,0.40,1]];//sprite position & scale in % x,y,z
   if(list.length<=1){ //1 large centered sprite
     _pos =[[0.50,0.50,1]];
   } 
-  for(i=list.length-1;i>=0;i--){
+  for(i=list.length-1;i>=0;i--){ //add sprites
     if(!list[i].isKnockedOut()){ //todo show deathsprite
-      var pos = _pos.pop();
-      var _pic = window.gm.images[list[i].pic]();
-      var node = SVG(_pic);
+      pos = _pos.pop();
+      _pic = window.gm.images[list[i].pic]();
+      node = SVG(_pic);
       //sprites should be scattered evenly and scaled down to fit into scene (with respect of offset in scene)
       var scaleW2,scaleH2,scaleW = node.width()/(width*(1-Math.abs(0.5-pos[0])*2)), scaleH=node.height()/(height*(1-Math.abs(0.5-pos[1])*2));
       if(scaleW>0.9 || scaleH>0.9 ){
@@ -161,7 +168,7 @@ renderCombatScene(){
         else node.height(node.height()/(1.2*scaleH));
       }
       node.center(pos[0]*width,pos[1]*height);//reposit. AFTER scaling !
-      if(window.story.state.Settings.showNSFWPictures){
+      if(s.Settings.showNSFWPictures){
         //hide parts of sprite
         var penis=(list[i].getPenis()!==null),vagina=(list[i].getVagina()!==null),arousal=list[i].arousal().value;
         subnodes= node.find('[data-male]');
@@ -178,8 +185,13 @@ renderCombatScene(){
       node.addTo(holder);
     }
     if(_pos.length<=0) break;
+  } 
+  if(s.combat.sceneDecoy.fg){
+    for(i=s.combat.sceneDecoy.fg.length-1;i>=0;i--){ //add foreground
+      _pic = window.gm.images[s.combat.sceneDecoy.fg[i]]();
+      node = SVG(_pic);node.addTo(holder);
+    }
   }
-  
   return;
 }
 //creates a list of active effects for combat display

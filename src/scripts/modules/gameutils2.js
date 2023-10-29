@@ -1,15 +1,15 @@
 "use strict";
 //used for pathfinding in map not using dungeon
-//grid = grid =[{room:'H2', dirs:['H3','I2']},...]
+//grid = Array or Map of [{room:'H2', dirs:['H3','I2']},...]  TODO  new dirs:[{dir:"A3"}]
 window.gm.gridToGraph=function(grid){
   let _r,n,dir,_rooms= new Map();
-  for(n of grid){
+  for(n of grid.values()){ //copy grid to new Map
       _rooms.set(n.room,{name:n.room, neighbours:[]});
   }
-  for(n of grid){
+  for(n of grid.values()){ //for every room
       _r = _rooms.get(n.room);
-      for(dir of n.dirs){
-          _r.neighbours.push(_rooms.get(dir));
+      for(dir of n.dirs){ //add neigbors
+          _r.neighbours.push(_rooms.get(dir.dir));
       }
       _rooms.set(n.room,_r);
   }
@@ -25,31 +25,30 @@ window.gm.gridToGraph=function(grid){
   };
   graph.areNodesEqual=function(nodeA,nodeB){return(nodeA.origNode.name===nodeB.origNode.name)};
   return(graph)
-}
+};
 window.gm.printNav2=function(label,to){
     let args = { func: function(to){return('window.gm.navHere(\"'+to+'\")');}};
     return(window.gm.printNav(label,to,args));
 }
 window.gm.navHere = function(to){
+    let _d= window.story.state[window.story.state.DngSY.dng];
     window.story.state.DngSY.prevLocation=window.gm.player.location;
     window.story.state.DngSY.nextLocation=to;
     to=window.gm.navEvent(to,window.story.state.DngSY.prevLocation);
     if(to==="") { to=window.story.state.DngSY.nextLocation; }
-    else{ window.gm.addTime(30);}
     window.gm.addTime(30);
     window.story.show(to);
 }
 window.gm.navEvent = function(to,from){
     let _targ = '',dir,dirs,evt,evts,dng=window.story.state.DngSY.dng;
+    let _d=window.story.state[dng];
     let _to=to.replace(dng+"_",""),_from=from.replace(dng+"_","");
     let _addTime=0,_room=to.replace(dng+"_","");
     //tick = timestamp  
     //state: 0-active  1-inactive  
-    let _leaveChance=0,_allChances=0,_now=window.gm.getTime(), _rnd=_.random(0,100);
-    evts = window.story.state[dng].tmp.evtLeave[_from+'_'+_to]; 
+    let _chance,_chances=[],_leaveChance=0,_allChances=0,_now=window.gm.getTime(), _rnd=_.random(0,100);
+    evts = _d.tmp.evtLeave[_from+'_'+_to]; 
     if(evts){ //leave-check
-        evts=evts.filter(x=>(x.state===0));
-        evts.forEach(x=>(_allChances+=x.chance));
         dir=null,dirs=window.gm.getRoomDirections(_from);
         for(var i=dirs.length-1;i>=0;i--){
             if(dirs[i].dir===_to){
@@ -57,16 +56,27 @@ window.gm.navEvent = function(to,from){
             }
         }
         if(dir){ //choose an event; the more you explored that direction, the higher the chance to find the exit
+            evts=evts.filter(x=>(x.state===0)); //drop disabled
+            for(var i = evts.length-1;i>=0;i--){
+                _chance=window.gm.encounterChance(evts[i]);
+                if(_chance>0.0){
+                    _allChances+=_chance;
+                    _chances.unshift(_chance);
+                } else {
+                    evts.pop();
+                }
+            }
             //0x: 0%    1x: 10%   5x: 50%    10x: 70%  100x: 90%  of OVERALL-chance
-            _leaveChance=(dir.exp>=5)?50.0:((dir.exp>=1)?10.0:(0));
+            _leaveChance=((dir.exp>=10)?70.0:(dir.exp>=5)?50.0:((dir.exp>=1)?10.0:(0)));
             _leaveChance=_leaveChance/100.0*_allChances;_allChances+=_leaveChance;
             dir.exp+=1;//exp-count is updated
             _rnd=_.random(0,_allChances-0.01);
             for(var i = evts.length-1;i>=0;i--){ 
-                let _ch=evts[i].chance
+                let _ch=_chances[i];
                 if(_rnd<_allChances && _rnd>=(_allChances-_ch)){
+                    evts[i].tick=_now;
                     window.story.state.tmp.args=[evts[i],dng+'_'+_from,dng+'_'+_to];    //store [evt,from,to] for use in scene
-                    return(dng+'_'+evts[i].id); //->show(DngPC_wolf5);   
+                    return(dng+'_'+evts[i].id); //->show(DngNG_wolf5);   
                     //after the scene is finished it should continue window.story.state.DngSY.prevLocation 
                 }
                 _allChances-=_ch;
@@ -75,30 +85,38 @@ window.gm.navEvent = function(to,from){
     }
     ///////  door-check
     evt=null;
-    let doors=window.story.state[dng].tmp.doors[_from],doors2=window.story.state[dng].tmp.doors[_to];
+    let doors=_d.tmp.doors[_from],doors2=_d.tmp.doors[_to];
     if(doors) {
         evt = doors[_to];
-    } 
-    if(doors2) {
+    } else if(doors2) {
         evt = doors2[_from];
     }
     if(evt){
-        if(evt.state===0) _targ=dng+"_Door_Closed";
+        if(evt.state===0) { 
+            _targ=dng+"_"+from+to;
+            if(window.story.passage(_targ)===null) _targ=dng+"_"+to+from; //for doors we should check both directions
+        }
         if(_targ!=='') return(_targ);
     }
-    //////
-    evts = window.story.state[dng].tmp.evtEnter[_room];
-    if(evts){ //mobs
+    //////enter
+    evts = _d.tmp.evtEnter[_room];
+    if(evts){
         evt = evts["dog"];
         if(evt){
             if(evt.state===0) _targ=dng+"_Meet_Dog";
+            if(_targ!=='') return(_targ);
+        }
+        evt = evts["sbot"];
+        if(evt){//&& window.gm.getDeltaTime(_now,evt.tick)>400){
+            if(evt.state===0) evt.tick=_now,_targ=dng+"_Spider",window.story.state.tmp.args=[evt,dng+'_'+_from,dng+'_'+_to];
             if(_targ!=='') return(_targ);
         }
         evt = evts["gas"];
         if(evt && _rnd>70 && window.gm.getDeltaTime(_now,evt.tick)>400){//todo chance modifier
             if(evt.state===0) evt.tick=_now,_targ=dng+"_Trap_Gas";
             if(_targ!=='') return(_targ);
-        }evt = evts["tentacle"];
+        }
+        evt = evts["tentacle"];
         if(evt && _rnd>0 && window.gm.getDeltaTime(_now,evt.tick)>400){//todo chance modifier
             if(evt.state===0) evt.tick=_now,_targ=dng+"_Trap_Tentacle";
             if(_targ!=='') return(_targ);
@@ -106,26 +124,68 @@ window.gm.navEvent = function(to,from){
     }
     return(_targ);
 }
+//which other tiles is this room connected to
 window.gm.getRoomDirections=function(from){
-    let rooms=window.story.state.DngSY.dngMap.grid
-    for(var i=rooms.length-1;i>=0;i--){
-        if(rooms[i].room===from){
+    let _from=from.replace(window.story.state.DngSY.dng+"_",""); //DngNG_A1 or A1
+    let dirs=[],rooms=window.story.state.DngSY.dngMap.grid;
+    let _to=rooms.get(_from);
+    if(_to) dirs=_to.dirs;
+    /*for(var i=rooms.length-1;i>=0;i--){
+        if(rooms[i].room===_from){
             return(rooms[i].dirs)
         }
-    }
-    return([]);
+    }*/
+    return(dirs);
 };
+//mob.state = -2:passedout 0:resting, 1:guarding 2:alerted 3:hunting 4:attacking  
+//mob.timerA = time until switching back to guard if no player detected
+//mob.timerB = thinking time
 window.gm.mobAI = function(mob){
-    var _now=window.gm.getTime();
-    if(mob.state!==0 || mob.tick===''){mob.tick=_now;return;}
-    if(window.gm.getDeltaTime(_now,mob.tick)>30){
+    let _now=window.gm.getTime(), timeR=30; //Todo timeRate depends on Mob?
+    let _d=window.story.state[window.story.state.DngSY.dng].tmp,goalpos;
+    if(mob.state<0 || mob.tick===''){mob.tick=_now;return;}
+    if(window.gm.getDeltaTime(_now,mob.tick)>timeR){ 
         mob.tick=_now;
-        var _to = getRoomDirections(mob.pos).filter(_x=> mob.path.includes(_x.dir));
-        if(_to.length>0){
-            mob.pos=_to[_.random(0,_to.length-1)].dir;
-            //alert(mob.id+' now moving to '+mob.pos);
+        if(mob.pos===stripRoom(window.gm.player.location)){  //TODO && !player.hiding
+            if(mob.state===2) { //activate attacking
+                mob.timerA=2*timeR;mob.state=4; //reset after time||fight
+
+            }else if(mob.state!==2 && mob.state!==4){ //detect player
+                mob.state=2,mob.timerB=timeR;mob.timerA=2*timeR;
+            }
+        } else if(mob.state===1){ //move around
+            var _to = window.gm.getRoomDirections(mob.pos).filter(_x=> mob.path.includes(_x.dir));
+            if(_to.length>0){
+                mob.pos=_to[_.random(0,_to.length-1)].dir;
+                //alert(mob.id+' now moving to '+mob.pos);
+            } else {
+                mob.state=0;//if hunting brought us outside mobpath we are stuck 
+            }
+        } else if(mob.state===2){ //alerted
+            mob.timerB-=timeR;
+            if(mob.timerB<=0){  //TODO likelines to hunt
+                mob.timerA=4*timeR;mob.state=3;
+            }
+        } else if(mob.state===3){ //hunt
+            mob.timerB-=timeR;
+            if(mob.timerB<=0){
+                goalpos=stripRoom(window.gm.player.location); 
+                let path = window.astar.search(
+                    window.gm.gridToGraph(window.story.state.DngSY.dngMap.grid), //TODO dont rebuild everytime
+                    mob.pos, goalpos, null,{heuristic:(function(a,b){return(1);})})
+                if(path.length>0){
+                    mob.pos=path[0].origNode.name;
+                    window.gm.pushLog(mob.id+" goes "+mob.pos,window.story.state._gm.dbgShowMoreInfo);
+                } else {
+                    mob.state=1;
+                }
+                mob.timerB=2*timeR;
+            }
+        } else if(mob.state===4){ //attacking but player gone
+            mob.timerA=2*timeR;mob.state=3;mob.timerB=0;
         }
     }
+    function stripRoom(name){return(name.replace(window.story.state.DngSY.dng+"_",""));} //Dng_A1 -> A1
 }
 //dynamic room description 
 window.gm.renderRoom= function(room){
@@ -156,6 +216,10 @@ window.gm.renderRoom= function(room){
     if(_evt && (_evt.state===0)){
         msg+="</br>Was there something sparkling "+window.gm.printPassageLink("over there?",dng+"_Lectern");
     }
+    /*_evt=_evts["explore"];
+    if(_evt && (_evt.state===0 || _evt.state===1)){
+      msg+="It might be worth to "+window.gm.printLink("explore",'window.story.show("'+room+'_Explore")');+" this area some more.</br>";
+    }*/
     return(msg);
 }
 window.gm.finishTask=function(){
@@ -290,6 +354,13 @@ window.gm.getAvailableTasks=function(){
     }
     window.gm.printOutput(msg,'#choice');
 };
+window.gm.know = function(what){
+    let _n=window.story.state.Know[what];
+    if(_n===null || _n===undefined) {
+        window.story.state.Know[what]=1;
+    }
+}
+
 //build the map and other data; if the dng is already initilized and has the correct version, the actual data is returned
 window.gm.build_DngPC=function(){
     const _m=[
@@ -305,7 +376,7 @@ window.gm.build_DngPC=function(){
         '|       |   |           |         ',
         'D6  E6--F6--G6--H6--I6--J6  K6--L6'];
     function _d(dir){return({dir:dir,exp:0});}
-    let grid =[
+    let _grid =[
     {room:'D2', dirs:[_d('E2')]},
     {room:'E2', dirs:[_d('F2')]},
     {room:'F2', dirs:[_d('E2'),_d('F3')]},
@@ -351,7 +422,7 @@ window.gm.build_DngPC=function(){
     {room:'J6', dirs:[_d('J5'),_d('I6')]},
     {room:'K6', dirs:[_d('L6')]},
     {room:'L6', dirs:[_d('K6')]}];
-    let data,map={grid:grid,width:14,height:8,legend:'S=Start  B=Boss'}
+    let data,map={grid:new Map(_grid.map((x)=>{return([x.room,x]);})),width:14,height:8,legend:'S=Start  B=Boss'}
     var s = window.story.state;    
     const version=3;                            // <== increment this if you change anything below - it will reinitialize data !
     if(s.DngPC && s.DngPC.version===version){
@@ -415,12 +486,19 @@ window.gm.build_DngPC=function(){
             //,{id:'bitchsuit',tick:'',done:0,cnt:0,min:9}
         };
     }
+    //install function to calculate chance of evtLeave
+    window.gm.encounterChance=function(evt){
+        let res=100.0,s=window.story.state,dng=window.story.state.DngSY.dng;
+        res*=evt.chance/100.0;
+        if(evt.id==='Trap_Dehair'){ //Dehair if nude and hair
+            //if(window.gm.player.clothLevel()==='naked') {res*=2;}
+            if(window.gm.getDeltaTime(window.gm.getTime(),evt.tick)>200) res*=2;
+            else res=0;
+        }
+        return(res);
+    }
     return({map:map,data:data});
 };
 
-window.gm.know = function(what){
-    let _n=window.story.state.Know[what];
-    if(_n===null || _n===undefined) {
-        window.story.state.Know[what]=1;
-    }
-}
+
+

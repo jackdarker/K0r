@@ -161,7 +161,7 @@ class Slime extends Mob {
     static factory(type){
         let foe = new Slime();
         foe.Outfit.addItem(WeaponSlobber.factory('slime'));
-        foe.baseName = foe.id = ((type===undefined)?'Slime':type);
+        foe.baseName = foe.id = ((type===0||type===undefined)?'Slime':type);
         if(type ==='SlimeTentacled'){
             //todo add tentacles and grappling
             foe.pic='Blob3';
@@ -242,7 +242,7 @@ class Slug extends Mob {
 class Spider extends Mob { 
     static factory(type){
         let foe = new Spider();
-        foe.baseName = foe.id = ((type===undefined)?'Spider':type);
+        foe.baseName = foe.id = ((type===0||type===undefined)?'Spider':type);
         if(type ==='spiderswarm'){
             foe.pic='spider3';
             foe.Stats.increment('healthMax',-0.3*(foe.health().max));
@@ -889,14 +889,13 @@ class Wisp extends Mob {
 class Carlia extends Mob {
   constructor(){
       super();
-      this.baseName = this.id = 'Carlia';
+      this.baseName = this.id = 'Carlia';this.unique=true;
       this.pic= 'unknown';
       this.Outfit.addItem(new BaseHumanoid());
       this.Outfit.addItem(new SkinHuman());
       this.Outfit.addItem(HandsHuman.factory('cat'));
       this.Outfit.addItem(FaceWolf.factory('cat'));
       this.Outfit.addItem(BreastHuman.factory('human'));
-      CSS
       this.Outfit.addItem(VulvaHuman.factory('human'));
       this.Outfit.addItem(new BikiniBottomLeather());
       this.Outfit.addItem(new BikiniTopLeather());
@@ -907,7 +906,7 @@ class Carlia extends Mob {
 class Ruff extends Mob {
     constructor(){
         super();
-        this.baseName = this.id = 'Ruff';
+        this.baseName = this.id = 'Ruff';this.unique=true;
         this.Outfit.addItem(new BaseQuadruped());
         this.Outfit.addItem(SkinFur.factory('wolf','black'));
         this.Outfit.addItem(HandsPaw.factory('wolf'));
@@ -957,7 +956,7 @@ class Ruff extends Mob {
 class Clyde extends AnthroFox {
     constructor(){
         super();
-        this.baseName = this.id = 'Clyde';
+        this.baseName = this.id = 'Clyde';this.unique=true;
         this.Outfit.addItem(AnusHuman.factory('wolf'));
         this.Outfit.addItem(PenisHuman.factory('wolf'));
         this.levelUp(7);
@@ -967,7 +966,7 @@ class Clyde extends AnthroFox {
 class Trent extends Mob {
     constructor(){
         super();
-        this.baseName = this.id = 'Trent';
+        this.baseName = this.id = 'Trent';this.unique=true;
         this.pic= 'unknown';
         this.Outfit.addItem(new BaseHumanoid());
         this.Outfit.addItem(SkinFur.factory('horse', 'brown'));

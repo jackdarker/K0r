@@ -31,6 +31,7 @@ class Jeans extends Equipment {
         if(style===0) this.id='Jeans',this.name='blue jeans';
         else if(style===100) this.id='Trousers',this.name="black trousers";
         else throw new Error(this.id +' doesnt know '+style);
+        if(this._HP) this.HP=this._HP;
     }
     get style(){return this._style;}
     get desc(){ 
@@ -88,15 +89,11 @@ class TankShirt extends Equipment {
         this.addTags(['cloth']);this.style=0;
         this.slotUse = ['Breast','Stomach'];
     }
-    get HP() {return(this._HP);}
-    set HP(hp){ //todo if multiple items edited ??
-        this._HP=hp;
-        this._updateId();this.name=this.baseId+" "+hp.toString();
-    } 
     set style(style){ 
         this._style = style; 
         if(style===0) this.baseId=this.id=this.name='TankShirt';
         else if(style===10) this.baseId=this.id=this.name='Hawaiishirt';
+        else if(style===20) this.baseId=this.id=this.name='Tshirt';
         else throw new Error(this.id +' doesnt know '+style);
         if(this._HP) this.HP=this._HP;
     }
@@ -106,6 +103,9 @@ class TankShirt extends Equipment {
         switch(this._style){
             case 10:
                 msg=('shirt with flower pattern');
+                break;
+            case 20:
+                msg=('cheap, plain colored t-shirt');
                 break;
             default:
         }
@@ -211,27 +211,6 @@ class WristCuffs extends Equipment {
     }
     canUnequip(){return({OK:false, msg:'Those cuffs can only be removed by a magican!'});}
 }
-class CollarQuest extends Equipment {
-    constructor(){
-        super('CollarQuest');
-        this.slotUse = ['Neck'];
-        this.lossOnRespawn = false;
-    }
-    get desc(){ return 'a collar';  }
-    toJSON(){return window.storage.Generic_toJSON("CollarQuest", this); }
-    static fromJSON(value){return(window.storage.Generic_fromJSON(CollarQuest, value.data));}
-    usable(context){return(this.canEquip(context));}
-    use(context){ //context here is inventory not outfit
-        if(this.parent.parent.Outfit.findItemSlot(this.id).length>0){  
-            this.parent.parent.Outfit.removeItem(this.id); 
-            return( {OK:true, msg:'unequipped '+ this.name}); //todo
-        } else {
-            this.parent.parent.Outfit.addItem(this); 
-            return( {OK:true, msg:'equipped '+ this.name}); //todo
-        }
-    }
-    canUnequip(){return({OK:false, msg:'This can only be removed by a magican!'});}
-}
 class Collar extends Equipment {
     static factory(style){let x = new Collar();x.style=style;return(x); }
     constructor(){
@@ -252,7 +231,11 @@ class Collar extends Equipment {
             return( {OK:true, msg:'equipped '+ this.name}); //todo
         }
     }
-    //canUnequip(){return({OK:false, msg:'This can only be removed by a magican!'});}
+    canUnequip(){
+        if(this._style===40) return({OK:false, msg:'This can only be removed by a magican!'});
+        if(this._style===50) return({OK:false, msg:'You cannot figure out how to unbuckle this collar.'});
+        return({OK:true, msg:""});
+    }
     set style(style){ 
         this._style = style; 
         if(style===0) this.id=this.name='CollarPlain';
@@ -262,6 +245,8 @@ class Collar extends Equipment {
             this.id=this.name='PendantLuck';
             window.gm.makeBonusItem(this,{statBoost:'luck', statBonus:8})
         }
+        else if(style===40) this.id=this.name='CollarQuest';
+        else if(style===50) this.id=this.name='CollarID';
         else throw new Error(this.id +' doesnt know '+style);
     }
     get style(){return this._style;}
@@ -274,6 +259,10 @@ class Collar extends Equipment {
                 msg=('A sturdy,black leather collar with shiny pointed metall spikes around it.');break;
             case 30:
                 msg=('A necklace with a lucky paw. Might increase someones luck.');break;
+            case 40:
+                msg=('A seamless collar made from dark purple material. ');break;
+            case 50:
+                msg=('A neckband from black rubber with a metalic clasp. It somehow carries the ID of its wearer.');break;
             default:
         }
         return(msg);
@@ -1127,7 +1116,6 @@ window.gm.ItemsLib = (function (ItemsLib){
     window.storage.registerConstructor(Briefs);
     window.storage.registerConstructor(ChastityBelt);
     window.storage.registerConstructor(CockRing);
-    window.storage.registerConstructor(CollarQuest);
     window.storage.registerConstructor(Collar);
     window.storage.registerConstructor(Gag);
     window.storage.registerConstructor(DaggerSteel);
@@ -1166,13 +1154,15 @@ window.gm.ItemsLib = (function (ItemsLib){
     ItemsLib['ChastityBelt'] = function(){ let x= new ChastityBelt();x.style=0;return(x); };
     ItemsLib['CockCage'] = function(){ let x= new ChastityBelt();x.style=100;return(x); };
     ItemsLib['CockRing'] = function(){ let x= new CockRing();x.style=0;return(x); };
-    ItemsLib['CollarQuest'] = function(){ return new CollarQuest();};
+    ItemsLib['CollarQuest'] = function(){let x=new Collar();x.style=40;return(x);};
+    ItemsLib['CollarID'] = function(){let x=new Collar();x.style=50;return(x);};
     ItemsLib['CollarDog'] = function(){let x=new Collar();x.style=10;return(x);};
     ItemsLib['CollarSpikes'] = function(){let x=new Collar();x.style=20;return(x);};
     ItemsLib['PendantLuck'] = function(){let x=new Collar();x.style=30;return(x);};
     ItemsLib['Leggings'] = function(){ return new Leggings();};
     ItemsLib['TankShirt'] = function(){ return new TankShirt();};
-    ItemsLib['HawaiiShirt'] = function(){ let x= new TankShirt();x.style=10;return(x); };
+    ItemsLib['HawaiiShirt'] = function(){ let x= new TankShirt();x.style=10;return(x);};
+    ItemsLib['TShirt'] = function(){ let x= new TankShirt();x.style=20;return(x);};
     ItemsLib['Jeans'] = function(){ return new Jeans();};
     ItemsLib['Trousers'] = function(){let x=new Jeans();x.style=100;return(x);};
     ItemsLib['Sneakers'] = function(){ return new Sneakers();};

@@ -38,8 +38,9 @@
     /**
     * Perform an A* Search on a graph given a start and end node.
     * @param {Graph} graph
-    * @param {GridNode} start
-    * @param {GridNode} end
+    * @param {GridNode or String} start
+    * @param {GridNode or String} end
+    * @param {entity} mob
     * @param {Object} [options]
     * @param {bool} [options.closest] Specifies whether to return the
                path to the closest node if the target is unreachable.
@@ -53,17 +54,25 @@
       var heuristic = options.heuristic || astar.heuristics.manhattan;
       var closest = options.hasOwnProperty("closest")? options.closest :true;
       var openHeap = getHeap();
-      var closestNode = start; // set the start node to be the closest if required
-      this.cleanNode(start),this.cleanNode(end);
-      start.h = heuristic(start, end,mob);
-      graph.markDirty(start);
-      openHeap.push(start);
+      var nstart,nend;
+      //if start/end is not a node but string, find the node in graph
+      if(typeof start === "string" ){
+        nstart = graph.nodes.find((x)=>{return(x.origNode.name===start)}); 
+      } else nstart=start;
+      if(typeof end === "string" ){
+        nend = graph.nodes.find((x)=>{return(x.origNode.name===end)}); 
+      } else nend=end;
+      var closestNode = nstart; // set the start node to be the closest if required
+      this.cleanNode(nstart),this.cleanNode(nend);
+      nstart.h = heuristic(nstart, nend,mob);
+      graph.markDirty(nstart);
+      openHeap.push(nstart);
   
       while (openHeap.size() > 0){
         // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
         var currentNode = openHeap.pop();
         // End case -- result has been found, return the traced path.
-        if (graph.areNodesEqual(currentNode,end)){
+        if (graph.areNodesEqual(currentNode,nend)){
           return pathTo(currentNode);
         }
         // Normal case -- move currentNode from open to closed, process each of its neighbors.
@@ -86,7 +95,7 @@
             // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
             neighbor.visited = true;
             neighbor.parent = currentNode;
-            neighbor.h = neighbor.h || heuristic(neighbor, end,mob);
+            neighbor.h = neighbor.h || heuristic(neighbor, nend,mob);
             neighbor.g = gScore;
             neighbor.f = neighbor.g + neighbor.h;
             graph.markDirty(neighbor);
@@ -182,15 +191,25 @@
     return(nodeA.origNode===nodeB.origNode);
   }
   Graph.prototype.neighbors = function(node){
-    var dir,ret = [];
-    var dirs = node.origNode.getDirections();
-    for(var i=0;i<dirs.length;i++){
-      dir=dirs[i];
-      if(dir!==null){
-        if(dir.hasTag(['barrier'])) continue; //todo mobs cant pass through barrier and other?
-        var room = dir.roomB;
-        var next=this.nodes.find((_x)=>{return(_x.origNode===room);})
+    var next,dirs,dir,ret = [];
+    // a node has either neighbours[] of {name:"A1"}
+    dirs = origNode.neighbours;
+    if(dirs) {
+      for(var i=0;i<dirs.length;i++){
+        dir=dirs[i].name;
+        next=this.nodes.find((_x)=>{return(_x.origNode===dir);})
         ret.push(next);
+      }
+    } else { //..or a getDirections() ;this is for compat. with oldstyle dungeon
+      dirs = node.origNode.getDirections();
+      for(var i=0;i<dirs.length;i++){
+        dir=dirs[i];
+        if(dir!==null){
+          if(dir.hasTag(['barrier'])) continue; //todo mobs cant pass through barrier and other?
+          var room = dir.roomB;
+          next=this.nodes.find((_x)=>{return(_x.origNode===room);})
+          ret.push(next);
+        }
       }
     }
     return ret;
