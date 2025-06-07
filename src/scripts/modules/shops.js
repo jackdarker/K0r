@@ -1,29 +1,6 @@
 "use strict";
+// add projectspecific shops here
 
-window.gm.shop.findWaresToSell = function(TagsAllowed,TagsNotAllowed=[window.gm.ItemTags.Quest]){
-    window.gm.shop.WaresToSell=[];
-    let whom =window.gm.player;
-    var _ids=whom.Inv.getAllIds();
-    var _ids2=whom.Wardrobe.getAllIds();
-    for (let n of _ids){
-        let item=whom.Inv.getItem(n);
-        if(!item.hasTag(TagsNotAllowed) && item.hasTag(TagsAllowed)){ //filter by tag
-            let cost = window.gm.shop.calculateSellPrice(item);
-            if(cost){
-                window.gm.shop.WaresToSell.push({item:item,cost:cost});
-            }
-        }
-    }
-    for (let n of _ids2){
-        let item=whom.Wardrobe.getItem(n);
-        if(!item.hasTag(TagsNotAllowed) && item.hasTag(TagsAllowed)){ //filter by tag
-            let cost = window.gm.shop.calculateSellPrice(item);
-            if(cost){
-                window.gm.shop.WaresToSell.push({item:item,cost:cost});
-            }
-        }
-    }
-};
 // Todo depending on shop & gamestate, return list of buyables
 window.gm.shop.findWaresToBuy = function(shop){
     let list = [];

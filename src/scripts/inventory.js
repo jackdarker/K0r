@@ -2,7 +2,7 @@
 class Item {
     constructor(name){
         this.id = this.name = name;  //id is unique in database(no whitespace !); name is for display
-        this.tags = [];
+        this.tags = [];this._stackLimit=0;
         this.bonus =[]; //Curse or Bonus assigned to item   //todo can ITEMS be cursed too?
         this.price=this.basePrice=10; //how much worth it is
     }
@@ -26,7 +26,7 @@ class Item {
     targetFilter(targets){
         return([]); //default unuseable in combat
     }
-    //tag or [tag]
+    //tag or [tag]; returns true if SOME tag is present
     hasTag(tags){
         if(tags instanceof Array){
             for(var i=0;i<tags.length;i++){
@@ -46,6 +46,7 @@ class Item {
             if(!this.tags.includes(tags[i])) this.tags.push(tags[i]);
         }
     }
+    get stackLimit(){return(this._stackLimit);} //0:infinite 
     //returns the svg-piture name to display in inventory or wardrobe
     get pictureInv(){return ("unknown")}
     //implement this for description
@@ -94,6 +95,14 @@ class Inventory {
         }
         return(-1);
     }
+    findItemByTag(hasTags,hasNoTags){
+        let list=[],item;
+        for (var i = this.count()-1; i >=0 ; i--){
+            item=this.list[i].item;
+            if(item.hasTag(hasTags) && !item.hasTag(hasNoTags)) list.push(item);
+        }
+        return(list);
+    }
     getItemId(slot){
         return(this.list[slot].id);
     }
@@ -110,22 +119,35 @@ class Inventory {
         }
         return(ids);
     }
-    addItem(item,count=1){
-        var _i = this.findItemSlot(item.id);
+    // override this
+    canAddItem(item,count,force=false){
+        let _rst={OK:true,msg:"",count:count};
+
+        return(_rst);
+    }
+    addItem(item,count=1,force=false){
+        let _rst=this.canAddItem(item,count,force), _i = this.findItemSlot(item.id);
+        if(!_rst.OK||_rst.count==0) return(_rst);
         item._parent=window.gm.util.refToParent(this);
         if(_i<0){
-            this.list.push({id: item.id,count: count, item:item});
+            this.list.push({id: item.id,count: _rst.count, item:item});
         }
-        else this.list[_i].count+=count;
+        else this.list[_i].count+=_rst.count;
         this.postItemChange(item.name,"added","");
+        return(_rst);
     }
     removeItem(id,count=1){
+        let _rst={OK:true,msg:"",count:count};
         var _i = this.findItemSlot(id);
         if(_i<0) return; //just skip if not found
         var _item = this.getItem(id);
         this.list[_i].count -=count;
-        if(this.list[_i].count<1) this.list.splice(_i,1);
+        if(this.list[_i].count<=0) this.list.splice(_i,1);
         this.postItemChange(_item.name,"removed","");
+        return(_rst);
+    }
+    removeAll(){
+        this.list=[]; //TODO postItemChange?
     }
     //convience method to check if item is usable
     usable(id,on=null){

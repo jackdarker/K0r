@@ -141,3 +141,102 @@ window.gm.shop.printShopBuyEntry= function(item,cost,cbCanBuy,cbPostBuy=null){
     $("div#panel")[0].appendChild(document.createElement('br'));
     $("div#panel")[0].appendChild(div);
   };
+
+// prints a table with items of 2 characters (Inv & wardrobe) and adds button to move items in between 
+// expects a node with id "choice" to render items, and node with id "output" to render message 
+window.gm.shop.printItemTransfer = function(whom1,whom2,TagsAllowed,TagsNotAllowed){
+  let item,panel=document.getElementById('choice');
+  if(!TagsAllowed) TagsAllowed=Object.values(window.gm.ItemTags);
+  if(!TagsNotAllowed) TagsNotAllowed=[window.gm.ItemTags.Quest];
+  let list1=window.gm.shop.findWaresToSell(whom1,TagsAllowed,TagsNotAllowed),
+      list2=window.gm.shop.findWaresToSell(whom2,TagsAllowed,TagsNotAllowed);
+  let left= document.createElement('p'),right= document.createElement('p'),entry,button;
+  function give(item,amount,charA,charB){
+    let item2 = window.gm.util.deepClone(item);//item = window.gm.ItemsLib[id](); doesnt work for dynamic created items
+    let _rst=charB.changeInventory(item2,amount);
+    charA.changeInventory(item,-1*_rst.count);
+    window.gm.refreshAllPanel();
+    if(_rst.msg!=""){
+      let output=document.getElementById('output');
+      output.innerHTML='<p>'+_rst.msg+'</p>';
+    }
+  }
+  function use(item,amount,charA,charB){
+    let item2 = window.gm.util.deepClone(item);//item = window.gm.ItemsLib[id](); doesnt work for dynamic created items
+    let _rst=item2.use(charA.Inv,charB);
+    //charA.changeInventory(item,-1*amount);
+    window.gm.refreshAllPanel();
+    if(_rst.msg!=""){
+      let output=document.getElementById('output');
+      output.innerHTML='<p>'+_rst.msg+'</p>';
+    }
+  }
+  function equip(item,amount,charA,charB){
+    let item2 = window.gm.util.deepClone(item);//item = window.gm.ItemsLib[id](); doesnt work for dynamic created items
+    let _rst=charB.changeInventory(item2,amount);
+    _rst=charB.Outfit.addItem(item2);
+    charA.changeInventory(item,-1*amount);
+    window.gm.refreshAllPanel();
+    if(_rst.msg!=""){
+      let output=document.getElementById('output');
+      output.innerHTML='<p>'+_rst.msg+'</p>';
+    }
+  }
+  function createEntry(panel,X,whom1,whom2){
+    entry = document.createElement('p')
+    entry.textContent=X.item.count().toString()+"x "+X.item.name;
+    button=document.createElement('button');
+    button.textContent="give 1x";
+    button.addEventListener("click",give.bind(null,X.item,1,whom1,whom2));
+    entry.appendChild(button);
+    if(X.item.canEquip){
+      button=document.createElement('button');
+      button.textContent="equip "+whom2.name;
+      button.addEventListener("click",equip.bind(null,X.item,1,whom1,whom2));
+      entry.appendChild(button);
+    } else if(X.item.usable){
+      button=document.createElement('button');
+      button.textContent="use on "+whom2.name;
+      button.addEventListener("click",use.bind(null,X.item,1,whom1,whom2));
+      entry.appendChild(button);
+    }
+    panel.appendChild(entry);
+  }
+  list1.forEach(X=> {createEntry(left,X,whom1,whom2)});
+  list2.forEach(X=> {createEntry(right,X,whom2,whom1)});
+  let table = document.createElement('table');
+  table.style.width="100%";table.style.tableLayout="fixed";
+  let row = table.insertRow();
+  row.insertCell().textContent=''+whom1.name;row.insertCell().textContent=''+whom2.name;
+  row = table.insertRow();
+  row.insertCell().appendChild(left),row.insertCell().appendChild(right);
+  panel.appendChild(table);
+};
+// TODO prints a list of items from whom1 (Inv & wardrobe) to be GIVEN, USED or EQUIPPED on whom2
+// if Equip causes items to be stripped, those items go into whom2-Inv if there is enough space, else they are passed to whom1
+
+//returns a list of items from Inv & Wardrobe for selling
+window.gm.shop.findWaresToSell = function(whom,TagsAllowed,TagsNotAllowed=[window.gm.ItemTags.Quest]){
+  let WaresToSell=[];
+  var _ids=whom.Inv.getAllIds();
+  var _ids2=whom.Wardrobe.getAllIds();
+  for (let n of _ids){
+      let item=whom.Inv.getItem(n);
+      if(!item.hasTag(TagsNotAllowed) && item.hasTag(TagsAllowed)){ //filter by tag
+          let cost = window.gm.shop.calculateSellPrice(item);
+          if(cost){
+              WaresToSell.push({item:item,cost:cost});
+          }
+      }
+  }
+  for (let n of _ids2){
+      let item=whom.Wardrobe.getItem(n);
+      if(!item.hasTag(TagsNotAllowed) && item.hasTag(TagsAllowed)){ //filter by tag
+          let cost = window.gm.shop.calculateSellPrice(item);
+          if(cost){
+              WaresToSell.push({item:item,cost:cost});
+          }
+      }
+  }
+  return(WaresToSell);
+};

@@ -1371,6 +1371,170 @@ window.gm.startReactTest=function(bar, speed, stopCB, startCB,areas){
     };*/
     return(data);
   }
+  /**
+   * you have fill a bar by pressing the indicated button (wasd or arrows). If you press the wrong button, the bar gets drained somewhat. 
+   * the bar will slowly slide back to origin without proper input.
+   * When the bar is filled you win, when its empty you loose.
+   * options: see _params
+   * Note: negate timeDrain,passFill,missDrain  to make bar move in opposite direction
+   * 
+   * @param {*} bar : the element-id to move
+   * @param {*} speed : recovery rate in ms 
+   * @param {*} stopCB 
+   * @param {*} startCB 
+   * 
+   */
+   window.gm.startReactTest3=function(bar,keyIds,specialKeyIds, stopCB, startCB,comboChange,valueTrigger){   //todo timeout starts after first click
+    let data ={ //internal state of game
+      bargraph : document.getElementById(bar),
+      leftKey : document.getElementById(keyIds[0]),
+      rightKey : document.getElementById(keyIds[1]),
+      upKey : document.getElementById(keyIds[2]),
+      downKey : document.getElementById(keyIds[3]),
+      specialKeys: [],
+      run:false, //game started?
+      value: 0, //actual setpoint in%
+      miss:false, //internal use
+      valid:false, //internal use
+      comboStep:0,
+      comboLevel:0,
+      maxCombo:0,
+      params:null, //parameters
+      tickSpeed : 50,  //interval of tick
+      drainTimer : 0,  //internal use
+      nextTimer:0, //internal use
+      stopCB: stopCB, //callback after user trigger 
+      startCB: startCB, //callback after start
+      valueTrigger:valueTrigger,
+      comboChange:comboChange,
+      start: start, //ref to start-function
+      stop: stop, //ref to stop-func
+      click: click, //ref to input-func
+      intervalID: null, //internal use
+      validKey: '' //internal use
+    }
+    specialKeyIds.forEach(element => { 
+      data.specialKeys.push(document.getElementById(element))    
+    });
+    /**
+     * starts the game
+     */
+    function start(params){ //
+      data.stop();
+      let _params=params||{}
+      _params.drainSpeed = (_params.drainSpeed)?? 2000;
+      _params.comboSteps = (_params.comboSteps)?? 0; //if >0: after that number of consecutive correct input, the combo multiplier is increased
+      _params.comboLevels= (_params.comboLevels)?? 1;//how many times a combo multiplier an be increased
+      _params.comboBoost = (_params.comboBoost)?? 0.2;//this factor gets added to the combo multiplier on increase; bar increase=pass fill*multiplier   
+      _params.timeDrain = (_params.timeDrain)?? 5;// how much the bar is drained over time (in %)
+      _params.missDrain = (_params.missDrain)?? _params.timeDrain*3;//how much the bar is drained on wrong key (in %)
+      _params.passFill = (_params.passFill)??_params.timeDrain*2;// how much the bar is fill on correct key (in %)
+      _params.startValue = (_params.startValue)?? 20; //how much the bar is filled (in %) at start
+      data.params=_params;
+      data.run=true;data.miss=false;data.valid=false;data.drainTimer=0;data.comboLevel=data.comboStep=data.maxCombo=0;
+      var width =window.getComputedStyle(data.bargraph).getPropertyValue('width');
+      var total = window.getComputedStyle(data.bargraph.parentNode).getPropertyValue('width');
+      //data.bargraph.style.transition = "left "+data.speed+"ms linear"; //configure transition for animation
+      if(data.startCB) data.startCB(); //called before transition-start!
+      //data.bargraph.ontransitionend(); //start transition
+      data.value=data.params.startValue;
+      data.bargraph.style.left=data.value+'%';
+      randomizeKey();
+      tick();
+      data.intervalID = window.setInterval( tick,data.tickSpeed);
+    }
+    /**
+     * this stops the game and returns the index of hit area; use click() instead !
+     */
+    function stop(){
+      if(data.intervalID) window.clearInterval(data.intervalID);
+      var computedStyle = window.getComputedStyle(data.bargraph);
+      var left = computedStyle.getPropertyValue('left');
+      data.bargraph.style.left=left;
+      data.bargraph.style.transition = null; // disable transition AFTER fetching computed value !
+      data.run=false;
+    }
+    function tick(){
+      let valueOld=data.value;
+      data.drainTimer+=data.tickSpeed;
+      data.nextTimer+=(data.nextTimer>=0)?data.tickSpeed:0;
+      if(data.miss==true){
+        data.miss=false;
+        if(data.comboChange && data.comboLevel>0){
+          data.comboChange(0);
+        }
+        data.comboStep=data.comboLevel=0;
+        data.drainTimer=0;data.nextTimer=0;
+        data.value= Math.max(0,data.value-data.params.missDrain);
+        data.bargraph.style.left=data.value+'%';
+        blipKey();
+      }else if(data.valid==true){
+        data.valid=false;
+        data.drainTimer=0;data.nextTimer=0;
+        data.comboStep+=1;
+        if(data.params.comboSteps>0 && data.comboStep>=data.params.comboSteps){
+          data.comboStep=0;
+          data.comboLevel=Math.min(data.comboLevel+1,data.params.comboLevels);
+          data.maxCombo=Math.max(data.maxCombo,data.comboLevel);
+          if(data.comboChange ){
+            data.comboChange(data.comboLevel);
+          }
+        }
+        data.value= Math.min(100,Math.max(0,data.value+(data.params.passFill*(1+data.comboLevel*data.params.comboBoost))));
+        data.bargraph.style.left=data.value+'%';
+        blipKey();
+      } else if(data.drainTimer>data.params.drainSpeed){
+        data.drainTimer=0;
+        data.value= Math.max(0,data.value-data.params.timeDrain);
+        data.bargraph.style.left=data.value+'%';
+      }
+      if(data.nextTimer>=200){
+        data.nextTimer=-1;
+        randomizeKey()
+      }
+      if(data.valueTrigger && data.value!=valueOld) data.valueTrigger(data.value,valueOld,data.comboLevel);
+      if(data.value<=0 || data.value>=100){
+        stop();
+        if(data.stopCB) data.stopCB(data.value,data.maxCombo); 
+      }
+    }
+    const KEYS = ['leftKey','rightKey',"upKey","downKey"]
+    function randomizeKey(){
+      data.validKey = KEYS[_.random(0,KEYS.length-1)];
+      data.validKey2 = -1;//TODO _.random(-1,data.specialKeys.length-1);
+      data.leftKey.src="assets\\icons\\arrow_left"+(data.validKey==KEYS[0]?"_on":"")+".png";
+      data.rightKey.src="assets\\icons\\arrow_right"+(data.validKey==KEYS[1]?"_on":"")+".png";
+      data.upKey.src="assets\\icons\\arrow_up"+(data.validKey==KEYS[2]?"_on":"")+".png";
+      data.downKey.src="assets\\icons\\arrow_down"+(data.validKey==KEYS[3]?"_on":"")+".png";
+      data.specialKeys.forEach(function(element,index){element.src="assets\\icons\\"+((index==data.validKey2)?"arrow_up_on":"none")+".png";});      
+    }
+    function blipKey(){ //
+      data.leftKey.src="assets\\icons\\arrow_left.png";
+      data.rightKey.src="assets\\icons\\arrow_right.png";
+      data.upKey.src="assets\\icons\\arrow_up.png";
+      data.downKey.src="assets\\icons\\arrow_down.png";
+      data.specialKeys.forEach(element => {element.src="assets\\icons\\none.png";});
+    }
+    /**
+     * this can be bound to eventhandler for user input detection to trigger stop and will call stop-CB
+     */
+    function click(evt){
+      if(!data.run) return;
+        if( (data.validKey==KEYS[0] && (evt.key==='a' || evt.key==='ArrowLeft'))|| 
+            (data.validKey==KEYS[1] && (evt.key==='d'|| evt.key==='ArrowRight'))||
+            (data.validKey==KEYS[2] && (evt.key==='w'|| evt.key==='ArrowUp'))||
+            (data.validKey==KEYS[3] && (evt.key==='s'|| evt.key==='ArrowDown'))
+        ){
+          data.valid=true;
+        } else if (data.validKey2==0 && evt.key===' '){ //ShiftRight ShiftLeft
+          alert()
+        } else { 
+          data.miss=true;
+        }
+    }
+    
+    return(data);
+  }
   window.gm.startPong=function(){
     ///// fixed sample from https://svgjs.dev/ ////////
   // define document width and height

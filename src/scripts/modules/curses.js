@@ -17,6 +17,7 @@
  * - replace the item with a different one
  * - add an effect
  * - give a skill
+ * - destroy item on unequip
  * 
  * use deffered event to show the triggerd curse
  * 

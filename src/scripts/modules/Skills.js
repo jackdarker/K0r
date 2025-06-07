@@ -1145,8 +1145,10 @@ window.gm.SkillsLib = (function (Lib){
 }(window.gm.SkillsLib || {}));
 
 /*todo 
-//Todo: disarm/disrobe  ArmorMelting
-//Enrage +50%damage -25% armor
+//Todo: 
+disarm/disrobe  ArmorMelting
+
+Enraged +50%damage -25% armor  consumes energy each turn
 
 Slash: (weapontype) causes slash-damage; chance to cause bleed on critical (on non-constructs/conjuration)
 

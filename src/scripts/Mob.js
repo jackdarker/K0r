@@ -14,8 +14,11 @@ class Mob extends Character {
         this.fconv = null; //lazy init because descfixer depends on gm.player
     }
     toJSON(){return window.storage.Generic_toJSON("Mob", this); }
-    static fromJSON(value){return(window.storage.Generic_fromJSON(Mob, value.data));}
-    rebuildAfterLoad(){super.rebuildAfterLoad();}
+    static fromJSON(value){ 
+        var _x = window.storage.Generic_fromJSON(Mob, value.data);
+        _x.rebuildAfterLoad();
+        return(_x);
+    };
     //override to return the next move to execute
     //OK = false if no action, else true
     //msg should contain a message formatted for view (move description )g 
@@ -41,9 +44,11 @@ class Mob extends Character {
     }
     //return false if skill should be manually selected
     get isAIenabled(){ return(true);}
-    //override to adjust the mobs attributes to player level
+    //randomize mob level around target-level but not below min-level: +-20%;
     scaleLevel(lvl){ 
-        let x = Math.max(this.level_min,_.random(lvl-3,lvl+3));
+        let x;
+        x=Math.round(window.gm.util.randomNormal(lvl,lvl*0.2));
+        x = Math.max(this.level_min,x);
         x=x-this.level;   
         if(x>0){
             this.levelUp(x);

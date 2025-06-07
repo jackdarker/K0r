@@ -63,7 +63,7 @@ window.gm.OutfitSlotLib = {
     Wrists  :   "Wrists",
     LHand   :   "LHand",
     RHand   :   "RHand",
-    //U  = under wear    P = piercing  T = tattoo 
+    //U  = under wear    P = piercing T = tattoo 
     uFeet    : "uFeet",   //socks,stockings
     uAnkles  : "uAnkles",    //stockings, cuffs
     uLegs    : "uLegs",     //stockings
@@ -187,7 +187,7 @@ class Equipment extends Item {
 
 class Weapon extends Equipment {
     constructor(){
-        super();this.addTags(['weapon']);
+        super();this.addTags([window.gm.ItemTags.Weapon]);
     }
     usable(context){return(this.canEquip(context));}
     use(context){ //context here is inventory not outfit
@@ -205,27 +205,9 @@ class Weapon extends Equipment {
 //a kind of special inventory for worn equipment
 class Outfit { //extends Inventory{
     constructor(){
-        /*this.list = {};  //this.list.Legs = {id:'Leggings' item:x}       old
-        this.list[Symbol.iterator] = function(){ //need iterator for for..of
-            let index = -1;
-            let arr = this;
-            let items = Object.keys(this);
-            return {
-               next(){
-                  while (true){
-                     index++;
-                     if (index >= items.length) return { done: true };
-                     if (arr[items[index]] !== undefined) break;
-                  }
-                  return {
-                     done: false,
-                     value: { index:items[index], value:arr[items[index]]}
-                  };
-               }
-            }
-         }*/
         //new: multiple slots may point to same item; load creates different items for each slot!
         this.list=[];// [{item:x, slots:['Legs']}]
+        this.slots=[];//['RHand','Legs']
         window.storage.registerConstructor(Outfit);
     }
     get parent(){return this._parent?this._parent():null;}
@@ -243,11 +225,6 @@ class Outfit { //extends Inventory{
         }
     }
     _updateId(oldId){
-        /*let slots = item.slotUse
-        for(let k=0; k<slots.length;k++){
-            let _el = this.list[slots[k]];
-            this.list[slots[k]].id = this.list[slots[k]].item.id;
-        }*/
     }
     count(){return(this.list.length);}//return( Object.keys(this.list).length);} old
     //count how many slots are used by an item
@@ -257,11 +234,6 @@ class Outfit { //extends Inventory{
     }
     //detect which slots are used by a item
     findItemSlot(id){
-        /*let n,_idx =[];    old
-        for (n of this.list){
-            if(n.item.id===id) _idx.push(n.index); //if(n.value.id===id) _idx.push(n.index);
-        }
-        return(_idx);*/
         for(var n of this.list){
             if(n.item.id===id) return(n.slots);
         }
@@ -276,9 +248,6 @@ class Outfit { //extends Inventory{
     }
     //override because findItemSlot returns array
     getItem(id, noerror=false){
-        /*let _idx = this.findItemSlot(id);      old
-        if(_idx.length<0) throw new Error('no such item: '+id);
-        return(this.list[_idx[0]].item);*/
         for(var n of this.list){
             if(n.item.id===id) return(n.item);
         }
@@ -287,13 +256,6 @@ class Outfit { //extends Inventory{
     }
     //returns all Item-Ids in list
     getAllIds(){   
-        /*let n,ids=[];   old
-        for (n of this.list){
-            if(n.value.item && ids.indexOf(n.value.item.id)<0){ //only unique items  
-                ids.push(n.value.item.id);
-            }
-        }
-        return(ids);*/
         let ids=[];
         for (var n of this.list){
             ids.push(n.item.id);
@@ -307,7 +269,7 @@ class Outfit { //extends Inventory{
         }
         return(null)
     }
-    canEquipSlot(slot){
+    canEquipSlot(slot){     //Todo a snake doesnt have RHand ! limit OutfitSlotLib-slot according bodypart, update slot after bodypart-change
         return({OK:true});
     }
     canUnequipSlot(slot){
@@ -332,19 +294,21 @@ class Outfit { //extends Inventory{
         _idx = _item.slotUse;
         let _oldIDs = [], _oldItem, _oldSlots = [];
         //check if equipment is equipable
-        result = item.canEquip(this);
+        result = this.canEquipSlot(_idx);                // check if slot is available for equip this
         if(result.OK){
-            for(let l=0; l< _idx.length;l++){  //check if the current equip can be unequipped
-                let oldId = this.getItemId(_idx[l]);
-                if(oldId==='') continue;
-                if(_oldIDs.indexOf(oldId)<0){
-                    _oldIDs.push(oldId);
-                    _oldSlots=_oldSlots.concat(this.getItem(oldId).slotUse);
+            result = item.canEquip(this);
+            if(result.OK){
+                for(let l=0; l< _idx.length;l++){  //check if the current equip can be unequipped
+                    let oldId = this.getItemId(_idx[l]);
+                    if(oldId==='') continue;
+                    if(_oldIDs.indexOf(oldId)<0){
+                        _oldIDs.push(oldId);
+                        _oldSlots=_oldSlots.concat(this.getItem(oldId).slotUse);
+                    }
+                    let _tmp = this.canUnequipItem(oldId);
+                    if(!_tmp.OK) result.msg += _tmp.msg; //todo duplicated msg if item uses multiple slots
+                    result.OK = result.OK && _tmp.OK;
                 }
-                let _tmp = this.canUnequipItem(oldId);
-                if(!_tmp.OK) result.msg += _tmp.msg; //todo duplicated msg if item uses multiple slots
-                result.OK = result.OK && _tmp.OK;
-                //Todo  check if slot is available fo equip this canEquipSlot(_idx[l])
             }
         }
         if(!result.OK){
@@ -353,29 +317,16 @@ class Outfit { //extends Inventory{
         }
         for(let m=0;m<_oldIDs.length;m++){
             this.removeItem(_oldIDs[m]);
-            /*_oldItem=this.getItem(_oldIDs[m]);
-            _oldItem.onUnequip(this);
-            this.parent.Inv.addItem(_oldItem);*/
         }
-        /*for(let i=0; i<_oldSlots.length;i++){   old
-            this.__clearSlot(_oldSlots[i]);
-        }*/
         //if item is from wardrobe/Inventory, remove it there
         if(item.parent && item.parent.removeItem){
             item.parent.removeItem(item.id);
             _item=window.gm.util.deepClone(item);
         }
         _item._parent = window.gm.util.refToParent(this);       //Todo currently we have 2 copies of equipment - 1 for wardrobe 1 for outfit otherwise this will not work
-        /*for(let k=0; k<_idx.length;k++){ //attach item to slots    old
-            let _el = this.list[_idx[k]];
-            if(!_el){
-                this.list[_idx[k]] = _el =  {id:'', item:null};
-            }
-            this.list[_idx[k]].id = _item.id;
-            this.list[_idx[k]].item = _item;
-        } */
         this.list.push({item:_item, slots:_item.slotUse});
         result=_item.onEquip(this);
+        result.removedIds=_oldIDs;
         this.postItemChange(_item.name,"equipped",""/*result.msg*/);
         return(result);
     }
@@ -399,14 +350,11 @@ class Outfit { //extends Inventory{
         }
         let _idx=_allIds.indexOf(id),_item = this.list[_idx].item;
         result=_item.onUnequip(this);
-        /*for(let i=0; i<_idx.length;i++){  old
-            this.__clearSlot(_idx[i]);
-        }*/
         this.list.splice(_idx,1);
         //unequipped items go into wardrobe except bodyparts
         if(_item.hasTag('body')){
             //dont store bodyparts 
-        }else if(_item.hasTag('weapon')){
+        }else if(_item.hasTag(window.gm.ItemTags.Weapon)){
             this.parent.Inv.addItem(_item);
         } else {
             this.parent.Wardrobe.addItem(_item);

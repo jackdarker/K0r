@@ -410,7 +410,7 @@ class HealthPotion extends Item {
         x.style=style;
         return(x);
     }
-    constructor(){ super('HealthPotion'); this.addTags([window.gm.ItemTags.Drink]); this.price=this.basePrice=15;this._style=0; }
+    constructor(){ super('HealthPotion'); this.addTags([window.gm.ItemTags.Drink,window.gm.ItemTags.Heal]); this.price=this.basePrice=15;this._style=0; }
     toJSON(){return window.storage.Generic_toJSON("HealthPotion", this); };
     static fromJSON(value){ return window.storage.Generic_fromJSON(HealthPotion, value.data);};
     //context is the skillUseItem calling this
@@ -604,10 +604,13 @@ window.gm.ItemTags = { //
     Material : 'material',
     Drink   : 'drink',
     Food    : 'food',
+    Heal    : 'heal',
+    Poison  : 'poison',
     //Outfit
     Piercing    : "piercing",
     Tattoo      : "tattoo",
     Armor      : "armor",
+    Wear    : 'wear',   //something to cover the body
     //weapons
     Tool    : 'tool',
     Weapon  : "weapon",

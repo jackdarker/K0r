@@ -1383,6 +1383,7 @@ class effDamage extends CombatEffect {
     static fromJSON(value){ return window.storage.Generic_fromJSON(effPoiseDamage, value.data);};
     get desc(){return(effPoiseDamage.name);}
     onApply(){
+        if(!window.story.state._gm.enablePoise) return;
         this.data.duration = 0;
         this.parent.parent.Stats.increment('poise',-1*this.amount);
         if(this.data.duration<1) this.parent.removeItem(this.data.id);  

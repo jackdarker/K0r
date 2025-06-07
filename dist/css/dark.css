@@ -30,7 +30,6 @@ section {
 }
 .author {
   color: lightyellow;
-  background-color: darkred;
 }
 .dev {
   color: #7bedf3;
@@ -43,12 +42,26 @@ statdown {
   color:red;
 }
 .tPC {
-  color: floralwhite;
+  	color: floralwhite;
+	border-color:#001eb1;
   /*slateblue,slategreen,royalblue*/
 }
 .tNPC1 {
   color: #d07526;
+bordercolor:#d07526;
 }
 .tNPC2 {
   color: green;
+border-color:green;
+}
+.tNPC3 {
+  	color: darkred;
+	border-color:darkred;
+}
+.tNPC4 {
+  	color: deepskyblue;
+	border-color:deepskyblue;
+}
+.progressbar {
+	background-color: gray;
 }

@@ -192,10 +192,12 @@ window.gm.renderRoom= function(room){
     let msg="",deltaT,dng=window.story.state.DngSY.dng,_evt,_evts= window.story.state[dng].tmp.evtSpawn[room];
     let _rnd=_.random(0,100);
     if(!_evts) return(msg);
+
     _evt=_evts["chest"];
     if(_evt && (_evt.state===0 || _evt.state===1)){
       msg+=window.story.render(dng+"_Chest");
     }
+
     _evt=_evts["mushroom"];
     if(_evt && (_evt.state===0 || _evt.state===1)){
         deltaT=window.gm.getDeltaTime(window.gm.getTime(),_evt.tick);
@@ -206,6 +208,7 @@ window.gm.renderRoom= function(room){
         }
         msg+=window.story.render(dng+"_Mushroom");
     }
+
     _evt=_evts["lectern"];
     if(_evt && (_evt.state===0 || _evt.state===1)){
         deltaT=window.gm.getDeltaTime(window.gm.getTime(),_evt.tick);
@@ -213,9 +216,11 @@ window.gm.renderRoom= function(room){
             _evt.tick=window.gm.getTime();_evt.state=0;
         }
     }
+
     if(_evt && (_evt.state===0)){
         msg+="</br>Was there something sparkling "+window.gm.printPassageLink("over there?",dng+"_Lectern");
     }
+    
     /*_evt=_evts["explore"];
     if(_evt && (_evt.state===0 || _evt.state===1)){
       msg+="It might be worth to "+window.gm.printLink("explore",'window.story.show("'+room+'_Explore")');+" this area some more.</br>";

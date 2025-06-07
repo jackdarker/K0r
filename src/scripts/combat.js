@@ -53,7 +53,7 @@ initCombat(){
   s.combat.enemyParty = this.EnemyFunc();
   s.combat.playerParty = [];
   for(let n of s._gm.playerParty){
-    s.combat.playerParty.push(s[n]);
+    s.combat.playerParty.push(s.chars[n]);
   }
   s.combat.turnStack = [];
   s.combat.actor = s.combat.target = s.combat.action = null;
@@ -215,7 +215,7 @@ statsline(whom,mark){
   if(mark) msg = "<td style=\"border-style:dotted;border-color:darkorchid;border-width:0.3em;\">";
   else msg = "<td>";
   msg+=whom.name+" Lv"+whom.level+"</td><td>"+bargraph(whom.health().value,whom.health().max,"lightcoral")
-    +"</td><td>"+bargraph(whom.Stats.get("poise").value,whom.Stats.get("poiseMax").value,"darkgrey")+bargraph(whom.Stats.get("arousal").value,whom.Stats.get("arousalMax").value,"lightpink")
+    +"</td><td>"+((window.story.state._gm.enablePoise)?bargraph(whom.Stats.get("poise").value,whom.Stats.get("poiseMax").value,"darkgrey"):"")+bargraph(whom.Stats.get("arousal").value,whom.Stats.get("arousalMax").value,"lightpink")
     +"</td><td>"+bargraph(whom.energy().value,whom.energy().max,"lightyellow")+bargraph(whom.Stats.get("will").value,whom.Stats.get("willMax").value,"lightblue")
     +"</td>";
   return(msg);
@@ -232,7 +232,7 @@ printStats(){
       player2 50/100  10/20      Ork2  20/20   10/100
   */
  let elmt = '<table id=\"combatstats\"><tbody>';
-  elmt += "<tr><th>Player</th><th>Health</th><th>Poise</br>Arousal</th><th>Energy</br>Will</th><th>   </th><th>Enemys</th><th>Health</th><th>Poise</br>Arousal</th><th>Energy</br>Will</th></tr>";
+  elmt += "<tr><th>Player</th><th>Health</th><th>"+((s._gm.enablePoise)?"Poise</br>":"")+"Arousal</th><th>Energy</br>Will</th><th>   </th><th>Enemys</th><th>Health</th><th>"+((s._gm.enablePoise)?"Poise</br>":"")+"Arousal</th><th>Energy</br>Will</th></tr>";
   for(let i=0;(i<players.length || i<enemys.length);i++){
     elmt += "<tr>";
     if(i<players.length){
@@ -247,12 +247,12 @@ printStats(){
     }
     elmt += "</tr><tr>";
     if(i<players.length){ //effects as additional row
-      elmt += "<td></td><td colspan='3' style=\"font-size:smaller\">"+players[i].Stance.id+" "+window.gm.Encounter.printCombatEffects(players[i])+"</td>";
+      elmt += "<td></td><td colspan='3' style=\"font-size:smaller\">"+((s._gm.enablePoise)?players[i].Stance.id:"")+" "+window.gm.Encounter.printCombatEffects(players[i])+"</td>";
     } else {
       elmt += "<td></td><td></td><td></td><td></td>";
     }
     if(i<enemys.length){
-      elmt += "<td></td><td></td><td colspan='3' style=\"font-size:smaller\">"+enemys[i].Stance.id+" "+window.gm.Encounter.printCombatEffects(enemys[i])+"</td>";
+      elmt += "<td></td><td></td><td colspan='3' style=\"font-size:smaller\">"+((s._gm.enablePoise)?enemys[i].Stance.id:"")+" "+window.gm.Encounter.printCombatEffects(enemys[i])+"</td>";
     } else {
       elmt += "<td></td><td></td><td></td><td></td><td></td>";
     }

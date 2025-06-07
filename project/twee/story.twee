@@ -2,32 +2,35 @@
 White Cell
 
 
-:: StoryData {"position":"1100,200"}
+:: StoryData
 {
 	"ifid": "6396C055-7E04-4B93-A56D-3AE6375E6E56",
 	"format": "Snowman",
 	"format-version": "2.0.2",
 	"Start": "Intro",
 	"tag-colors": {
-		"template": "orange"
+		"template": "orange",
+		"_back_": "gray",
+		"_nosave_": "yellow",
+		"_nodeffered_": "yellow",
+		"_isdeffered_": "brown",
+		"_noshortkey_": "brown",
+		"_fragm_":"blue"
 	},
 	"zoom": 1
 }
 
-:: Story JavaScript [script] {"position":"800,200"}
+:: Story JavaScript [script]
 
-:: Start {"position":"200,400"}
+:: Start
 Select a Link:
 <ul>
+    <li>[[_SuperSimpleStory_]]</li>
+	<li>[[_ImagesAndOtherMedia_]]</li>
+    <li>[[_VariablesAndScript_]]</li>
+	<li>[[_ControlElements_]]</li>
+    <li>[[_Inventory_]]</li>
+    <li>[[_SaveAndRestore_]]</li>
     <li>[[StartPage]]</li>
 </ul>
 
-
-:: GenericPassage [_nosave_]
-<!--call this passage after setting tmp.args !-->
-<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<div id='panel'></div><!--description is rendered here-->
-<div id='choice'></div> <!--choice is rendered here-->
-</article><article id="LogPanel"></article></section>
-<script>window.story.state.tmp.args[0]();
-</script>

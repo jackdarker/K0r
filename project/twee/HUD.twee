@@ -45,14 +45,15 @@ document.querySelector('#LinkO').addEventListener('click', function(){window.sto
 <div><%=window.gm.util.printLocationName(window.gm.player.location)%></br><%=window.gm.getTimeString()%></br><%=window.gm.getDateString()%></br></div><hr>
 <div><%=window.gm.player.name%></br>
 <%=window.gm.util.statsbar("health")%><%=window.gm.util.statsbar("energy")%><%=window.gm.util.statsbar("will")%>
+<%=window.gm.util.statsbar("arousal")%>
 <%if(s._gm.debug& 0x1>0){%>
-<%=window.gm.util.statsbar("arousal")%><%=window.gm.util.statsbar("satiation")%><%=window.gm.util.statsbar("savageness")%></div>
+<%=window.gm.util.statsbar("corruption")%></div>
 <%}%>
 <div></div>
 <!--<div <%=window.gm.player.canLevelUp?"class=\"green\"":""%>>XP/Level: <%=window.gm.player._data.XP+"/"+window.gm.player._data.level%></div>-->
 <hr>
 <form>
-<button type="button" id="LinkS" onclick='window.story.show("InspectPlayer");'>Status<sup>[s]</sup></button>
+<button type="button" id="LinkS" onclick='window.story.show("Status");'>Status<sup>[s]</sup></button>
 <button type="button" id="LinkI" onclick='window.story.show("Inventory");'>Inventory<sup>[i]</sup></button>
 <hr>
 <button type="button" id="save" onclick='window.gm.toggleDialog("#dialog_save");' style="width: 80%">Save/load</button>
@@ -72,11 +73,14 @@ document.querySelector('#LinkO').addEventListener('click', function(){window.sto
 :: LogPanel
 <!--<button type="button" id="toggleview" onclick=toggleview()><i class="fa fa-compress"></i></button>
 <button type="button" id="clearview" onclick=clearview()><i class="fa fa-trash-alt"></i></button>-->
-<div><a0 onclick=toggleview()>toggle view</a><a0 onclick=clearview()>clear log</a></div>
+<div style="font-size: smaller;"><a0 onclick=toggleview()>toggle view</a><a0 onclick=clearview()>clear log</a></div>
 <div class="scroll" style="font-size: smaller;"><%=window.gm.getLog()%></br></div>
 <script>
 function toggleview(){
-  document.querySelector("section").classList.toggle("section_swap");
+  let list=document.querySelector("section").classList;
+  if(list.contains("log_fullview")) list.toggle("log_fullview"),list.toggle("log_hideview");
+  else if(list.contains("log_hideview")) list.toggle("log_hideview");
+  else list.toggle("log_fullview");
 }
 function clearview(){
   window.gm.clearLog();window.gm.refreshAllPanel();
@@ -351,6 +355,18 @@ for(var i=0;window.gm.shop.WaresToSell.length>i;i++){
     cbCanBuy=(function(item){return(window.gm.shop.defaultCanSell(item,_cost));}),
     cbPostBuy=(function(item){window.gm.shop.defaultPostSell(item,_cost)}));
 }
+</script>
+
+:: LocalChest [_back_ _nosave_]
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<a0 id='hint' onclick='(function($event){document.querySelector("#"+id+"~p").toggleAttribute("hidden");})(this);'>Hint</a>
+<p class='speech' hidden>The left column shows the items currently present in this location, the right one your inventory.<br>
+Use the arrows to move the items between the columns but remember: the space in your inventory might be limited.<br>
+When you leave the location, all items you didnt store in your inventory are lost.  
+</p>[[Done|_back_]]<p id="choice"></p><br><p id="output"></p>
+<br>[[Done|_back_]]
+</article><article id="LogPanel"></article></section>
+<script>window.gm.shop.printItemTransfer(window.story.state.chars.LocalChest,window.gm.player);
 </script>
 
 

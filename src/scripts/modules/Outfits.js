@@ -316,6 +316,26 @@ class Gag extends Equipment {
     unequipText(){return("You removed the gadget .");}
     equipText(){return("That "+this.name+" protect your mouth.");}
 }
+class RingFinger extends Equipment {
+    static factory(style){let x = new RingFinger();x.style=style;return(x); }
+    constructor(){
+        super('RingFinger');
+        this.addTags(['jewellery']);
+        this.slotUse = ['uLHand'];    //TODO how to be able to equip L or R? detect free slot and redefine slotUse?
+        this.style = 0;   
+        this.lossOnRespawn = false;
+    }
+    toJSON(){return window.storage.Generic_toJSON("RingFinger", this); }
+    static fromJSON(value){return(window.storage.Generic_fromJSON(RingFinger, value.data));}
+    set style(style){ 
+        this._style = style; 
+    }
+    get style(){return this._style;}
+    get desc(){ 
+        if(this.style===10) return('thin gold ring');
+        return('thin silver ring');
+    }
+}
 class PiercingEars extends Equipment {
     static factory(style){let x = new PiercingEars();x.style=style;return(x); }
     constructor(){
@@ -429,7 +449,7 @@ class RobesZealot extends Equipment {
     }
     constructor(){
         super('RobesZealot');
-        this.addTags(['cloth']);
+        this.addTags(['cloth',window.gm.ItemTags.Wear]);
         this.slotUse = ['Breast','Stomach'];//,'Hips','Legs'];
         this.slotCover = ['bBreast','uBreast','pNipples','bPenis','bVulva','bBalls','bClit','bAnus','pPenis','pClit'];    
         this.lossOnRespawn = true;this.style=0;
@@ -458,7 +478,7 @@ class RobesZealot extends Equipment {
 class HarnessRubber extends Equipment {
     constructor(){
         super('HarnessRubber');
-        this.addTags(['rubber']);
+        this.addTags(['rubber',window.gm.ItemTags.Wear]);
         this.slotUse = ['Breast','Stomach'];
         this.slotCover = ['bBreast','uBreast'];    
         this.lossOnRespawn = true;
@@ -475,7 +495,7 @@ class Briefs extends Equipment {
     }
     constructor(){
         super('Briefs');
-        this.addTags(['cloth']);
+        this.addTags(['cloth',window.gm.ItemTags.Wear]);
         this.slotUse = ['uHips'];
         this.slotCover = ['bPenis','bVulva','bBalls','bClit','bAnus','pPenis','pClit'];    
         this.lossOnRespawn = true;this.style=0;
@@ -511,7 +531,7 @@ class AnalPlug extends Equipment {
     constructor(){
         super('AnalPlug');
         this.addTags(['ButtPlug']);
-        this.slotUse = ['uAnus'];
+        this.slotUse = ['uAnus',window.gm.ItemTags.Wear];
         this.slotCover = [];    
         this.lossOnRespawn = false;
         this.style=0,this.lewd.slut = 3;
@@ -559,7 +579,7 @@ class CockRing extends Equipment {
     constructor(){
         super('CockRing');
         this.addTags(['lewd']);
-        this.slotUse = ['uPenis'];
+        this.slotUse = ['uPenis',window.gm.ItemTags.Wear];
         this.slotCover = [];    
         this.lossOnRespawn = false;
         this.style=0,this.lewd.slut = 1;
@@ -592,7 +612,7 @@ class ChastityBelt extends Equipment {
     }
     constructor(){
         super('ChastityBelt');
-        this.addTags(['steel']);
+        this.addTags(['steel',window.gm.ItemTags.Wear]);
         this.slotUse = ['uPenis','uVulva'];
         this.slotCover = ['bPenis','bVulva','bClit','pPenis','pClit'];    
         this.lossOnRespawn = false;
@@ -626,7 +646,7 @@ class BikiniBottomLeather extends Equipment {
     }
     constructor(){
         super('BikiniBottomLeather');
-        this.addTags(['cloth']);
+        this.addTags(['cloth',window.gm.ItemTags.Wear]);
         this.slotUse = ['uHips'];
         this.slotCover = ['bPenis','bVulva','bBalls','bClit','bAnus','pPenis','pClit'];    
         this.lossOnRespawn = true;this.style=0;
@@ -658,7 +678,7 @@ class BikiniTopLeather extends Equipment {
     }
     constructor(){
         super('BikiniTopLeather');
-        this.addTags(['cloth']);
+        this.addTags(['cloth',window.gm.ItemTags.Wear]);
         this.slotUse = ['uBreast'];
         this.slotCover = ['pNipples'];    
         this.lossOnRespawn = true;this.style=0;
@@ -692,7 +712,7 @@ class ShortsLeather extends Equipment {
     }
     constructor(){
         super();
-        this.addTags(['cloth']);
+        this.addTags(['cloth',window.gm.ItemTags.Wear]);
         this.slotUse = ['Hips','Legs'];
         this.slotCover = ['bPenis','bVulva','bBalls','bClit','bAnus','pPenis','pClit'];   
         this.lossOnRespawn = true;this.style=0;
@@ -740,7 +760,7 @@ class Skirt extends Equipment {
     }
     constructor(){
         super();
-        this.addTags(['cloth']);
+        this.addTags(['cloth',window.gm.ItemTags.Wear]);
         this.slotUse = ['Hips','Legs'];
         this.slotCover = ['bPenis','bVulva','bBalls','bClit','bAnus','pPenis','pClit'];   
         this.lossOnRespawn = true;this.style=0;
@@ -769,14 +789,40 @@ class Skirt extends Equipment {
 }
 //this is an Inventory-item, not wardrobe
 class Crowbar extends Weapon {
-    constructor(){
-        super();this.id=this.name='Crowbar';
-        this.addTags(['tool', 'weapon']);
-        this.slotUse = ['RHand'];
-        this.lossOnRespawn = true;
+    static factory(style){
+        let x = new Crowbar();
+        x.style=style;
+        return(x);
     }
-    descLong(fconv){return(fconv('$[I]$ $[hold]$ a crowbar.'));}
-    get desc(){ return 'durable crowbar.';}
+    constructor(){
+        super();
+        this.addTags(['tool']);
+        this.slotUse = ['LHand'];
+        this.lossOnRespawn = true;
+        this.style=0;
+    }
+    set style(style){ 
+        this._style = style; 
+        if(style===0) this.id='Crowbar',this.name='Crowbar';
+        if(style===10) this.id='PipeWrench',this.name='Pipe Wrench';
+        if(style===20) this.id='Hammer',this.name='Hammer';
+        else throw new Error(this.id +' doesnt know '+style);
+    }
+    get style(){return this._style;}
+    get desc(){ 
+        let msg ='a crowbar';
+        switch(this._style){
+            case 10:
+                msg=('a heavy wrench');
+                break;
+            case 20:
+                msg=('a mechanicans hammer');
+                break;
+            default:
+        }
+        return(msg);
+    }
+    descLong(fconv){return(fconv('$[I]$ $[hold]$ a '+this.name+'.'));}
     toJSON(){return window.storage.Generic_toJSON("Crowbar", this); }
     static fromJSON(value){return(window.storage.Generic_fromJSON(Crowbar, value.data));}
 }
@@ -784,7 +830,7 @@ class Crowbar extends Weapon {
 class Shovel extends Weapon {
     constructor(){
         super();this.id=this.name='Shovel';
-        this.addTags(['tool', 'weapon']);
+        this.addTags(['tool']);
         this.slotUse = ['RHand','LHand'];
         this.lossOnRespawn = true;
     }
@@ -1117,6 +1163,7 @@ window.gm.ItemsLib = (function (ItemsLib){
     window.storage.registerConstructor(ChastityBelt);
     window.storage.registerConstructor(CockRing);
     window.storage.registerConstructor(Collar);
+    window.storage.registerConstructor(RingFinger);
     window.storage.registerConstructor(Gag);
     window.storage.registerConstructor(DaggerSteel);
     window.storage.registerConstructor(HarnessRubber);
@@ -1146,6 +1193,7 @@ window.gm.ItemsLib = (function (ItemsLib){
     ItemsLib['AnalPlugMed'] = function(){ let x= new AnalPlug();x.style=100;return(x); };
     ItemsLib['BikiniBottomLeather'] = function(){ return new BikiniBottomLeather();};
     ItemsLib['BikiniTopLeather'] = function(){ return new BikiniTopLeather();};
+    ItemsLib['RingFinger'] = function(){let x= new RingFinger();x.style=0;return(x);};
     ItemsLib['FaceWrap'] = function(){let x= new Gag();x.style=0;return(x);};
     ItemsLib['Muzzle'] = function(){let x= new Gag();x.style=10;return(x);};
     ItemsLib['BallGag'] = function(){let x= new Gag();x.style=20;return(x);};
@@ -1187,6 +1235,7 @@ window.gm.ItemsLib = (function (ItemsLib){
     ItemsLib['GlovesRubber'] = function(){ let x= new BracerLeather();x.style=200;return(x); };
     //special wardrobe-item combination
     ItemsLib['Crowbar']  = function(){ return new Crowbar();};
+    ItemsLib['PipeWrench'] = function(){return(new Crowbar.factory(10));};
     ItemsLib['Shovel']  = function(){ return new Shovel();};
     ItemsLib['StaffWodden']  = function(){ return new StaffWodden();};
     ItemsLib['Handcuffs'] = function(){ return new HandCuffs();};

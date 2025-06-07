@@ -230,7 +230,7 @@ window.storage = {
       window.story.history = save.history;
       window.story.checkpointName = save.checkpointName;
       window.gm.rebuildObjects();  // this is for handling version-upgrades
-      window.gm.postVictory({flee:false});//teleport into dng or other location   
+      window.story.show(window.gm.player.location);//window.gm.postVictory({flee:false});//teleport into dng or other location   
   },
   getAchievements: function(){
     var ahash = JSON.stringify({achievements : window.gm.achievements});
@@ -257,6 +257,27 @@ window.storage = {
     }
   }
 };
+
+Map.prototype.toJSON=function(){ //map doesnt have keys so we cant use window.storage.Generic_toJSON("Map", this);   TODO someone could do myMap.myValue="xx" and it wouldnt be saved
+  var data, index, key;
+  data = {};
+  this.forEach(function (value, key, map) {
+    data[key] = value;
+  });
+  return {ctor: "Map", data: data};
+};
+Map.fromJSON=function(value){
+//return(window.storage.Generic_fromJSON(Map, value.data));
+  var obj, name, setter, data=value.data;
+  
+  obj = new Map();
+  for (name in data){
+    obj.set(name,data[name]);
+  }
+  return obj;
+};
+window.storage.registerConstructor(Map);
+
 /*  //save demo
 window.gm.testsaveReviver = function (){
   window.storage.registerConstructor(Bar);

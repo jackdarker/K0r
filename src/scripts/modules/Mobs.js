@@ -81,6 +81,52 @@ class Mole extends Mob {
         this.Stats.increment('healthMax',-0.5*(this.health().max));
     }
 }
+class Cat extends Mob {
+    static factory(type){
+        let foe = new Cat();
+        if(type==='Panther'){
+            foe.baseName = foe.id = 'Panther';
+            foe.Stats.increment('healthMax',0.3*(foe.health().max));
+        } 
+        return foe;
+    }
+    constructor(){
+        super();
+        this.baseName = this.id = 'Cat';
+        this.pic= "FeralCat";
+        this.level_min =3;
+        this.loot= [{id:'WolfTooth',chance:25,amount:1},{id:'Money',chance:25,amount:20}];
+        this.Outfit.addItem(new BaseQuadruped());
+        this.Outfit.addItem(SkinFur.factory('cat','gray'));
+        this.Outfit.addItem(HandsPaw.factory('cat'));
+        this.Outfit.addItem(PenisHuman.factory('cat'));
+        this.Outfit.addItem(AnusHuman.factory('cat'));
+        this.Outfit.addItem(TailWolf.factory('cat'));
+        this.Outfit.addItem(FaceWolf.factory('cat'));
+        this.Stats.increment('arm_blunt',5);
+    }
+    calcCombatMove(enemys,friends){
+        let result = {OK:true,msg:''};//this._canAct();
+        let rnd = _.random(1,100);
+        let spawn="CallHelpWolf";
+        if(!this.fconv) this.fconv = window.gm.util.descFixer(this);
+        result.action =result.target= null;
+        if(window.story.state.combat.turnCount%2===0){
+            rnd = _.random(0,enemys.length-1);
+            result.action = "Bite";
+            result.target = [enemys[rnd]];
+            result.msg =this.name+" snaps at "+result.target[0].name+".</br>"+result.msg;
+            return(result);
+        } else {
+            rnd = _.random(0,enemys.length-1);
+            result.action = "Attack";
+            result.target = [enemys[rnd]];
+            result.msg =this.name+" claws at "+result.target[0].name+".</br>"+result.msg;
+            return(result);
+        }
+        return(super.calcCombatMove(enemys,friends));
+    }
+}
 class Wolf extends Mob {
     static factory(type){
         let foe = new Wolf();
@@ -987,6 +1033,7 @@ window.gm.Mobs = (function (Mobs){
     window.storage.registerConstructor(Mob);//some characters derive from Mob
     window.storage.registerConstructor(Ruff);
     //
+    Mobs.Cat = Cat.factory;
     Mobs.AnthroCat = function(){ return function(param){return(AnthroCat.factory(param));}("AnthroCat")};
     Mobs.AnthroFox = function(){ return function(param){return(AnthroCat.factory(param));}("AnthroFox")};
     Mobs.Fungus = Fungus.factory;
