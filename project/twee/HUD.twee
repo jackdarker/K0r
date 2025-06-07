@@ -1,22 +1,20 @@
-:: sidebar {"position":"375,500"}
+:: sidebar_old {"position":"375,500"}
 <h3><%=window.story.name%> V<%=window.gm.getSaveVersion().toString().replaceAll(",",".")%></h3>
 <img src='<%=window.gm.getSidebarPic()%>' width="256" height="256">
-<hr>
-<div><%=window.gm.util.printLocationName(window.gm.player.location)%></br> <!--this looks often weird, extract [name:Forest] instead ??-->
-<%=window.gm.getTimeString()%> </br> <%=window.gm.getDateString()%></br>
-<hr>
-<%=window.gm.player.name%></br></div>
-<%=window.gm.util.bargraph(window.gm.player.health().value,window.gm.player.health().max,"red","Health: ")%>  
-<%=window.gm.util.bargraph(window.gm.player.energy().value,window.gm.player.energy().max,"yellow","Energy: ")%>
-<%=window.gm.util.bargraph(window.gm.player.will().value,window.gm.player.will().max,"green","Will: ")%>
-<%=window.gm.util.bargraph(window.gm.player.arousal().value,window.gm.player.arousal().max,"coral","Arousal: ")%>
-<div>Money: <%=window.gm.player.Inv.countItem('Money') %> </div>
-<div <%=window.gm.player.canLevelUp?"class=\"green\"":""%>>XP/Level: <%=window.gm.player._data.XP+"/"+window.gm.player._data.level%></div>
+<div><%=window.gm.util.printLocationName(window.gm.player.location)%></br><%=window.gm.getTimeString()%></br><%=window.gm.getDateString()%></br></div><hr>
+<div><%=window.gm.player.name%></br>
+<%=window.gm.util.statsbar("health")%><%=window.gm.util.statsbar("energy")%><%=window.gm.util.statsbar("will")%>
+<%if(s._gm.debug& 0x1>0){%>
+<%=window.gm.util.statsbar("arousal")%><%=window.gm.util.statsbar("satiation")%><%=window.gm.util.statsbar("savageness")%></div>
+<%}%>
+<div>Money: <%=window.gm.player.Inv.countItem('Money')%></div>
+<!--<div <%=window.gm.player.canLevelUp?"class=\"green\"":""%>>XP/Level: <%=window.gm.player._data.XP+"/"+window.gm.player._data.level%></div>-->
 <hr>
 <form>
-<button type="button" id="status">Status</button>
-<button type="button" id="inv">Inventory</button>
-<button type="button" id="quests">Quests</button>
+<button type="button" id="LinkS">Status<sup>[s]</sup></button>
+<button type="button" id="LinkI">Inventory<sup>[i]</sup></button>
+<button type="button" id="LinkO">Outfit<sup>[o]</sup></button>
+<button type="button" id="LinkQ">Quests<sup>[q]</sup></button>
 <button type="button" id="dashboard">More</button>
 <!--<button type="button" id="wait" style="width: 100%">Rest 45min</button>-->
 <hr>
@@ -25,21 +23,46 @@
 <button type="button" id="settings" style="width: 80%">Settings</button>
 <button type="button" id="achievements" onclick='window.story.show("Achievements");' style="width: 80%">Achievements</button>
 <%if(s._gm.debug& 0x1>0){%>
-<button type="button" id="debug" style="width: 80%">Debug</button>
-<script>document.querySelector('#debug').addEventListener('click', function(){window.story.show('debug');});</script>
+<button type="button" id="LinkD" style="width: 80%">Debug<sup>[d]</sup></button>
+<script>document.querySelector('#LinkD').addEventListener('click', function(){window.story.show('debug');});</script>
 <%}%>
 </form>
 <script>
 //document.querySelector('#wait').addEventListener('click', function(){window.gm.addTime(45);window.gm.refreshAllPanel();}); 
-document.querySelector('#inv').addEventListener('click', function(){window.story.show('Inventory');});
-document.querySelector('#quests').addEventListener('click', function(){window.story.show('QuestList');});
+document.querySelector('#LinkI').addEventListener('click', function(){window.story.show('Inventory');});
+document.querySelector('#LinkQ').addEventListener('click', function(){window.story.show('QuestList');});
 document.querySelector('#dashboard').addEventListener('click', function(){window.story.show('Player_Dashboard');});
-document.querySelector('#status').addEventListener('click', function(){window.story.show('Status');});
+document.querySelector('#LinkS').addEventListener('click', function(){window.story.show('Status');});
 document.querySelector('#save').addEventListener('click', function(){window.gm.toggleDialog('#dialog_save');});
 document.querySelector('#help').addEventListener('click', function(){window.story.show('Help_Index');}); 
 document.querySelector('#settings').addEventListener('click', function(){window.story.show('Settings');}); 
+document.querySelector('#LinkO').addEventListener('click', function(){window.story.show('Wardrobe');}); 
 </script>
 
+:: sidebar
+<h3><%=window.story.name%> V<%=window.gm.getSaveVersion().toString().replaceAll(",",".")%></h3>
+<img src='<%=window.gm.getSidebarPic()%>' width="256" height="256">
+<div><%=window.gm.util.printLocationName(window.gm.player.location)%></br><%=window.gm.getTimeString()%></br><%=window.gm.getDateString()%></br></div><hr>
+<div><%=window.gm.player.name%></br>
+<%=window.gm.util.statsbar("health")%><%=window.gm.util.statsbar("energy")%><%=window.gm.util.statsbar("will")%>
+<%if(s._gm.debug& 0x1>0){%>
+<%=window.gm.util.statsbar("arousal")%><%=window.gm.util.statsbar("satiation")%><%=window.gm.util.statsbar("savageness")%></div>
+<%}%>
+<div></div>
+<!--<div <%=window.gm.player.canLevelUp?"class=\"green\"":""%>>XP/Level: <%=window.gm.player._data.XP+"/"+window.gm.player._data.level%></div>-->
+<hr>
+<form>
+<button type="button" id="LinkS" onclick='window.story.show("InspectPlayer");'>Status<sup>[s]</sup></button>
+<button type="button" id="LinkI" onclick='window.story.show("Inventory");'>Inventory<sup>[i]</sup></button>
+<hr>
+<button type="button" id="save" onclick='window.gm.toggleDialog("#dialog_save");' style="width: 80%">Save/load</button>
+<button type="button" id="help" onclick='window.story.show("Help_Index");' style="width: 80%">Help</button>
+<button type="button" id="settings" onclick='window.story.show("Settings");' style="width: 80%">Settings</button>
+<button type="button" id="achievements" onclick='window.story.show("Achievements");' style="width: 80%">Achievements</button>
+<%if(s._gm.debug& 0x1>0){%>
+<button type="button" id="LinkD" onclick='window.story.show("debug");' style="width: 80%">Debug<sup>[d]</sup></button>
+<%}%>
+</form>
 
 :: CenterDialogs
 <!--called to include important dialogs; mainly the save-Dialog because of special behaviour-->
@@ -60,7 +83,7 @@ function clearview(){
 }
 </script>
 
-:: SaveDialog
+:: SaveDialog [_noshortkey_]
 <dialog role="dialog" id='dialog_save' aria-labelledby="dialog-heading">
     <button id="close-dialog">Back</button> <div><%=(window.story.state._gm.nosave?"save disabled in this scene":"")%></div>
     <form>
@@ -91,7 +114,7 @@ function clearview(){
 var infodisp = 'dialog form label output'; //Url to output according nesting node classes; see structure of dialog below
 var x = 1; 
 var _slots = ['Auto','1','2','3','4','5','6','7','8']; //number saveslots available; has to fit save form
-for(var i=0; i< _slots.length;i++) {
+for(var i=0; i< _slots.length;i++){
   const _x = _slots[i];
   const slot = 'save'.concat(_x);
   document.querySelector('#save'.concat(_x)).addEventListener('click', function(){
@@ -122,7 +145,7 @@ function refresh(slot){
     var out = document.querySelector('dialog form output'.concat(slot));
     if(out) out.textContent = ok;
 }
-function readFile(input) {
+function readFile(input){
     var OK = window.storage.loadFile(input);  //TODO this runs asynchron
     if(!OK){ 
       return;
@@ -131,7 +154,7 @@ function readFile(input) {
 </script>
 
 
-:: Inventory [_back_]
+:: Inventory [_back_ _nodeffered_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 [[Back|_back_]]</br>
 <%=window.gm.player.name%> inventory: </br></br>
@@ -141,14 +164,16 @@ var inv = window.gm.player.Inv;
 var maxSlots = inv.count(); 
 for(var i=0;i<maxSlots;i++){
   id=inv.getItemId(i);
-  %><%=window.gm.printItem(id,inv.countItem(id).toString()+'x '+inv.getItem(id).desc+' '+inv.getItem(id).usable(inv).msg,window.gm.player)%><%
+  %><%=window.gm.printItem(id,inv.countItem(id).toString()+'x '+inv.getItem(id).desc+' '
+    //+inv.getItem(id).usable(inv).msg
+    ,window.gm.player)%><%
 } 
 %>
 <div id='output'></div></br>
 </article><article id="LogPanel"></article></section>
 
 
-:: Relations [_back_]
+:: Relations [_back_ _nodeffered_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 [[Back|_back_]]</br>
 <%=window.gm.player.name%> relations: </br></br>
@@ -156,7 +181,7 @@ for(var i=0;i<maxSlots;i++){
 </article><article id="LogPanel"></article></section>
 
 
-:: Achievements [_back_]
+:: Achievements [_back_] 
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 [[Back|_back_]]</br>
 <%=window.gm.printAchievements()%>
@@ -168,7 +193,9 @@ for(var i=0;i<maxSlots;i++){
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Here you can check and modify several options: </br>
 Your outfit can only be changed by using a wardrobe.</br>
-Your party consist of <%=(function(){var msg=[];for(el of window.story.state._gm.playerParty){msg.push(window.story.state[el].name);}return(msg);}()).join(',')%></br>
+<%if(window.story.state._gm.playerParty.length>1){%>
+  Your party consist of <%=(function(){var msg=[];for(var n of window.story.state._gm.playerParty){msg.push(window.story.state.chars[n].name);}return(msg);}()).join(',')%></br>
+<%}%>
 [[Back|_back_]] [[Status]] [[Levelup]] [[View|Mirror]] [[Inventory]] [[Relations]] [[QuestList]]</br>
 </article><article id="LogPanel"></article></section>
 
@@ -183,35 +210,40 @@ Your party consist of <%=(function(){var msg=[];for(el of window.story.state._gm
 
 :: Mirror [_back_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-Checking out <%=window.gm.player.name%>:   [[Back|_back_]]</br>
-<div id='output'><%=window.gm.printBodyDescription(window.gm.player)%><div>
+[[Back|_back_]]</br> Checking out <%=window.gm.player.name%>:</br>
+<div id='output'><%=window.gm.printBodyDescription(window.gm.player,true)%><div>
+[[Back|_back_]]</br>
 <!--todo: set height depending on browsersize-->
 <!--<div id='Canvas' style='height: 30em;background: url("assets/doll/doll_small_xcf-Skirt.png") no-repeat center,url("assets/doll/doll_small_xcf-Body.png") no-repeat center, url(<%=window.gm.getScenePic(window.gm.player.location)%>)no-repeat center;color:black;'></div>-->
 </article><article id="LogPanel"></article></section>
 
 
-:: Wardrobe [_back_]
+:: Wardrobe [_back_ _nodeffered_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-[[Back|_back_]] (Tools and weapons can be changed via Inventory.)</br>
-<%=window.gm.player.name%> has equipped: <%=window.gm.printEquipmentSummary()%></br>
-<div id="choice"></div>
+<p>[[Back|_back_]] [[Mirror]]</p> (Tools and weapons can be changed via Inventory.)</br>
+<%=window.gm.player.name%> has equipped: <%=window.gm.printEquipmentSummary()%></br></br>
+<div id="output"></div><div id="choice"></div>
 </article><article id="LogPanel"></article></section>
 <script>
 var x = 0, id=''; 
-var whom = window.gm.player;
-var _ids = whom.Wardrobe.getAllIds(); 
+var whom = window.gm.player,_ids2 = whom.Outfit.getAllIds();;
+var _ids = whom.Wardrobe.getAllIds().filter(x=>{return(_ids2.indexOf(x)<0)}); //filter away already equipped ids 
 for(var i=0;i<_ids.length;i++){window.gm.printEquipment(whom,whom.Wardrobe.getItem(_ids[i]));}
-_ids = whom.Outfit.getAllIds(); 
-for(var i=0;i<_ids.length;i++){window.gm.printEquipment(whom,whom.Outfit.getItem(_ids[i]));}
+for(var i=0;i<_ids2.length;i++){window.gm.printEquipment(whom,whom.Outfit.getItem(_ids2[i]));}
 </script>
 
-:: Settings [_back_]
+:: Settings [_back_ _noshortkey_]
 <section> <!--<aside id="sidebar"></aside>--><article><%=window.story.render("CenterDialogs") %>
 [[Back|_back_]]</br>
 <p class="author">settings are stored in save-game until I find a way to store them in cookies.</p>
 Theme:
-<a href="javascript:window.styleSwitcher.setStyle('default');window.gm.refreshAllPanel();">default</a>
+<a href="javascript:window.styleSwitcher.setStyle('light');window.gm.refreshAllPanel();">light</a>
+<a href="javascript:window.styleSwitcher.setStyle('gray');window.gm.refreshAllPanel();">gray</a>
 <a href="javascript:window.styleSwitcher.setStyle('dark');window.gm.refreshAllPanel();">dark</a></br>
+show Lewd pictures: <input type="checkbox" id='showNSFWPictures' onclick='toggleSetting(this);' name="showNSFWPictures" value="x"> (If false, lewd graphics are not shown/replaced with SFW.)</br>
+show dungeon map: <input type="checkbox" id='showDungeonMap' onclick='toggleSetting(this);' name="showDungeonMap" value="x"> (If false, the dungeon map is not rendered.)</br>
+show Combat-pictures: <input type="checkbox" id='showCombatPictures' onclick='toggleSetting(this);' name="showCombatPictures" value="x"> (Some graphics are large and take time to render, thus slowing down combat.)</br>
+non-metric measurement: <input type="checkbox" id='nonMetric' onclick='toggleSetting(this);' name="nonMetric" value="x" disabled> (NOT IMPLEMENTED! Use inch/galllons instead of metric units)</br>
 <!--TODO what settings ?
 *  Disable over-penetration </br>
 A lot of female are not happy about the fact that many erotic fiction or imagery picture the penetration of cervix because its pretty painful. You might disable this here therefore. </br>
@@ -222,25 +254,33 @@ On the other hand a lot of males have some kind of fetish for this. </br>
 If you enable this your route to bad end by sex-related action is much shorter. This should enforce a more chaste play.</br>
 -->
 </article><article id="LogPanel"></article></section>
-
+<script>
+function toggleSetting(elmt){
+  let toggle=window.story.state.Settings[elmt.id]=!window.story.state.Settings[elmt.id];
+  elmt.checked=toggle;
+}
+['showNSFWPictures','showDungeonMap','showCombatPictures','nonMetric'].forEach(x=>(document.querySelector("#"+x).checked=window.story.state.Settings[x]));
+</script>
 
 :: Settings2 [_back_]
 <!--just test-->
 <section><!--<aside id="sidebar"></aside>--><article><%=window.story.render("CenterDialogs") %>
 <div><canvas id="exampleCanvas" width="240" height="225">Your browser doesn't support the canvas tag.    </canvas></div>
+<svg height="200px" id="svg"><%=window.gm.images["CatGirl1"]()%></svg>
 <button onclick='window.gm.printCombatScreen()'>test a</button>
-<button onclick='onimage("assets/favicon.png")'>test b</button>
-    <script>
-      function onimage(imgsrc) {
-        var canvas = document.getElementById("exampleCanvas");
-        var ctx = canvas.getContext("2d");
-        //var img = document.getElementById("photo");
-var img = new Image(); // Create new img element
-img.src = imgsrc;//'https://twinery.org/homepage/img/logo.svg';   //todo the loading o image takes a while and it will not refreh automatically
-        ctx.drawImage(img, 0, 0);
-      };
-      onimage("assets/bird.gif");
-    </script>
+<button onclick='onimage("assets/favicon.png")'>test IMG</button>
+<button onclick='window.gm.util.fitSVGtoContent("svg")'>test SVG</button>
+<script>
+  function onimage(imgsrc){
+    var canvas = document.getElementById("exampleCanvas");
+    var ctx = canvas.getContext("2d");
+    //var img = document.getElementById("photo");
+    var img = new Image(); // Create new img element
+    img.src = imgsrc;//'https://twinery.org/homepage/img/logo.svg';   //todo the loading o image takes a while and it will not refreh automatically
+    ctx.drawImage(img, 0, 0);
+  };
+  onimage("assets/bird.gif");
+</script>
 [[Back|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 
@@ -249,18 +289,17 @@ img.src = imgsrc;//'https://twinery.org/homepage/img/logo.svg';   //todo the loa
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%let char=window.gm.player;%>
 Status of <%=char.name%>:   [[Back|_back_]]</br>
-<a0 onclick='window.gm.printOutput(window.gm.printEffectSummary("<%=char.id%>",true,false,false));'>Stats</a>
-<a0 onclick='window.gm.printOutput(window.gm.printEffectSummary("<%=char.id%>",false,false,true));'>Resistance</a>
-<a0 onclick='window.gm.printOutput(window.gm.printEffectSummary("<%=char.id%>",false,true,false));'>Fetish</a>
+<a0 onclick='window.gm.printOutput(window.gm.printEffectSummary("<%=char.id%>",{showstats:true}));'>Stats</a>
+<a0 onclick='window.gm.printOutput(window.gm.printEffectSummary("<%=char.id%>",{showresistance:true}));'>Resistance</a>
+<a0 onclick='window.gm.printOutput(window.gm.printEffectSummary("<%=char.id%>",{showskill:true}));'>Skills</a>
+<a0 onclick='window.gm.printOutput(window.gm.printEffectSummary("<%=char.id%>",{showfetish:true}));'>Fetish</a>
 </br><div id='output'></div></br>   <!--message is rendered here-->
 [[Back|_back_]]</br>
 </article><article id="LogPanel"></article></section>
-<script>
-window.gm.printOutput(window.gm.printEffectSummary(window.gm.player.id,true,false));
-</script>
+<script>window.gm.printOutput(window.gm.printEffectSummary(window.gm.player.id,{showstats:true}));</script>
 
 
-:: Levelup [_back_ _nosave_]
+:: Levelup [_back_ _nosave_ _noshortkey_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 [[Back|_back_]]</br>
 <% let char=window.gm.player;if(char.canLevelUp){%>
@@ -270,24 +309,24 @@ window.gm.printOutput(window.gm.printEffectSummary(window.gm.player.id,true,fals
 <% }%>
 <div id='output'></div>
 </article><article id="LogPanel"></article></section>
-<script>function levelUp(char) {
-  window.story.state[char].levelUp(1);
+<script>function levelUp(char){
+  window.story.state.chars[char].levelUp(1);
   window.gm.refreshAllPanel();
 }
-function statUp(statid,charname) {
-  let char =window.story.state[charname];
+function statUp(statid,charname){
+  let char =window.story.state.chars[charname];
   char.Stats.increment(statid,1);
   char._data.unspentStat-=1; //todo ugly
   window.gm.refreshAllPanel();
 }
-function showStats(charname) {
-  let char =window.story.state[charname];
+function showStats(charname){
+  let char =window.story.state.chars[charname];
   let _wheights = char.autolevelWheight();
   let msg='';
-  if(char._data.unspentStat>0) {
+  if(char._data.unspentStat>0){
     msg=char._data.unspentStat+' points can be distributed on stats:</br><table>';
-    for(el of _wheights) {
-      msg+="<tr><td><a href=\"javascript:void(0)\" onclick='statUp(\""+el.id+"\",\""+char.id+"\")'>"+el.id+"</a></td><td>is "+char.Stats.getItem(el.id).base+"</td></tr>";
+    for(var n of _wheights){
+      msg+="<tr><td><a href=\"javascript:void(0)\" onclick='statUp(\""+n.id+"\",\""+char.id+"\")'>"+n.id+"</a></td><td>is "+char.Stats.getItem(n.id).base+"</td></tr>";
     }
     msg+='</table>';
   }
@@ -305,7 +344,7 @@ and run renderToSelector("#panel", "listsell");
 -->
 <script>
 //define window.gm.shop.WaresToSell in your passage !
-for(var i=0;window.gm.shop.WaresToSell.length>i;i++) {
+for(var i=0;window.gm.shop.WaresToSell.length>i;i++){
     let item = window.gm.shop.WaresToSell[i].item;
     let _cost=window.gm.shop.WaresToSell[i].cost;
     window.gm.shop.printShopSellEntry(item,_cost,
@@ -323,7 +362,7 @@ and run renderToSelector("#panel", "listbuy");
 -->
 <script>
 //define window.gm.shop.WaresToBuy in your passage !
-for(var i=0;window.gm.shop.WaresToBuy.length>i;i++) {
+for(var i=0;window.gm.shop.WaresToBuy.length>i;i++){
     let item=window.gm.shop.WaresToBuy[i].item;
     let _cost=window.gm.shop.WaresToBuy[i].cost;
     window.gm.shop.printShopBuyEntry(item,_cost,

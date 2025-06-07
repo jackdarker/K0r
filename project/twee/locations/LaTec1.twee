@@ -1,0 +1,62 @@
+
+
+:: DngNG_100
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%></br>
+Stepping out of the door, you are now standing in a metal corridor.</br>
+There is another of those heavy sliding doors further down but also to your right.
+
+
+</article><article id="LogPanel"></article></section>
+
+
+
+:: DngNG_110
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%></br>
+There is some kind of blue glowing liquid sprinkling out of some pipe at the wall. 
+It splashes all over the width of the aisle, though not very much.
+Maybe its a good idea to stay away from that?
+There is a large valve on the pipe next where you are standing.
+
+[[Go back]]
+[[Close the valve]]
+[[Just pass quickly through the liquid]]
+</article><article id="LogPanel"></article></section>
+
+
+:: DngNG_200
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%></br>
+Great, another broken pipe flooding the floor.
+There is some valve but the handle is missing. 
+
+[[Go back]]
+[[Try to use your hands]] [[Try to use your metal hands]]
+[[Walk through the liquid]]
+</article><article id="LogPanel"></article></section>
+
+
+
+:: DngNG_xxx
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%></br>
+"Citizen, identify yourself." someone shouts at you. Its a man clad in some uniform.
+"Make sure to take your ID-Tag along with you. Next time I wont be so forgiving." 
+If that was a police-officer, why didn't he help me.
+
+-> next time places restrain on you
+</article><article id="LogPanel"></article></section>
+
+
+:: DngNG_xxx
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%></br>
+Du krabbelst durch einen Lüftungschacht und kommst an eine Abzweigung.
+
+- du bleibst an einem scharfen Metallteil hängen und zerreist deinen Anzug
+- da ist eine Pfütze auf dem Boden und du musst hindurchkriechen
+- da schien gerade etwas in ein Lüftungsgitter zu verschwinden an dem du vorbeikrichen musst
+- an dieser Stelle ist die Wand ganz verrostet, versuchst du sie einzutreten? 
+- du brichst durch die Decke 
+</article><article id="LogPanel"></article></section>
