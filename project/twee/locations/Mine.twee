@@ -161,7 +161,7 @@ As you walk deeper into the tunnel, you spot some large worms on its walls.
     You move around the tank to check if there is some label or plate with more information about its content. </br></br>
     Just as you pass by another damaged window, the rubbery hoses suddenly comes to life. Those are tentacles trying to grab you !
     <div id='select2' >
-        <a0 onclick='window.gm.printTalkLink($("div#select2")[0],"div#choice2a")'>Jump backward to get out of reach</a>
+        <a0 onclick='window.gm.c($("div#select2")[0],"div#choice2a")'>Jump backward to get out of reach</a>
         <a0 onclick='window.gm.printTalkLink($("div#select2")[0],"div#choice2b")'>Stop your movement immediatly</a>
         </div><div id='choice2a' hidden>
             You want to do a backward leap, but get caught on a hose lying around and fall on your butt. The slimy appendages shoot outward and you quickly crawl backward out of reach.</br>

@@ -30,7 +30,7 @@ class Job {
 {
     let job;
 
-    job = new Job("Campus","get to the uni","You have to at least attend some of the lectures to keep up with the studys.");
+    job = new Job("Campus_Schedule","get to the academy","You have to at least attend some of the lectures to keep up with the studys.");
     job.reqEnergy = 5, job.reqTime=15,job.startTimeMin=700,job.startTimeMax=1100,job.DoW =[1,2,3,4,5];
     window.gm.jobs[job.id] = job;
 

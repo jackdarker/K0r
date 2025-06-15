@@ -1,0 +1,115 @@
+:: Campus
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+<% if(!window.gm.quests.hasActiveQuest("qFindAJob")){  %>
+    As you arrive at the campus you check your purse.</br>
+    'I'm running out of money soon if I dont find some job or other possibilities to earn some. '</br>
+    <a0 onclick='window.gm.quests.addQuest("qFindAJob",1); window.story.show(window.passage.name);'>Mental note to yourself</a></br>
+<%}else{%>
+    This is the campus of the Institute of Technology and Development.</br>
+    A lot of people are hurrying along or stand by in idle chatter.</br>
+    The lecture rooms and laboratories of the departments are located in the larger buildings. </br>
+    There is, of course, a canteen and an library. The administration and other services for students are housed in a high-rise building.  </br>
+    </br>
+    <%if(window.gm.getTimeStruct().hour<12){ %>
+    <a0 onclick='window.story.show("attend lecture")'>Attend a morning lecture</a></br>
+    <%}else{%> 
+    There arent any lectures right now. 
+    <%}%>
+    <div>Where would you like to go?</br>
+    [[Electrical & Mechanical Engineering]]  [[Chemistry & Process Engineering]] [[Micro-Power & Nano-Engineering]] [[Dining Hall]]  [[ITD Office]]  [[Library]] </br>
+    [[Into the city]]</br></div> 
+<%}%>
+</article><article id="LogPanel"></article></section>
+
+
+:: Campus_Schedule [_back_]
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<p>"There are some classes I need to attend. I can take the bus to get there."</p>
+</br>[[Not now|_back_]] <a0 onclick='window.story.state.tmp.args=[];window.story.state.vars.busDestination="Campus",window.story.show("Busride");'>Use the bus</a></br>
+</article><article id="LogPanel"></article></section>
+
+
+:: Busride [_back_]
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<p>With your student ticket you may use the bus for free.</p>
+<p>TODO:
+<div id="output"></div>
+<div id='select1' >
+    </div><div id='choice1a' hidden>
+        The ride was uneventful.<br>
+        <a0 onclick='window.story.show(window.story.state.vars.busDestination);'>You finally arrive</a>
+    </div>
+    <div id='choice1b' hidden>
+        Something brushes against your back.  
+        <div id='select2' >        
+        <a0 onclick='window.story.state.tmp.args[1]=10;window.gm.printTalkLink("div#select2","div#choice2a",react)'>Move away</a>
+        </div>
+        <div id='choice2a' hidden> You squeeze yourself into a different position. <br>
+        <a0 onclick='window.story.show(window.story.state.vars.busDestination);'>You finally arrive</a>
+        </div>
+    </div>
+</div></p>
+</article><article id="LogPanel"></article></section>
+<script> function rollGrope(){
+    if(window.story.state.tmp.args[1]) return;
+    let _rnd=_.random(1,100);
+    if(_rnd<40){
+        window.gm.printTalkLink("div#select1","div#choice1a")
+    } else {
+        window.gm.printTalkLink("div#select1","div#choice1b")
+    }
+    window.story.state.tmp.args=[null,1];
+}
+function react(){
+    let _rnd=_.random(1,100);
+}
+rollGrope();
+</script>
+
+:: ITD Office
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+This is the office-building of the Institute.</br>
+The [[counsellor|NOP]] might be available to give you some guidance about institutional affairs.</br>
+Here in the lobby of the building is also a [[blackboard]]. Maybe you can find some job offers there or informations about upcoming events. </br>
+<div></br>
+[[Campus]]</br></div>
+</article><article id="LogPanel"></article></section>
+
+:: Dining Hall
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+The canteen is probably the most popular building on campus with students; there's something to eat and you can chat to each other.</br>
+The food may not be the best in the world, but it's quite cheap. Are you hungry?
+<div></br>
+[[Campus]]</br></div>
+</article><article id="LogPanel"></article></section>
+
+:: blackboard [_back_]
+<section> 
+<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+'Lets see if there is anything interesting.'</br>
+<%if(window.gm.quests.hasActiveQuest("qFindAJob",1)){%>
+There is an announce from Harcon Health Inc. for a [[job|Harcon_Logistic_Ad]] in logistics-department.</br>
+<%}%>
+<div></br>
+[[Back|_back_]]</br></div>
+</article><article id="LogPanel"></article></section>
+
+:: attend lecture
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<%window.gm.player.location=window.passage.name;%>
+todo You attend to lectures all morning.</br>
+<div></br>
+<a0 onclick='work()'>You are done for today</a></br></div>
+</article><article id="LogPanel"></article></section>
+<script>
+function work(){
+    window.gm.player.Stats.increment("energy",-40);
+    window.gm.forwardTime(1300);
+    window.story.show("Campus");
+}
+</script>

@@ -45,7 +45,7 @@ document.querySelector('#LinkO').addEventListener('click', function(){window.sto
 <div><%=window.gm.util.printLocationName(window.gm.player.location)%></br><%=window.gm.getTimeString()%></br><%=window.gm.getDateString()%></br></div><hr>
 <div><%=window.gm.player.name%></br>
 <%=window.gm.util.statsbar("health")%><%=window.gm.util.statsbar("energy")%><%=window.gm.util.statsbar("will")%>
-<%=window.gm.util.statsbar("arousal")%>
+<%=window.gm.util.statsbar("arousal")%><%=window.gm.util.statsbar("stress","lightyellow")%><%=window.gm.util.statsbar("influence","darkred")%>
 <%if(s._gm.debug& 0x1>0){%>
 <%=window.gm.util.statsbar("corruption")%></div>
 <%}%>

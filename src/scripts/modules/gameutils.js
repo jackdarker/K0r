@@ -494,7 +494,7 @@ window.gm.printNav=function(label,dir,args=null){
   if(!window.story.passage(to)) return(''); //no passage
   return(window.gm.printLink(label,foo(to)));//return(window.gm.printPassageLink(label,to));
 };
-window.gm.rollExploreCity= function(){
+/*window.gm.rollExploreCity= function(){
   let s=window.story.state;
   let places=[];   
   let r = _.random(0,100);
@@ -517,7 +517,7 @@ window.gm.giveCyrilFood= function(){
     } else {
         window.gm.printOutput("you have no food to spare");
     }
-};
+};*/
 /*
 * prints a (svg-) map  
 */
@@ -662,7 +662,6 @@ window.gm.printSchedule = function(){
   var elmt='';
   var s= window.story.state;
   var now = window.gm.getTimeStruct();
-
   var jobs = Object.values(window.gm.jobs);
   for(var i=0;i<jobs.length;i++){
     var id = jobs[i].id;
