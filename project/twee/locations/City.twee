@@ -1,16 +1,27 @@
-:: Into the city
+:: Into the city [name:Westhills]
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <!-- dont overwrite location -->
-You are actually at [[<%=window.gm.player.location%>]].
+You are actually in your hometurf, called Westhills.
 Where would you like to go from here?</br>
 <a0 onclick=window.gm.rollExploreCity()>Explore your surroundings</a> </br></br>
 [[Home]]</br>
-<%  if(s.vars.qUnlockPark>0){      %>[[Park]]
-<%}; if(s.vars.qUnlockMall>0){     %>[[Mall]]
-<%}; if(s.vars.qUnlockDowntown>0){ %>[[Downtown]]
-<%}; if(s.vars.qUnlockBeach>0){    %>[[Beach]]
-<%};%>
+<% if(!(s.vars.qUnlock.Park>0) || !(s.vars.qUnlock.Central>0) || !(s.vars.qUnlock.Downtown>0) || !(s.vars.qUnlock.Beach>0) ){%><p>Maybe you find something interesting if you walk around.</p><%}%>
+<p><%  if(s.vars.qUnlock.Gym>0){    %>[[Gym]]
+<%}; if(s.vars.qUnlock.Park>0){     %>[[Park]]
+<%}; if(s.vars.qUnlock.Central>0){  %>[[Central]]
+<%}; if(s.vars.qUnlock.Mall>0){     %>[[Mall]]
+<%}; if(s.vars.qUnlock.Downtown>0){ %>[[Downtown]]
+<%}; if(s.vars.qUnlock.Beach>0){    %>[[Beach]]
+<%};%></p>
+<p><% if(s.vars.qMap>0){%>onsult the [[City_Map]]<%}%></p>
+</article><article id="LogPanel"></article></section>
+
+
+:: City_Map [_back_]
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<p>A leaflet with a simple map for tourists.</p><p>[[Back|_back_]]</p>
+<p><img src="assets/MapCity.svg" width="90%"></p>
 </article><article id="LogPanel"></article></section>
 
 
@@ -21,31 +32,39 @@ Where would you like to go from here?</br>
 </article><article id="LogPanel"></article></section>
 
 
+:: Central
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<%window.gm.player.location=window.passage.name;%>
+<p><% if(s.vars.qUnlock.Central===0){s.vars.qUnlock.Central=1;%>You found <%=window.passage.name%> ! </br></br><%}%>
+You are actually at <%=window.gm.player.location%>.</br>
+Where would you like to go from here?</br>
+<a0 onclick=window.gm.rollExploreCity()>Explore your surroundings</a> </br></br>
+[[Home]]</br>
+<% if(s.vars.qUnlock.Mall>0){ %>[[Mall]]<%};%></p>
+</article><article id="LogPanel"></article></section>
+
+
 :: Mall
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;
-if(s.vars.qUnlockMall==0){s.vars.qUnlockMall=1;%>
+if(s.vars.qUnlock.Mall==0){s.vars.qUnlock.Mall=1;%>
 You found the <%=window.passage.name%> ! </br></br>
 <%}%>
-You are actually at [[<%=window.gm.player.location%>]].
+You are actually at <%=window.gm.player.location%>.
 Where would you like to go from here?</br>
 <a0 onclick=window.gm.rollExploreCity()>Explore your surroundings</a> </br></br>
 [[Into the Mall|Mall 0F]]</br> [[Home]]</br>
-<%  if(s.vars.qUnlockPark>0){      %>[[Park]]</br>
-<%}; if(s.vars.qUnlockBeach>0){      %>[[Beach]]</br>
-<%};%>
+<% if(s.vars.qUnlock.Central>0){ %>[[Central]]</br><%}%> 
 </article><article id="LogPanel"></article></section>
 
 
 :: Park
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
-<% if(s.vars.qUnlockPark==0){s.vars.qUnlockPark=1;%>
+<% if(s.vars.qUnlock.Park==0){s.vars.qUnlock.Park=1;%>
 You found the <%=window.passage.name%> ! </br></br>
 <%}%>
-You are actually at [[<%=window.gm.player.location%>]].</br>
+You are actually at <%=window.gm.player.location%>.</br>
 People in sportswear are jogging around the paths or doing gymnastics on the grassfield. Maybe you should also do some [[sports|Park_Jogging]] </br> 
 <%if(s.vars.qDogSit===0 && visited(window.passage.name)>=5){%>
     On a direction sign near the entrance of the park you spot a piece of paper that someone must have placed there.</br>
@@ -56,14 +75,13 @@ People in sportswear are jogging around the paths or doing gymnastics on the gra
 Where would you like to go from here?</br>
 <a0 onclick=window.gm.rollExploreCity()>Explore your surroundings</a> </br></br>
 [[Home]]</br>
-<%  if(s.vars.qUnlockMall>0){      %>[[Mall]]</br>
-<%};%>
+<%  if(s.vars.qUnlock.Central>0){      %>[[Central]]</br><%};%>
+<%  if(s.vars.qUnlock.Downtown>0){      %>[[Downtown]]</br><%};%>
 </article><article id="LogPanel"></article></section>
 
 
 :: Park_Jogging [_back_]
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <% if(window.gm.player.Stats.get('energy').value<=50){%>
 You feel you dont have enough energy left to do anything sporty. Maybe another time. </br>
 <%} else {%>
@@ -82,11 +100,35 @@ After a quick warmup and stretching you take a fast pace jog around the outer pa
 </article><article id="LogPanel"></article></section>
 
 
+:: Park_JoggerMale [_back_]
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<img src='assets/img/JoggerMale1.png' alt="Some jogger" width="90%">
+<p>TODO  A topeless jogger runs passed you. He is quite the hunk... 
+</p> 
+<div id="timed"><a0 onclick='x.cleanup();window.story.show("Park_JoggerMaleThought");'>OPPORTUNITY [-5 Influence]</a></div><div id="timedOut" hidden>[[Back|_back_]]</div>
+</article><article id="LogPanel"></article></section>
+<script>
+var x=window.gm.timedElment(5000,"timed","timedOut");x.start();
+</script>
+
+
+:: Park_JoggerMaleThought [_back_]
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<% var ft="ftHetero",ftinc=0,influence=-5,arousal=10;window.gm.player.Stats.increment("arousal",arousal);window.gm.player.Stats.increment("influence",influence);
+if(window.gm.player.Stats.get(ft).value<=10) ftinc=1,window.gm.player.Stats.increment(ft,ftinc);
+window.gm.refreshSidePanel(); %>
+<p>TODO  Those muscles... would be nice to get embraced by someone like that...
+<p><statdown>influence <%=influence%></statdown> <statup>arousal <%=arousal%></statup><br>
+<%if(ftinc>0){%><statup><%=ft%> <%=ftinc%></statup><%}%></p>
+<br>[[Next|<%=window.gm.player.location%>]]
+</p> 
+</article><article id="LogPanel"></article></section>
+
+
 :: Beach
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
-<% if(s.vars.qUnlockBeach==0){s.vars.qUnlockBeach=1;%>You found the <%=window.passage.name%> ! </br></br><%}%>
+<% if(s.vars.qUnlock.Beach==0){s.vars.qUnlock.Beach=1;%>You found the <%=window.passage.name%> ! </br></br><%}%>
 You are actually at <%=window.gm.player.location%>.</br></br>
 The splashing waves are inviting but you dont have some proper swimwear with you.
 You could wander at the shoreline. Maybe you find some jetsam.</br>
@@ -94,26 +136,28 @@ You could wander at the shoreline. Maybe you find some jetsam.</br>
 Where would you like to go from here?</br>
 <a0 onclick=window.gm.rollExploreCity()>Explore your surroundings</a> </br></br>
 [[Home]]</br>
+<%  if(s.vars.qUnlock.Downtown>0){      %>[[Downtown]]</br><%};%>
 </article><article id="LogPanel"></article></section>
 
 
 :: Downtown
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
-<% if(s.vars.qUnlockDowntown===0){s.vars.qUnlockDowntown=1;%>You found the <%=window.passage.name%> ! </br></br><%}%>
-You are actually at <%=window.gm.player.location%>.
+<p><% if(s.vars.qUnlock.Downtown===0){s.vars.qUnlock.Downtown=1;%>You found <%=window.passage.name%> ! </br></br><%}%>
+You are actually at <%=window.gm.player.location%>.</br>
+<% if(s.vars.qMap===0){%>A leaflet is blown into your face. Closer inspection shows that this is a tourist information with a coarse map of the city. Maybe this could be useful to find your way around. <a0 onclick='window.story.state.vars.qMap=1;window.story.show("City_Map")'>Stash it.</a></br><%}%>
 Where would you like to go from here?</br>
 <a0 onclick=window.gm.rollExploreCity()>Explore your surroundings</a> </br></br>
 [[Home]]</br>
-<%  if(s.vars.qUnlockMall>0){      %>[[Mall]]<%};%>
+<%  if(s.vars.qUnlock.Park>0){      %>[[Park]]<%};%></p>
+<%  if(s.vars.qUnlock.Central>0){      %>[[Central]]<%};%></p>
 </article><article id="LogPanel"></article></section>
 
 
 :: Pawn shop [_back_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
-<%if((s.vars.qUnlockDowntown & 0x2)===0){s.vars.qUnlockDowntown|=0x2;%>You found the <%=window.passage.name%> ! </br></br><%}%>
+<%if((s.vars.qUnlock.Downtown & 0x2)===0){s.vars.qUnlock.Downtown|=0x2;%>You found the <%=window.passage.name%> ! </br></br><%}%>
 A sign denoting "quick money - no questions" sparks your interest. It leads you to a pawn shop where you can trade in your valuables to get some money.</br>
 <div id="choice"></div></br></br>   <!--display buy message-->
 <div id="panel"></div></br></br>    <!--display wares list-->
@@ -128,10 +172,9 @@ renderToSelector("#panel", "listsell");
 
 
 :: Mall 0F {"position":"1250,850"}
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
-You are actually at [[<%=window.gm.player.location%>]].</br>
+You are actually at <%=window.gm.player.location%>.</br>
 As you wander around you find a [[Bookstore]], a [[fine grocerie]] , [[Boots and Shoes]].</br>
 If you need some tools for your hobby you should check the [[craft store]].</br>
 There are also [[Restrooms]].</br>
@@ -146,7 +189,7 @@ Where would you like to go from here?</br>
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
-You are actually at [[<%=window.gm.player.location%>]].</br>
+You are actually at <%=window.gm.player.location%>.</br>
 Several snack bars and smaller shops are cirling around the wall side of the mall.</br> 
 One of them is [[Alice treasures]], a place where women can buy more private cloths.</br>
 In a more shady corner you find a shop whose windows are just coverd with dark red and black foils. 
@@ -162,7 +205,7 @@ Where would you like to go from here?</br>
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name;%>
-You are actually at [[<%=window.gm.player.location%>]].</br>
+You are actually at <%=window.gm.player.location%>.</br>
 This level of the mall seems to be reserved for the less fancy business. </br> 
 Most of the space is occupied by the usual [[electronics store]] and a [[food store]].
 Where would you like to go from here?</br>

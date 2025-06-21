@@ -38,10 +38,10 @@ window.gm.questDef = window.gm.questDef || {};
 }{
     let NOP=(function(){ return (0)});
     let hidden = (function(){return(window.gm.quests.getMilestoneState("qMyPleasure").id<100);});
-    let quest = new Quest("qMyPleasure","Pleasure yourself","Pleasure yourself.",hidden );
-    quest.addMileStone(new QuestMilestone(1,"","Rub yourself.",    NOP,hidden));
-    quest.addMileStone(new QuestMilestone(100,"","You created a mess in your bedsheets.",
-        function(){ return(-1)}));
+    let quest = new Quest("qMyPleasure","Influenced","Influence your host to get the most out of it.",hidden );
+    quest.addMileStone(new QuestMilestone(1,"","Get your host to orgasm once again.",    NOP));
+    quest.addMileStone(new QuestMilestone(100,"","You earned some influence by making her cum. Try again so that she takes a liking to it. (Make her orgasm by masturbation 3 times) ",    NOP));
+    quest.addMileStone(new QuestMilestone(200,"","",    NOP));
     window.gm.questDef[quest.id]= quest;
 }{
     //quest-flag counts the shifts done in week

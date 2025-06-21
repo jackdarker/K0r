@@ -12,13 +12,26 @@
 
 
 :: _Laptop_ [_back_]
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-You seat yourself in front of the laptop. </br>
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<p>You seat yourself in front of the laptop. </br>
 <%if(window.gm.quests.getMilestoneState("qFixLaptop").id<1000){%>
 The battery has run out of power but the powerconverter is missing. You need to get a new one.</br>
 <%} else if(window.gm.quests.getMilestoneState("qFixLaptop").id>=1000){%>
 After pushing the powerbutton the pc takes ages to start.</br>
-todo mail,Browser</br>
 <%}%>
-[[Back|_back_]]
+</p>
+<p>Check your mails: [Nothing new]</p>
+<p>Use search: [[Random|SearchRandom]]</p>
+<p>Online stores: </p>
+<p>Find some porn: [[hetero|Laptop_hetero]] [[lesbian]]<statup>arousal ++</statup></p>
+[[Back|_back_]]</p>
+</article><article id="LogPanel"></article></section>
+
+
+:: Laptop_hetero [_back_]
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<% var increase=25;window.gm.player.Stats.increment("arousal",increase); var arousal=window.gm.player.Stats.get("arousal").value;window.gm.refreshSidePanel(); %>
+<p>TODO: random stuff; Increase fetish
+<statup>arousal <%=increase%></statup> </p>
+<% if(arousal>80){%>[[Masturbate|Home_Masturbate]]<%}else{%>[[Take a breather|_Laptop_]]<%}%>
+</article><article id="LogPanel"></article></section>

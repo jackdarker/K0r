@@ -31,15 +31,18 @@ window.gm.initGame= function(forceReset,NGP=null){
         playerPartyRL:[],
         //flags for global states
         qDogSit : 0,   // see park
-        Explored:{}, //{WM_Lv1_A1:1}
-        qUnlockCampus : 0,  //see passage into city
-        qUnlockPark : 0,
-        qUnlockMall : 0,
-        qUnlockBeach : 0,
-        qUnlockDowntown : 0,
-        qUnlockNorthlake : 0,
-        qUnlockRedlight : 0,
-        qUnlockBeach : 0,
+        Explored:{}, //{Park:1}
+        ExploredToday:0,
+        qMap:0, //1=Map gained
+        qUnlock:{ //see passage Into the city
+          Beach : 0,
+          Central : 0,  
+          Downtown : 0,
+          Gym: 0,
+          Mall : 0,
+          Park : 0,
+          Redlight : 0,
+        },
         crowBarLeft: 1,
         busDestination : ""
         }; 
@@ -100,10 +103,11 @@ window.gm.initGame= function(forceReset,NGP=null){
         //special skills
         //ch.Effects.addItem(new effNotTired()); //depending on sleep Tired will be set to NotTired or Tired
         //ch.Skills.addItem(SkillCallHelp.factory('Mole'));
-        ['ftVoyeurism'].forEach((name)=>{stFetish.setup(ch.Stats,0,10,name)});
+        ['ftVoyeurism','ftHetero','ftLesbian'].forEach((name)=>{stFetish.setup(ch.Stats,0,10,name)});
         let stats=Stat.setupStatWithLimitAndRegen('influence',{base:300,regen:0,max:300});
         stats=stats.concat(Stat.setupStatWithLimitAndRegen('stress',{base:10,regen:0,max:100}))
         stats.forEach(x=>{ch.Stats.addItem(x);}),stats.forEach(x=>{x.Calc();});
+        ch.Stats.get("arousalMax").data.base=100;ch.Stats.get("arousalMax").Calc();
         s.chars.PlayerRL=ch;
     }    
     window.gm.initGameFlags(forceReset,NGP);
@@ -158,24 +162,58 @@ window.gm.resetAchievements = function() { //declare achievements here
 ///
 window.gm.rollExploreCity= function(){
     let s=window.story.state;
-    let loc,places=[];   
-    let r = _.random(0,100);
-    
+    let loc,places=[],scenes=[];   
+    let r = _.random(0,100),time=window.gm.getTimeStruct();
     //depending of your actual location you have a chance to find connected locations 
-    //todo: multiple rools required, ignore found locations
     //todo: trigger scenes
-    if(window.gm.player.location=='Home')   places = ['Park','Downtown'];
-    if(window.gm.player.location=='Park')   places = ['Mall','Downtown'];
-    if(window.gm.player.location=='Mall')   places = ['Park','Beach','Downtown']; 
-    if(window.gm.player.location=='Beach')   places = ['Park','Mall']; 
-    if(window.gm.player.location=='Downtown')   places = ['Pawn shop','Mall']; 
-    places=places.filter((x)=>{return(!s.vars.Explored[x]>0);}); // ignore found locations
-    if(places.length==0) loc = "City_ExploredAll"; //fallback if unspeced location
-    else {
+    if(window.gm.player.location=='Home')   { places = ['Park','Central'];}; //,'Gym']
+    if(window.gm.player.location=='Park')   { 
+      places = ['Central','Downtown'];
+      scenes = ["Park_JoggerMale"];//,"Park_Bank"]
+    };
+    if(window.gm.player.location=='Central'){ places = ['Park','Mall','Downtown']; };
+    if(window.gm.player.location=='Beach')  { 
+      places = ['Downtown']; 
+      if(time.daytime=="evening"){ scenes.push("Beach_Dusk")}
+    };
+    if(window.gm.player.location=='Downtown'){places = ['Pawn shop','Beach'];};//,'Red lights']; 
+    places=places.filter((x)=>{return(!(s.vars.Explored[x]>0) && !(s.vars.ExploredToday>0));}); // ignore found locations || only one explore per day
+    if(places.length==0) {
+      if(scenes.length==0) loc = "City_ExploredAll"; //
+      else loc = scenes[_.random(1, scenes.length)-1];
+    }else {
       loc = places[_.random(1, places.length)-1]; //chances are equal
+      s.vars.ExploredToday=1;
+      window.gm.addTime(60);
       s.vars.Explored[loc]=1+(s.vars.Explored[loc]||0);
       s.vars.Explored[window.gm.player.location]=1+(s.vars.Explored[window.gm.player.location]||0);
     }
-    window.gm.addTime(60);
     window.story.show(loc);
+};
+//this starts a timer that hides (hidden-attribut) one element and unhides another if it triggers; can be used for links that should vanish after some time
+//the function returns a cleanup operation you have to call to abort the timer and a start function you call to (re)start the timer, 
+//an optional callback gets called on timeout
+window.gm.timedElment = function(timeout,IDtoHide,IDtoShow,TOCCallback){
+  var timer=0,time=0,_timeout=0,_IDtoHide,_IDtoShow,_TOCallback;
+  _timeout=timeout;_IDtoHide=IDtoHide,_IDtoShow=IDtoShow,_TOCallback=TOCCallback;
+  function timed(){
+		time-=1000;   //TODO add countdown or progressbar
+		if(time<=0){
+			clearInterval(timer);
+			if(IDtoHide) document.getElementById(IDtoHide).setAttribute("hidden","");  
+			if(IDtoShow) document.getElementById(IDtoShow).removeAttribute("hidden","");
+      if(_TOCallback) callback(_IDtoShow);
+		}
+	}
+  function cleanup(){ clearInterval(timer)};
+  return({  
+    cleanup: cleanup,
+    start: ()=>{
+      cleanup();
+      time=_timeout;
+      if(IDtoHide) document.getElementById(IDtoHide).removeAttribute("hidden","");
+      if(IDtoShow) document.getElementById(IDtoShow).setAttribute("hidden","");
+      timer=setInterval(timed, 1000);
+    }
+  });
 };

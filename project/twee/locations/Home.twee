@@ -51,10 +51,10 @@ Where do you want to go ? </br>[[Hallway|Home]]</br>
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 Your smartphone buzzes you out of your dreams.</br>
 </br><div id='output'></div>
-</br>[[Next|<%=window.gm.player.location%>]]</br>
+</br><a0 onclick='DailyReset();'>Next</a></br>
 </article><article id="LogPanel"></article></section>
 <script>
-function checkJob(){
+function checkJob(){	//check if job done for this week
 	let text ='';
 	if(window.gm.getTimeStruct().DoW===1 && window.gm.quests.hasActiveQuest("qFindAJob",200)){ 
 		if(window.gm.quests.getQuestState("qFindAJob").flags>=2){ 
@@ -67,15 +67,33 @@ function checkJob(){
 	}
 	return(text);
 }
+function DailyReset(){	//daily influence consume
+	window.gm.player.Stats.increment('influence',-10);window.gm.player.Stats.increment('arousal',-20);
+	window.story.state.vars.ExploredToday=0; //reset flag
+	if(window.gm.player.Stats.get("influence")<=0) {
+		window.story.show("InfluenceStarve");
+	} else {
+		window.story.show(window.gm.player.location);
+	}
+}
 window.gm.printOutput(checkJob());
 </script>
+
+
+:: InfluenceStarve
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<p>Unfortunately, you have lost control of your host and are locked in the depths of his subconscious.</p>
+<p>GAME OVER<p>
+</article><article id="LogPanel"></article></section>
 
 
 :: Home_Study [_back_]
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<% window.gm.player.Stats.increment('energy',-20);window.gm.player.Stats.increment('stress',+5);window.gm.addTime(120);window.gm.quests.forceQuestMilestone("qStudy",100,1);%>
-You sit down with your books and scriblings and try to get some sense out of it.</br>
+<% window.gm.player.Stats.increment('stress',+5);window.gm.addTime(120);window.gm.quests.forceQuestMilestone("qStudy",100,1);%>
+<p>You sit down with your books and scriblings and try to get some sense out of it.</br></p>
+<a0 id='hint' onclick='(function($event){document.querySelector("#"+id+"~p").toggleAttribute("hidden");})(this);'>Hint</a>
+<p class='speech' hidden>Learning alone at home is also a possibility to improve grades, but it causes stress and might not be that efficient.<br></p>
 <p>TODO For this week you already reached your target and further studys might not pay out as much.</p>
 [[Give up|_back_]]</br>
 </article><article id="LogPanel"></article></section>
@@ -89,8 +107,8 @@ You sit down with your books and scriblings and try to get some sense out of it.
 <a0 id='hint' onclick='(function($event){document.querySelector("#"+id+"~p").toggleAttribute("hidden");})(this);'>Hint</a>
 <p class='speech' hidden>Watch TV to relax. There might also be something that gives you new thoughts.<br></p>
 <p>TODO Watch comedy / Watch nature / Watch news</p>
-[[Study|Home_Study]]
-Where would you like to go?</br>
+<hr><br><%if(window.gm.getTimeStruct().hour>7 && window.gm.getTimeStruct().hour<20)%>[[Study|Home_Study]] <statdown>influence -0</statdown> <statdown>stress +5</statdown><%}else{%>Its not the right hour to study.<%}%>
+<br>Where would you like to go?</br>
 [[Kitchen]]  [[Hallway|Home]]</br>
 </article><article id="LogPanel"></article></section>
 
@@ -122,6 +140,42 @@ Status of <%=char.name%>:   [[Back|_back_]]</br>
 </article><article id="LogPanel"></article></section>
 <script>window.gm.printOutput(window.gm.printEffectSummary(window.gm.player.id,{showfetish:true}));</script>
 
+
+:: Home_Masturbate
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<p><div id="choice">
+<table><tbody>
+<tr>
+<td><a0 id="Masturbate1" onclick='read_option(this);'>Hands on</td>
+<td><a0 id="Masturbate2" onclick='read_option(this);'>Use your dildo</td>
+</tr>
+</tbody></table>
+</div>
+<div id="info">
+<p id="Masturbate1" hidden>Todo</br><a0 onclick='window.story.show("Home_Masturbate1")'>Do it</a></br></p>
+<p id="Masturbate2" hidden>todo. </br><a0 onclick='window.story.show("Home_Masturbate2")'>Do it</a></br></p>
+</div></p>
+</article><article id="LogPanel"></article></section>
+<script>
+function read_option(elmnt) { window.gm.onSelect(elmnt,"div#choice table tbody tr td *","div#info");}
+</script>
+
+
+:: Home_Masturbate1
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<% var increase=5;window.gm.player.Stats.increment("arousal",increase); var arousal=window.gm.player.Stats.get("arousal").value;window.gm.refreshSidePanel(); %>
+<p> tODO
+<% if(arousal>=99){%>[[OH YES|Home_Masturbate1Finish]]<%}else{%>[[Next|Home_Masturbate1]]<%}%>
+</p>
+</article><article id="LogPanel"></article></section>
+
+:: Home_Masturbate1Finish
+<section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<% window.gm.player.Stats.increment("arousal",-9999); window.gm.player.Stats.increment("stress",-20); var influence=100/2; window.gm.player.Stats.increment("influence",influence);window.gm.refreshSidePanel(); %>
+<p> tODO
+<statup>influence <%=influence%></statup> <statdown>arousal -100</statdown></p><statdown>stress -20</statdown></p>
+<p><a0 onclick=''>Go on</a></p>
+</article><article id="LogPanel"></article></section>
 
 
 :: Home_Sports {"position":"1500,1300"}
