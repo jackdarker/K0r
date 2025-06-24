@@ -1,0 +1,37 @@
+:: Sleep
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<p>While Lisa's consciousness dozes off, you have the opportunity to exert some influence</p>
+<p>Search knowledge:  <a0>on kinks</a><a0>on drugs</a></p>
+<p>Induce a dream: <%var influence=-20;%> <%=window.gm.printStatChange('influence',influence)%></p> </br>
+<a0 onclick='window.story.state.tmp.args=[0, <%=influence%> ];window.story.show("Wet_Dream_Straight")'>Wet dream (straight)</a>
+<a0 onclick='window.story.state.tmp.args=[0, <%=influence%> ];window.story.show("Wet_Dream_Lesbian")'>Wet dream (lesbian)</a></p>
+<p>Alter Body:<a0>Improve fitness</a><a0>Move Bodyfat to boobs</a><a0>Increase vaginal wetness</a></p>
+<p>Alter Mind:<a0>Improve smarts</a></p>
+<p>Improve Self:</p>
+</br><div id='output'></div>
+</br>[[Just Sleep|Wake]]</br>
+</article><article id="LogPanel"></article></section>
+
+
+:: Wet_Dream_Straight
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<% var influence=window.story.state.tmp.args[1], arousal=25, rnd=_.random(0,3);
+	s.vars.qWetDream=1,
+	window.gm.player.Stats.increment('influence',influence),window.gm.player.Stats.increment('arousal',arousal);
+%>
+<p>Grasping on some memories that bubbles up in Lisas head, you shape a nice dream... </p>
+<% if(rnd==0){ %> <img src="" alt="Softporn">
+<% } else if(rnd==1){ %> <img src="" alt="Softporn">
+<% } else { %> <img src="" alt="Softporn">
+<% } %>
+<p><%=window.gm.printStatChange('influence',influence)+window.gm.printStatChange('arousal',arousal)%></p>
+<p>[[Wake]]<p>
+</article><article id="LogPanel"></article></section>
+
+
+:: Wet_Dream_Lesbian
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<p>Grasping on some memories that bubbles up in Lisas head, you shape a nice dream... </p>
+<img src="" alt="Softporn">Search knowledge:  <a0>on kinks</a><a0>on drugs</a></p>
+<p>[[Wake]]<p>
+</article><article id="LogPanel"></article></section>

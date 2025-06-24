@@ -32,6 +32,6 @@ After pushing the powerbutton the pc takes ages to start.</br>
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <% var increase=25;window.gm.player.Stats.increment("arousal",increase); var arousal=window.gm.player.Stats.get("arousal").value;window.gm.refreshSidePanel(); %>
 <p>TODO: random stuff; Increase fetish
-<statup>arousal <%=increase%></statup> </p>
-<% if(arousal>80){%>[[Masturbate|Home_Masturbate]]<%}else{%>[[Take a breather|_Laptop_]]<%}%>
+<%=window.gm.printStatChange('arousal',increase)%></p>
+<% if(arousal>80){%>[[Masturbate|Home_Masturbate]]<%}else{%>[[Take a breather|_back_]]<%}%>
 </article><article id="LogPanel"></article></section>

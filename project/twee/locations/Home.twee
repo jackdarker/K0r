@@ -16,13 +16,13 @@ The following things are on your schedule-list:</br>
 :: Bedroom
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <%window.gm.player.location=window.passage.name; window.gm.quests.addQuest("qMyPleasure",1);%>
-A desk with a wooden chair is setup as workingplace. <br>
+<p>A desk with a wooden chair is setup as workingplace. <br>
 A [[Laptop|_Laptop_]] is placed on it and also a handwritten [[TODO-List|QuestList]]. </br>
 Above the desk is a window facing toward the backside of the house.</br>
 On the other side of the room is a large [[Wardrobe]] with a [[Mirror]] where you can take a look at yourself.
 There is a large bed for sleeping with a nightstand aside. </br>
-<!--todoYou are quite horny right now. Maybe you have some time to [[play with yourself|Masturbate]].</br>-->
-<a href="javascript:void(0)" onclick='($("tw-passage").fadeOut(1000, function(){window.gm.addTime(60);window.story.show("Sleep");}));'>Nap 1hour</a>
+<% if(window.gm.player.Stats.get('arousal').value>75){ %>You are quite horny right now. Maybe you have some time to [[play with yourself|Home_Masturbate]]?<%}%></br>
+<a href="javascript:void(0)" onclick='($("tw-passage").fadeOut(1000, function(){window.gm.addTime(60);window.story.show("Nap");}));'>Nap 1hour</a>
 <%if(window.gm.getTimeStruct().hour>7){ %>
 <a href="javascript:void(0)" onclick='($("tw-passage").fadeOut(1000, function(){window.gm.player.sleep(700);window.story.show("Sleep");}));'>Sleep Until Morning</a>
 <%}%>
@@ -31,19 +31,15 @@ There is a large bed for sleeping with a nightstand aside. </br>
 <% } else { %>
 Where do you want to go ? </br>[[Hallway|Home]]</br> 
 <%}%>
+</p>
 </article><article id="LogPanel"></article></section>
 
 
-:: Sleep
+:: Nap
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-<p>While Lisa's consciousness dozes off, you have the opportunity to exert some influence</p>
-<p>Search knowledge:  <a0>on kinks</a><a0>on drugs</a></p>
-<p>Induce a dream:  <a0>Wet dream (straight)</a><a0>Wet dream (lesbian)</a></p>
-<p>Alter Body:<a0>Improve fitness</a><a0>Move Bodyfat to boobs</a><a0>Increase vaginal wetness</a></p>
-<p>Alter Mind:<a0>Improve smarts</a></p>
-<p>Improve Self:</p>
+<p>Napping for a short time...</p>
 </br><div id='output'></div>
-</br>[[Next|Wake]]</br>
+</br>[[Nap|Wake]]</br>
 </article><article id="LogPanel"></article></section>
 
 
@@ -68,7 +64,10 @@ function checkJob(){	//check if job done for this week
 	return(text);
 }
 function DailyReset(){	//daily influence consume
-	window.gm.player.Stats.increment('influence',-10);window.gm.player.Stats.increment('arousal',-20);
+	window.gm.player.Stats.increment('influence',-10);
+	if(window.story.state.vars.qWetDream<1) { 
+		window.gm.player.Stats.increment('arousal',-20);window.story.state.vars.qWetDream=0; //no decay on recent wetdream
+	}
 	window.story.state.vars.ExploredToday=0; //reset flag
 	if(window.gm.player.Stats.get("influence")<=0) {
 		window.story.show("InfluenceStarve");
@@ -90,8 +89,13 @@ window.gm.printOutput(checkJob());
 :: Home_Study [_back_]
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<% window.gm.player.Stats.increment('stress',+5);window.gm.addTime(120);window.gm.quests.forceQuestMilestone("qStudy",100,1);%>
-<p>You sit down with your books and scriblings and try to get some sense out of it.</br></p>
+<% var influence=window.story.state.tmp.args[1], stress=window.story.state.tmp.args[2], study=1;
+	window.gm.player.Stats.increment('influence',influence),window.gm.player.Stats.increment('stress',stress);window.gm.addTime(120);
+ 	window.gm.player.Stats.increment('study',study);
+	window.gm.quests.forceQuestMilestone("qStudy",100,1);%>
+<p>You sit down with your books and scriblings and try to get some sense out of it.</br>
+TODO every 5 study = +1grade; max 15 study/week</p>
+<p><%=window.gm.printStatChange('study',study)+window.gm.printStatChange('influence',influence)+window.gm.printStatChange('stress',stress)%></p>
 <a0 id='hint' onclick='(function($event){document.querySelector("#"+id+"~p").toggleAttribute("hidden");})(this);'>Hint</a>
 <p class='speech' hidden>Learning alone at home is also a possibility to improve grades, but it causes stress and might not be that efficient.<br></p>
 <p>TODO For this week you already reached your target and further studys might not pay out as much.</p>
@@ -107,9 +111,10 @@ window.gm.printOutput(checkJob());
 <a0 id='hint' onclick='(function($event){document.querySelector("#"+id+"~p").toggleAttribute("hidden");})(this);'>Hint</a>
 <p class='speech' hidden>Watch TV to relax. There might also be something that gives you new thoughts.<br></p>
 <p>TODO Watch comedy / Watch nature / Watch news</p>
-<hr><br><%if(window.gm.getTimeStruct().hour>7 && window.gm.getTimeStruct().hour<20)%>[[Study|Home_Study]] <statdown>influence -0</statdown> <statdown>stress +5</statdown><%}else{%>Its not the right hour to study.<%}%>
+<hr><br><%if(window.gm.getTimeStruct().hour>7 && window.gm.getTimeStruct().hour<20){ var influence=-3,stress=5; %>
+<a0 onclick='window.story.state.tmp.args=[0, <%=influence%> , <%=stress%> ];window.story.show("Home_Study")'>Study</a> <%=window.gm.printStatChange('influence',influence)+window.gm.printStatChange('stress',stress)%><%}else{%>Its not the right hour to study.<%}%>
 <br>Where would you like to go?</br>
-[[Kitchen]]  [[Hallway|Home]]</br>
+<p>[[Kitchen]]  [[Hallway|Home]]</p>
 </article><article id="LogPanel"></article></section>
 
 
@@ -122,7 +127,7 @@ window.gm.printOutput(checkJob());
 <p class='speech' hidden>Check here what food you have left in the fridge. If you run out of the good stuff you will fallback to the industrial junkfood.<br></p>
 <p>TODO Food left / stockup food / auto-order food</p>
 Where would you like to go?</br>
-[[Living_Room]]   [[Hallway|Home]]</br>
+<p>[[Living_Room]]   [[Hallway|Home]]</p>
 </article><article id="LogPanel"></article></section>
 
 
@@ -171,10 +176,11 @@ function read_option(elmnt) { window.gm.onSelect(elmnt,"div#choice table tbody t
 
 :: Home_Masturbate1Finish
 <section> <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<% window.gm.player.Stats.increment("arousal",-9999); window.gm.player.Stats.increment("stress",-20); var influence=100/2; window.gm.player.Stats.increment("influence",influence);window.gm.refreshSidePanel(); %>
+<% var stress=-20, arousal=-1*window.gm.player.Stats.get('arousalMax').value, influence=arousal/(-2);
+window.gm.player.Stats.increment("arousal",arousal); window.gm.player.Stats.increment("stress",stress); window.gm.player.Stats.increment("influence",influence);window.gm.refreshSidePanel(); %>
 <p> tODO
-<statup>influence <%=influence%></statup> <statdown>arousal -100</statdown></p><statdown>stress -20</statdown></p>
-<p><a0 onclick=''>Go on</a></p>
+<p><%=window.gm.printStatChange('arousal',arousal)+window.gm.printStatChange('influence',influence)+window.gm.printStatChange('stress',stress)%></p>
+<p><a0 onclick='window.story.show(window.gm.player.location)'>'I´m spent'</a></p>
 </article><article id="LogPanel"></article></section>
 
 

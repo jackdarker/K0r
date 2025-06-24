@@ -43,6 +43,7 @@ window.gm.initGame= function(forceReset,NGP=null){
           Park : 0,
           Redlight : 0,
         },
+        qWetDream:0,
         crowBarLeft: 1,
         busDestination : ""
         }; 
@@ -105,9 +106,10 @@ window.gm.initGame= function(forceReset,NGP=null){
         //ch.Skills.addItem(SkillCallHelp.factory('Mole'));
         ['ftVoyeurism','ftHetero','ftLesbian'].forEach((name)=>{stFetish.setup(ch.Stats,0,10,name)});
         let stats=Stat.setupStatWithLimitAndRegen('influence',{base:300,regen:0,max:300});
-        stats=stats.concat(Stat.setupStatWithLimitAndRegen('stress',{base:10,regen:0,max:100}))
+        stats=stats.concat(Stat.setupStatWithLimitAndRegen('stress',{base:10,regen:0,max:100})).
+          concat(Stat.setupStatWithLimitAndRegen('study',{base:6,regen:0,max:15}))
         stats.forEach(x=>{ch.Stats.addItem(x);}),stats.forEach(x=>{x.Calc();});
-        ch.Stats.get("arousalMax").data.base=100;ch.Stats.get("arousalMax").Calc();
+        ch.Stats.get("arousalMax").data.base=100,ch.Stats.get("arousalRegen").data.base=0;ch.Stats.get("arousalRegen").Calc();ch.Stats.get("arousalMax").Calc();
         s.chars.PlayerRL=ch;
     }    
     window.gm.initGameFlags(forceReset,NGP);
@@ -193,13 +195,17 @@ window.gm.rollExploreCity= function(){
 //this starts a timer that hides (hidden-attribut) one element and unhides another if it triggers; can be used for links that should vanish after some time
 //the function returns a cleanup operation you have to call to abort the timer and a start function you call to (re)start the timer, 
 //an optional callback gets called on timeout
+//example: <!--
+//<div id="timed"><a0 onclick='x.cleanup();window.story.show("Park");'>OPPORTUNITY</a></div><div id="timedOut" hidden>[[Back|_back_]]</div>
+//<script>var x=window.gm.timedElment(5000,"timed","timedOut");x.start();</script>   -->
 window.gm.timedElment = function(timeout,IDtoHide,IDtoShow,TOCCallback){
   var timer=0,time=0,_timeout=0,_IDtoHide,_IDtoShow,_TOCallback;
   _timeout=timeout;_IDtoHide=IDtoHide,_IDtoShow=IDtoShow,_TOCallback=TOCCallback;
+  //const controller = new AbortController();
   function timed(){
-		time-=1000;   //TODO add countdown or progressbar
-		if(time<=0){
-			clearInterval(timer);
+		time-=1000;
+		if( time<=0){
+			clearInterval(timer);//controller.abort(); 
 			if(IDtoHide) document.getElementById(IDtoHide).setAttribute("hidden","");  
 			if(IDtoShow) document.getElementById(IDtoShow).removeAttribute("hidden","");
       if(_TOCallback) callback(_IDtoShow);
@@ -211,9 +217,35 @@ window.gm.timedElment = function(timeout,IDtoHide,IDtoShow,TOCCallback){
     start: ()=>{
       cleanup();
       time=_timeout;
-      if(IDtoHide) document.getElementById(IDtoHide).removeAttribute("hidden","");
+      if(IDtoHide) {
+        let _elmnt=document.getElementById(IDtoHide);
+        //this is to animate a bargraph
+        _elmnt.style["background-image"] = "linear-gradient(270deg, #dd4a4a80, #dd4a4a80)", //have to use image not just color!
+        _elmnt.style["background-size"]="0%", //this is active after animation ends
+        _elmnt.style["width"]="fit-content"; //otherwise the bar would be as wide as the page
+        _elmnt.style["background-repeat"]="no-repeat",
+        _elmnt.animate([  // key frames see https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/
+          { backgroundSize: "100%"},{backgroundSize: "0%"}    //use CamelCase instead background-size!
+        ], {          // sync options
+          duration: _timeout
+        });//.addEventListener("finish", (event) => {time=0,timed(); },{ signal: controller.signal }); //instead of timer use finish listener
+        _elmnt.removeAttribute("hidden","");
+      }
       if(IDtoShow) document.getElementById(IDtoShow).setAttribute("hidden","");
-      timer=setInterval(timed, 1000);
+      timer=setInterval(timed, 1000); 
     }
   });
 };
+
+window.gm.printStatChange = function(what,value){
+  let up=(value>0);
+  if(value===0) return('');
+  switch(what){
+    case 'stress': up=!up;  //up is bad
+      break;
+    default:
+      break;
+  }
+  if(up) return('<statup> '+what+' '+window.gm.util.formatInt(value,true,0)+' </statup>');
+  else return('<statdown> '+what+' '+window.gm.util.formatInt(value,true,0)+' </statdown>');
+}

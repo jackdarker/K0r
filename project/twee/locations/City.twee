@@ -2,7 +2,7 @@
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
 <!-- dont overwrite location -->
-You are actually in your hometurf, called Westhills.
+You are actually at <%=window.gm.player.location%>.</br>
 Where would you like to go from here?</br>
 <a0 onclick=window.gm.rollExploreCity()>Explore your surroundings</a> </br></br>
 [[Home]]</br>
@@ -27,7 +27,9 @@ Where would you like to go from here?</br>
 
 :: City_ExploredAll [_back_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-<p>Nothing new was found.</p>
+<p>Nothing new was found. Maybe you could check on other places. Or its just not the right time.</p>
+<a0 id='hint' onclick='(function($event){document.querySelector("#"+id+"~p").toggleAttribute("hidden");})(this);'>Hint</a>
+<p class='speech' hidden>Todo actually you can only unlock one new place (not scene) per day.</p>
 <br>[[Back|_back_]]
 </article><article id="LogPanel"></article></section>
 
@@ -102,7 +104,7 @@ After a quick warmup and stretching you take a fast pace jog around the outer pa
 
 :: Park_JoggerMale [_back_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-<img src='assets/img/JoggerMale1.png' alt="Some jogger" width="90%">
+<img src='assets/img/Jogger_M_1.jpg' alt="Some jogger" width="90%">
 <p>TODO  A topeless jogger runs passed you. He is quite the hunk... 
 </p> 
 <div id="timed"><a0 onclick='x.cleanup();window.story.show("Park_JoggerMaleThought");'>OPPORTUNITY [-5 Influence]</a></div><div id="timedOut" hidden>[[Back|_back_]]</div>
@@ -118,8 +120,8 @@ var x=window.gm.timedElment(5000,"timed","timedOut");x.start();
 if(window.gm.player.Stats.get(ft).value<=10) ftinc=1,window.gm.player.Stats.increment(ft,ftinc);
 window.gm.refreshSidePanel(); %>
 <p>TODO  Those muscles... would be nice to get embraced by someone like that...
-<p><statdown>influence <%=influence%></statdown> <statup>arousal <%=arousal%></statup><br>
-<%if(ftinc>0){%><statup><%=ft%> <%=ftinc%></statup><%}%></p>
+<p><%=window.gm.printStatChange('arousal',arousal)+window.gm.printStatChange('influence',influence)%><br>
+<p><%=window.gm.printStatChange(ft,ftinc)%></p>
 <br>[[Next|<%=window.gm.player.location%>]]
 </p> 
 </article><article id="LogPanel"></article></section>
