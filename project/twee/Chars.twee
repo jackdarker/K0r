@@ -1,19 +1,115 @@
-:: Info_Steve [_back_] {"position":"1500,600"}
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-Steve is here.</br>
-You barely know anything about him.</br>
-[[Back|_back_]]</br></br>
-</article></section>
+:: Campus_Megan
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<% if(s.chars.Megan.state<=0){s.chars.Megan.state=10; %> <!--  start first -->
+<p>
+You spot $bestfriend.name in the distance talking to a group of people.
+
+Hey there!@@
+
+Oh hi beautiful, didn't see you there. What's up?@@
+
+<div id='select1' >
+    <a0 onclick='window.gm.printTalkLink("div#select1","div#choice1a")'>Chat a bit with her before class starts</a>
+    </div><div id='choice1a' hidden>
+	<img src="img/profiles/rileyprofile.jpg" class="float-left">$bestfriend.name<hr>
+	You won't believe what gem I watched in the tv yesterday! It was one of those artistic, postmodern films. There were these two girls...@@
+	<img src="img/profiles/rileyprofile.jpg" class="float-left">$bestfriend.name<hr>
+	And then she put on her latex...@@
+	//That sounds more like smut rather than "artistic"//
+	Despite what you want though, $bestfriend.name goes into great details while trying to explain the movie to you.
+	<video src="video/misc/dommovie.mp4" autoplay muted height="500px"></video>
+    </div>
+<<link "Chat a bit with her before class starts">><<replace "#megan">><<nobr>><<set _outcome = dice('1d6')>><<if _outcome == 1>><<if $player.sub lt 8>><<set $player.sub +=1>><<set $player.dom +=1>><<set $bestfriend.dom +=1>><<if $appraise is false>><<set _name to "@@.sub;[Submission +1]@@<br>@@.dom;[Dominance: +1]@@">><<else>><<set _name to "@@.sub;[Submission +1]@@<br>@@.dom;[Dominance: +1]@@<br>@@.dom;[$bestfriend.name Dominance: +1]@@">><</if>><<else>><<set _name to "">><</if>><<elseif _outcome == 2>><<set $lust +=10>><<set _name to "@@.lust;[Lust +10]@@">><<elseif _outcome == 3>><<set $lust +=20>><<set _name to "@@.lust;[Lust +20]@@">><<else>><</if>><</nobr>><<if _outcome ==1>>
+
+You won't believe what gem I watched in the tv yesterday! It was one of those artistic, postmodern films. There were these two girls...@@
+
+And then she put on her latex...@@
+//That sounds more like smut rather than "artistic"//
+
+Despite what you want though, $bestfriend.name goes into great details while trying to explain the movie to you.
+<video src="video/misc/dommovie.mp4" autoplay muted height="500px"></video><<elseif _outcome ==2>>
+
+Oh my god! Look at those two going!@@
+<video src="video/misc/smallkiss.mp4" autoplay muted height="500px"></video>
+//How can they do that right in the open!//<<elseif _outcome ==3>>
+
+<img src="img/profiles/rileyprofile.jpg" class="float-left">$bestfriend.name<hr>
+Oh man... look there!.... so hot.@@
+<video src="video/misc/lesbigkiss.mp4" autoplay muted height="500px"></video>
+//Again! What's with the campus and everyone kissing in the open!...Although I do agree that it is kinda hot... No! what am I saying!//<<else>>You talk a bit with her, but soon another group calls to her and you hastily retreat away.
+//She's so popular...//
+	You see $bestfriend.name in campus while resting and chat a bit with her.
+
+	You see $bestfriend.name and she asks you what you are doing here.
+</p><!--  end first -->
+<%}else{ if(s.chars.Megan.state<20){s.chars.Megan.state=20;} %>
+<p>
+As you scan the surrounding area you spot a perky female rushing towards you.
+<img src="img/riley/rileygen1.jpg">
+You smile akwardly as you see your best friend since you came to this city, Megan, as she rushes towards you and almost crushes you in a strong hug.
+<p class="speech tNPC1"><img src="assets/pics/fnpc.jpg">	Megan<hr>'
+Hey there girl! How are you today? I hope you are feeling better. You certainly look like you are feeling better!
+</p>
+
+<div class="speech tPC">Lisa<hr>
+	Yeah... I'm fine today. It simply was something with my eyes, so I'm hoping that it stays that way...
+</div>
+$bestfriend.name pauses for a second as she scans you from top to bottom, looking as if she's thinking something before she suddenly yelps surpised.
+
+<div class="speech tNPC1"><img src="assets/pics/fnpc.jpg">Megan<hr>
+You got rid of those horrendous glasses! Finally! Now, all we need to do is upgrade the rest of your wardrobe to match and you'll be set!@@
+</div>
+
+You said you liked my glasses...@@
+
+$bestfriend.name seems oblivious to your whisper as she continues on...
+
+<div class="speech tNPC1"><img src="assets/pics/fnpc.jpg">Megan<hr>
+Although maybe before you splurge on fine clothing, maybe you could join me in the gym for a few sessions first. Remember, you have //promised// me before that you will join me at some point... It's been ages since then.@@
+</div>
+
+<div class="speech tPC">Lisa<hr>
+I'll try to find some time</span>@@
+</div>
+
+You are suddenly jolted by a sudden, stinging, pain in your buttcheek. 
+
+<video src="video/misc/buttslap.mp4" autoplay loop muted></video>
+
+<div class="speech tNPC1"><img src="assets/pics/fnpc.jpg">Megan<hr>
+Not that I don't love your cute jiggly ass, but just to stay fresh, you know...@@
+</div>
+
+<span style="color: green;">//Interesting. These humans never seaze to amaze me with the number of different greeting gestures. Even smacking someone here is a greating it seems. Or maybe it is only smacking them in their ass? Nevertheless... I guess worth to note that down.//</span>
 
 
+<div class="speech tPC">Lisa<hr>
+Yes...
+</div>
 
+<div class="speech tNPC1"><img src="assets/pics/fnpc.jpg">Megan<hr>
+Atta girl! Got to run now, see you in Business class!@@
+</div>
 
-:: History_Lisa [_back_] {"position":"250,1175"}
-<section> 
-<aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
-You never were a very outgoing person. Mom always tried to catch some more friends to have fun with. But you found it always difficult to just approach someone and melt the ice with some idle chatter. 
-</br>
+And as fast as she appeared, she's gone.
 
-[[Back|_back_]]</br></br>
-</article></section>
+sub;[Submission +1]
+
+//Well, at least someone is happy that I'm back alright... now, where were we.//
+<%}%>
+[[Campus]]
+</article><article id="LogPanel"></article></section>
+
+:: Campus_Steve
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<% if(s.chars.Steve.state<=0){s.chars.Steve.state=10; %> <!--  start first -->
+<p></p>
+<%}else{ if(s.chars.Steve.state<20){s.chars.Steve.state=20;} %>
+<p>
+	<p class="speech tNPC2"><img src="assets/pics/mnpc.jpg">	Steve<hr>'
+	I got you covered!
+	</p>
+</p>
+<%}%>
+<p>[[Campus]]</p>
+</article><article id="LogPanel"></article></section>

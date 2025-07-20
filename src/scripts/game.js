@@ -13,7 +13,12 @@ class IDGenerator {//extends Singleton{
       if(!IDGenerator._instance){return new IDGenerator(); }
       return IDGenerator._instance;
   }
-  createID() {this._idCounter++;return(this._idCounter);}
+  static resetID(useID){ //this should be only called after reload
+    //hack: reloading save causes constructor calls causes calls to createID which would increase counter (the ids are reverted by merging loaded data into the constructed objects)
+    //so we need a way to revert this increase
+    IDGenerator.instance()._idCounter=useID;
+  }
+  static createID() {let x=IDGenerator.instance()._idCounter++;return("_"+x);} //add _ or queryselector() might not work if id starts with number ?!
   toJSON(){return window.storage.Generic_toJSON("IDGenerator", this); }
   static fromJSON(value){return(window.storage.Generic_fromJSON(IDGenerator, value.data));}
 }
@@ -179,6 +184,105 @@ window.gm.util.selRandom=function(list){//picks element from []
   if(_i>0) return(list[_.random(0,_i-1)]);
   else throw new Error("empty list")
 }
+//this starts a timer that hides (hidden-attribut) one element and unhides another if it triggers; can be used for links that should vanish after some time
+//the function returns a cleanup operation you have to call to abort the timer and a start function you call to (re)start the timer, 
+//an optional callback gets called on timeout
+//example: <!--
+//<div id="timed"><a0 onclick='x.cleanup();window.story.show("Park");'>OPPORTUNITY</a></div><div id="timedOut" hidden>[[Back|_back_]]</div>
+//<script>var x=window.gm.util.timedElment(5000,"timed","timedOut");x.start();</script>   -->
+window.gm.util.timedElment = function(timeout,IDtoHide,IDtoShow,params){
+  let _params=params||{}
+  _params.TOCCallback = (_params.TOCCallback)?? null;   //
+  _params.delay = (_params.delay)?? 0;                  //delay before timer starts and link is displayed
+  var timer=0,_anim,_toHide=null;
+  //const controller = new AbortController();
+  function timed(){
+			clearInterval(timer);//controller.abort(); 
+			if(_toHide) _toHide.setAttribute("hidden","");  
+			if(IDtoShow) document.getElementById(IDtoShow).removeAttribute("hidden","");
+      if(_params.TOCCallback) _params.TOCCallback(_IDtoShow);
+	}
+  function delay(){
+			clearInterval(timer);
+      postDelay();
+      timer=setInterval(timed, timeout);
+	}
+  function postDelay(){
+    if(_toHide) {
+      _toHide.removeAttribute("hidden","");
+      _anim.play();
+    }
+  }
+  function cleanup(){ clearInterval(timer),_anim=null,_toHide=null};
+  return({  
+    cleanup: cleanup,
+    start: ()=>{
+      cleanup();
+      if(IDtoShow) document.getElementById(IDtoShow).setAttribute("hidden","");
+      if(IDtoHide) {
+        _toHide=document.getElementById(IDtoHide);
+        //this is to animate a bargraph
+        _toHide.style["background-image"] = "linear-gradient(270deg, #dd4a4a80, #dd4a4a80)", //have to use image not just color!
+        _toHide.style["background-size"]="0%", //this is active after animation ends
+        _toHide.style["width"]="fit-content"; //otherwise the bar would be as wide as the page
+        _toHide.style["background-repeat"]="no-repeat";
+        /*_elmnt.animate([  // key frames see https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/
+          { backgroundSize: "100%"},{backgroundSize: "0%"}    //use CamelCase instead background-size!
+        ], {          // sync options
+          duration: timeout, 
+        });*///.addEventListener("finish", (event) => {time=0,timed(); },{ signal: controller.signal }); //instead of timer use finish listener
+        let Keyframes = new KeyframeEffect(
+          _toHide,
+          [
+            { backgroundSize: "100%"},{backgroundSize: "0%"}    //use CamelCase instead background-size!
+          ],
+          { // keyframe options
+            duration: timeout
+          },
+        );
+        _anim = new Animation(Keyframes, document.timeline);
+      }
+      if(IDtoHide && _params.delay>0) {
+        _toHide.setAttribute("hidden","");
+        timer=setInterval(delay, _params.delay);
+      } else {
+        postDelay();
+        timer=setInterval(timed, timeout);
+      } 
+    }
+  });
+};
+//exchange inner text of ctrl ;connect it with onclick of a link/button. 
+//list = [ ['red','1','classRed'],['green','2','classGreen'] ]  text,datavalue,css-class (notice space between [ [ !)
+//f.e. <p>This is really a <a0 onclick="window.gm.util.swapText(this,[ ['red Color','1','red'],['green color','2','green'] ])">blue</a> game.</p>
+//you will have to query data-value or use the callback to get the choice: document.getElementById('myButton').getAttribute("data-value")
+window.gm.util.swapText=function(ctrl,list,params){
+  let _params=params||{}
+  _params.rnd = (_params.rnd)?? false;  //function to randomize next pick; false to non-random
+  _params.retrys = (_params.retrys)?? -1; //how many times until locked
+  //_params.onchange  callback
+  let _list = [],i;
+  let x=ctrl.getAttribute("data-retrys");
+  x=parseInt(x);
+  if(isNaN(x)) x=0;
+  if(_params.retrys>0 && (_params.retrys-x)<=0)return;
+  x++;
+  list.forEach(function(element,index){
+    _list.push(element[1]);
+    ctrl.classList.remove(element[2]); //remove all formatting
+  });
+  if(_params.rnd===false) {
+    i=_list.indexOf(ctrl.getAttribute("data-value"));
+    if(i==-1 || i==_list.length-1) i=0;
+    else i++;
+  }
+  //Todo changing text removes keyboard links 
+  //Todo need to memorize data- for restorePage
+  ctrl.innerText = list[i][0] +((_params.retrys>0)?(" ◌"+(_params.retrys-x).toString()):"");  //◌= display number of retrys
+  ctrl.setAttribute("data-value",list[i][1]);
+  ctrl.setAttribute("data-retrys",(x).toString());
+  ctrl.classList.add(list[i][2]);
+}
 //create pretty name for passage; requires a tag (replace space with _ !) [name:"My_Room"]
 window.gm.util.printLocationName=function(passage){
   let tags = window.story.passage(passage).tags;
@@ -327,6 +431,7 @@ window.gm.initGame= function(forceReset,NGP=null){
         version : window.gm.getSaveVersion(),
         style: 'default', //css profile to use
         log : [],
+        IDGenBkup:0,
         IDGen: new IDGenerator(),
         passageStack : [], //used for passage [back] functionality
         defferedStack : [], //used for deffered events
@@ -399,9 +504,15 @@ window.gm.newGamePlus = function(){
 window.gm.rebuildObjects= function(){ 
   var s = window.story.state;
   s._gm.nokeys=false;
+  IDGenerator.resetID(s.IDGenBkup);
   window.styleSwitcher.loadStyle(); //since style is loaded from savegame
   window.gm.quests.setQuestData(s.quests); //necessary for load support
   window.gm.switchPlayer(s._gm.activePlayer);
+}
+//called before data is serialized
+window.gm.preSave=function(){
+  var s = window.story.state;
+  s.IDGenBkup=IDGenerator.instance()._idCounter;
 }
 //--------------- time management --------------
 //returns timestamp since start of game
@@ -807,13 +918,12 @@ window.gm.onSelect = function(elmnt,ex_choice,ex_info){
 //call this onclick to make the connected element vanish and to unhide another one (if the passage is revisited the initial state will be restored)
 //unhidethis needs to be jquery-path to a div,span,.. that is initially set to hidden
 //cb can be a function(elmt) that gets called
-//todo: if navigating to a back-page and return, the initial page will be reset to default; how to memorize and restore the hidden-flags
 window.gm.printTalkLink =function(elmt,unhideThis,cb=null){
   $(elmt)[0].setAttribute("hidden","");
   if(cb!==null) cb($(elmt)[0]);
   $(unhideThis)[0].removeAttribute("hidden");
   $(unhideThis)[0].scrollIntoView({behavior: "smooth"});
-  window.story.state.tmp.flags[elmt]='hidden',window.story.state.tmp.flags[unhideThis]='unhide';
+  window.story.state.tmp.flags[elmt]='hidden',window.story.state.tmp.flags[unhideThis]='unhide';  //if navigating to a back-page and return, the initial page will be reset to default-> memorize and restore the hidden-flags (see restorePage)
 }
 //prints the same kind of link like [[Next]] but can be called from code
 window.gm.printPassageLink= function(label,target){

@@ -9,6 +9,10 @@ window.gm.player.Inv.removeItem("PurpleBerry",5);
 window.gm.player.Inv.countItem("PurpleBerry");
 window.gm.player.Outfit.addItem(new window.storage.constructors['BaseHumanoid']());
 
+
+<% if(window.gm.player.Stats.get('corruption').value<=10){ %><%}else{%><%}%>
+<% if(window.gm.player.Stats.get(ft).value<=10){ ftinc=1,window.gm.player.Stats.increment(ft,ftinc);} %>
+
 window.gm.quests.addQuest("qDLCMain",1);
 window.gm.quests.forceQuestMilestone("qDLCMain",600,1);
 window.gm.quests.getMilestoneState("qFixLaptop").id<1000

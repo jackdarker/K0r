@@ -35,9 +35,11 @@ window.gm.initGame= function(forceReset,NGP=null){
         ExploredToday:0,
         qMap:0, //1=Map gained
         qUnlock:{ //see passage Into the city
-          Beach : 0,
+          Sandcoast : 0,
           Central : 0,  
           Downtown : 0,
+          Beach : 0,
+          Bar : 0,
           Gym: 0,
           Mall : 0,
           Park : 0,
@@ -72,22 +74,29 @@ window.gm.initGame= function(forceReset,NGP=null){
         ch.Outfit.addItem(new Jeans());
         ch.Outfit.addItem(new Sneakers());
         ch.Outfit.addItem(new Pullover());
+        ch.state=0; //see _questEnums.txt
         s.chars.Megan=ch;
     } 
+    if (!s.chars.Steve||forceReset){  
+      let ch = new Character();
+      ch.id="Steve";
+      ch.name="Steve";ch.unique=true;
+      ch.faction="Player";
+      ch.state=0; //see _questEnums.txt
+      s.chars.Steve=ch;
+  } 
     if (!s.chars.Ruff||forceReset){  //Ruff the wolf
       //s.chars.Ruff = new Ruff()
     }
     if (!s.chars.PlayerRL||forceReset){  
         let ch = new Character();
+        ch.Effects.removeItem('effLibido'),ch.Effects.removeItem('effSanity'),ch.Effects.removeItem('effHunger');
         ch.id="PlayerRL";
         ch.name="Lisa";ch.unique=true;
         ch.faction="Player";
         //ch.Effects.addItem(new skCooking());
         //add some basic inventory
         ch.Inv.addItem(new Money(),20);
-        ch.Inv.addItem(new LighterDad());
-        ch.Inv.addItem(new FlashBang(),2);
-        ch.Inv.addItem(new CanOfCoffee(),2);
         ch.Wardrobe.addItem(new Jeans());
         ch.Wardrobe.addItem(new Briefs());
         ch.Wardrobe.addItem(new Sneakers());
@@ -101,13 +110,11 @@ window.gm.initGame= function(forceReset,NGP=null){
         ch.Outfit.addItem(new Jeans());
         ch.Outfit.addItem(new Sneakers());
         ch.Outfit.addItem(new Pullover());
-        //special skills
-        //ch.Effects.addItem(new effNotTired()); //depending on sleep Tired will be set to NotTired or Tired
-        //ch.Skills.addItem(SkillCallHelp.factory('Mole'));
-        ['ftVoyeurism','ftHetero','ftLesbian'].forEach((name)=>{stFetish.setup(ch.Stats,0,10,name)});
+
+        ['ftVoyeurism','ftHetero','ftLesbian'].forEach((name)=>{stFetish.setup(ch.Stats,0,20,name)});
         let stats=Stat.setupStatWithLimitAndRegen('influence',{base:300,regen:0,max:300});
         stats=stats.concat(Stat.setupStatWithLimitAndRegen('stress',{base:10,regen:0,max:100})).
-          concat(Stat.setupStatWithLimitAndRegen('study',{base:6,regen:0,max:15}))
+                    concat(Stat.setupStatWithLimitAndRegen('study',{base:6,regen:0,max:15}))
         stats.forEach(x=>{ch.Stats.addItem(x);}),stats.forEach(x=>{x.Calc();});
         ch.Stats.get("arousalMax").data.base=100,ch.Stats.get("arousalRegen").data.base=0;ch.Stats.get("arousalRegen").Calc();ch.Stats.get("arousalMax").Calc();
         s.chars.PlayerRL=ch;
@@ -165,87 +172,59 @@ window.gm.resetAchievements = function() { //declare achievements here
 window.gm.rollExploreCity= function(){
     let s=window.story.state;
     let loc,places=[],scenes=[];   
-    let r = _.random(0,100),time=window.gm.getTimeStruct();
-    //depending of your actual location you have a chance to find connected locations 
-    //todo: trigger scenes
+    let x,rnd,time=window.gm.getTimeStruct();
+    //depending of your actual location you have a chance to find connected locations or trigger scenes
     if(window.gm.player.location=='Home')   { places = ['Park','Central'];}; //,'Gym']
     if(window.gm.player.location=='Park')   { 
       places = ['Central','Downtown'];
       scenes = ["Park_JoggerMale"];//,"Park_Bank"]
     };
-    if(window.gm.player.location=='Central'){ places = ['Park','Mall','Downtown']; };
-    if(window.gm.player.location=='Beach')  { 
-      places = ['Downtown']; 
-      if(time.daytime=="evening"){ scenes.push("Beach_Dusk")}
+    if(window.gm.player.location=='Central'){ 
+      places = ['Park','Mall','Downtown','Bar']; 
+      scenes = ["Central_Cashfind","Central_Demo","Central_Slap"];
     };
-    if(window.gm.player.location=='Downtown'){places = ['Pawn shop','Beach'];};//,'Red lights']; 
+    if(window.gm.player.location=='Sandcoast')  { 
+      places = ['Downtown']; 
+      if(time.daytime=="evening"){ scenes.push("Sandcoast_Dusk")}
+    };
+    if(window.gm.player.location=='Downtown'){
+      places = ['Pawn shop','Sandcoast']; //,'Red lights']; 
+    };
+    if(time.daytime=="night"){
+      scenes = ["To_late_to_explore"];
+    }
     places=places.filter((x)=>{return(!(s.vars.Explored[x]>0) && !(s.vars.ExploredToday>0));}); // ignore found locations || only one explore per day
-    if(places.length==0) {
-      if(scenes.length==0) loc = "City_ExploredAll"; //
-      else loc = scenes[_.random(1, scenes.length)-1];
+    //pick either place or scene
+    x=places.length+scenes.length;
+    if(x==0) {
+      loc = "City_ExploredAll"; //
     }else {
-      loc = places[_.random(1, places.length)-1]; //chances are equal
-      s.vars.ExploredToday=1;
-      window.gm.addTime(60);
-      s.vars.Explored[loc]=1+(s.vars.Explored[loc]||0);
-      s.vars.Explored[window.gm.player.location]=1+(s.vars.Explored[window.gm.player.location]||0);
+      rnd=_.random(1, x);
+      if(rnd<=places.length){
+        loc = places[rnd-1];
+        s.vars.ExploredToday+=1;
+        s.vars.Explored[loc]=1+(s.vars.Explored[loc]||0);
+        s.vars.Explored[window.gm.player.location]=1+(s.vars.Explored[window.gm.player.location]||0);
+        window.gm.addTime(60);
+      } else {
+        rnd=rnd-places.length;
+        loc = scenes[rnd-1];
+        //window.gm.addTime(60); handle in scene !
+      }
     }
     window.story.show(loc);
 };
-//this starts a timer that hides (hidden-attribut) one element and unhides another if it triggers; can be used for links that should vanish after some time
-//the function returns a cleanup operation you have to call to abort the timer and a start function you call to (re)start the timer, 
-//an optional callback gets called on timeout
-//example: <!--
-//<div id="timed"><a0 onclick='x.cleanup();window.story.show("Park");'>OPPORTUNITY</a></div><div id="timedOut" hidden>[[Back|_back_]]</div>
-//<script>var x=window.gm.timedElment(5000,"timed","timedOut");x.start();</script>   -->
-window.gm.timedElment = function(timeout,IDtoHide,IDtoShow,TOCCallback){
-  var timer=0,time=0,_timeout=0,_IDtoHide,_IDtoShow,_TOCallback;
-  _timeout=timeout;_IDtoHide=IDtoHide,_IDtoShow=IDtoShow,_TOCallback=TOCCallback;
-  //const controller = new AbortController();
-  function timed(){
-		time-=1000;
-		if( time<=0){
-			clearInterval(timer);//controller.abort(); 
-			if(IDtoHide) document.getElementById(IDtoHide).setAttribute("hidden","");  
-			if(IDtoShow) document.getElementById(IDtoShow).removeAttribute("hidden","");
-      if(_TOCallback) callback(_IDtoShow);
-		}
-	}
-  function cleanup(){ clearInterval(timer)};
-  return({  
-    cleanup: cleanup,
-    start: ()=>{
-      cleanup();
-      time=_timeout;
-      if(IDtoHide) {
-        let _elmnt=document.getElementById(IDtoHide);
-        //this is to animate a bargraph
-        _elmnt.style["background-image"] = "linear-gradient(270deg, #dd4a4a80, #dd4a4a80)", //have to use image not just color!
-        _elmnt.style["background-size"]="0%", //this is active after animation ends
-        _elmnt.style["width"]="fit-content"; //otherwise the bar would be as wide as the page
-        _elmnt.style["background-repeat"]="no-repeat",
-        _elmnt.animate([  // key frames see https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/
-          { backgroundSize: "100%"},{backgroundSize: "0%"}    //use CamelCase instead background-size!
-        ], {          // sync options
-          duration: _timeout
-        });//.addEventListener("finish", (event) => {time=0,timed(); },{ signal: controller.signal }); //instead of timer use finish listener
-        _elmnt.removeAttribute("hidden","");
-      }
-      if(IDtoShow) document.getElementById(IDtoShow).setAttribute("hidden","");
-      timer=setInterval(timed, 1000); 
-    }
-  });
-};
-
+//prints a colored stat element
 window.gm.printStatChange = function(what,value){
   let up=(value>0);
-  if(value===0) return('');
   switch(what){
     case 'stress': up=!up;  //up is bad
       break;
     default:
       break;
   }
-  if(up) return('<statup> '+what+' '+window.gm.util.formatInt(value,true,0)+' </statup>');
-  else return('<statdown> '+what+' '+window.gm.util.formatInt(value,true,0)+' </statdown>');
+  if(value===0) return('');
+  if(up) return('<statup>[ '+what+' '+window.gm.util.formatInt(value,true,0)+' ]</statup>');
+  else return('<statdown>[ '+what+' '+window.gm.util.formatInt(value,true,0)+' ]</statdown>');
 }
+

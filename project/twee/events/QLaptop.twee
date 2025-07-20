@@ -23,7 +23,7 @@ After pushing the powerbutton the pc takes ages to start.</br>
 <p>Check your mails: [Nothing new]</p>
 <p>Use search: [[Random|SearchRandom]]</p>
 <p>Online stores: </p>
-<p>Find some porn: [[hetero|Laptop_hetero]] [[lesbian]]<statup>arousal ++</statup></p>
+<p>Find some porn:<% if(window.gm.player.Stats.get("arousal").value>50){ %> [[hetero|Laptop_hetero]] [[lesbian]]<statup>arousal ++</statup><%}else{%> You dont feel in the mood for this.<%}%></p>
 [[Back|_back_]]</p>
 </article><article id="LogPanel"></article></section>
 

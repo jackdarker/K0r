@@ -8,6 +8,7 @@ The following things are on your schedule-list:</br>
 <%=window.gm.printSchedule()%>
 </br><hr><div>Where would you like to go?</br>
 [[Living_Room]]   [[Bedroom]]   [[Kitchen]]  [[Garden]] [[Cellar]] </br>
+[[Campus_Megan]]
 <hr>
 [[Into the city]]</br></div>
 </article><article id="LogPanel"></article></section>
@@ -64,7 +65,7 @@ function checkJob(){	//check if job done for this week
 	return(text);
 }
 function DailyReset(){	//daily influence consume
-	window.gm.player.Stats.increment('influence',-10);
+	window.gm.player.Stats.increment('influence',-10); 
 	if(window.story.state.vars.qWetDream<1) { 
 		window.gm.player.Stats.increment('arousal',-20);window.story.state.vars.qWetDream=0; //no decay on recent wetdream
 	}
@@ -118,7 +119,7 @@ TODO every 5 study = +1grade; max 15 study/week</p>
 </article><article id="LogPanel"></article></section>
 
 
-:: Kitchen
+:: TODO_Kitchen
 <section> 
 <aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <%window.gm.player.location=window.passage.name;%>

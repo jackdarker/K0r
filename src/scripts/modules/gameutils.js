@@ -37,11 +37,11 @@ window.gm.initGame= function(forceReset,NGP=null){
         qUnlockCampus : 0,  //see passage into city
         qUnlockPark : 0,
         qUnlockMall : 0,
-        qUnlockBeach : 0,
+        qUnlockSandcoast : 0,
         qUnlockDowntown : 0,
         qUnlockNorthlake : 0,
         qUnlockRedlight : 0,
-        qUnlockBeach : 0,
+        qUnlockSandcoast : 0,
         crowBarLeft: 1,
         //VR flags todo character specific ?
         wolfKnowledge: 0,
@@ -499,9 +499,9 @@ window.gm.printNav=function(label,dir,args=null){
   let places=[];   
   let r = _.random(0,100);
   //todo:depending of your actual location you have a chance to find connected locations or end up in a known one
-  if(window.gm.player.location=='Park')   places = ['Mall','Beach','Downtown'];
-  if(window.gm.player.location=='Mall')   places = ['Park','Beach','Downtown']; 
-  if(window.gm.player.location=='Beach')   places = ['Park','Mall']; 
+  if(window.gm.player.location=='Park')   places = ['Mall','Sandcoast','Downtown'];
+  if(window.gm.player.location=='Mall')   places = ['Park','Sandcoast','Downtown']; 
+  if(window.gm.player.location=='Sandcoast')   places = ['Park','Mall']; 
   if(window.gm.player.location=='Downtown')   {
     places.push('Pawn shop'); 
   }

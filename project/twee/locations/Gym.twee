@@ -1,0 +1,7 @@
+:: Gym
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs") %>
+<%window.gm.player.location=window.passage.name;%><% if(s.vars.qUnlock.Gym===0){s.vars.qUnlock.Gym=1;%>
+<p>This is the lobby of the gym.</br>
+
+[[Leave|Into the city]]</br></p>
+</article><article id="LogPanel"></article></section>

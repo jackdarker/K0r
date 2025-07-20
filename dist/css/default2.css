@@ -1,0 +1,128 @@
+:root {
+  --rich-black:     #001219ff;
+  --midnight-green: #005f73ff;
+  --dark-cyan:      #0a9396ff;
+  --tiffany-blue:   #94d2bdff;
+  --vanilla:        #e9d8a6ff;
+  --gamboge:        #ee9b00ff;
+  --alloy-orange:   #ca6702ff;
+  --rust:           #bb3e03ff;
+  --rufous:         #ae2012ff;
+  --auburn:         #9b2226ff;
+  --oxford-blue:    #081a3fff;
+  --berkeley-blue:  #0f3459ff;
+  --lapis-lazuli:   #1d618bff;
+  --blue-green:     #2099c5ff;
+  --vivid-sky-blue: #1cc5e7ff;
+  --chocolate-cosmos:   #3f081aff;
+  --chocolate-cosmos-2: #5a0e27ff;
+  --claret:             #8a1e42ff;
+  --rose-red:           #c52057ff;
+  --raspberry:          #e71c60ff;
+
+  --body-color:                   #000000;
+  --white-color:                  #cbc8c8;
+  --primary-color:                #081d33;
+  --secondary-color:              #14B789;
+  --section-bg-color:             #e9d8a6ff;
+  --dark-color:                   #000000;
+  --p-color:                      #717275;
+  --sidebar-color:                #0f3459ff;
+  --button-color:                 #9e9e9e;
+  --border-color:                 #e9eaeb;
+  --featured-border-color:        #727aab;
+
+  --h1-font-size:                 62px;
+  --h2-font-size:                 48px;
+  --h3-font-size:                 36px;
+  --h4-font-size:                 32px;
+  --h5-font-size:                 24px;
+  --h6-font-size:                 22px;
+  --p-font-size:                  18px;
+  --menu-font-size:               12px;
+  --copyright-font-size:          14px;
+
+  --border-radius-large:          100px;
+  --border-radius-medium:         20px;
+  --border-radius-small:          10px;
+
+  --font-weight-normal:           400;
+  --font-weight-medium:           500;
+  --font-weight-bold:             700;
+}
+
+body {
+  color: var(--white-color);
+  background-color: var(--body-color);
+}
+a {
+  color: #45bbb5;
+  text-decoration-color:  #45bbb5;
+}
+a:hover {
+  color: #0df3e7;
+  text-decoration-color: #0df3e7;
+}
+button {
+  background-color:  var(--button-color);
+}
+article {
+  margin:0;
+  background-color: var(--primary-color);
+}
+section {
+  background-color: var(--body-color);
+}
+#LogPanel {
+  background-color: var(--primary-color);
+}
+#sidebar {
+  margin:0;
+  background-color:var(--sidebar-color);
+}
+#sidebar p {
+  color: rgb(219, 205, 205);
+}
+.author {
+  color: lightyellow;
+}
+.dev {
+  color: #47a7ac;
+  background-color:#272741;
+}
+statup {
+  color:darkgreen;
+}
+statdown {
+  color:darkred;
+}
+.tPC {
+  display:block;
+  color: floralwhite;
+	border-color: floralwhite;
+  /*slateblue,slategreen,royalblue*/
+}
+
+
+.tNPC1 {
+  display: block;
+  color: #d07526;
+  border-color:#d07526;
+  background-color: var(--body-color);
+}
+
+.tNPC2 {
+  color: darkgreen;
+border-color:darkgreen;
+}
+.tNPC3 {
+  	color: rgb(151, 28, 28);
+	border-color:rgb(151, 28, 28);
+}
+.tNPC4 {
+  	color: deepskyblue;
+	border-color:deepskyblue;
+}
+.progressbar {
+	background-color: gray;
+}

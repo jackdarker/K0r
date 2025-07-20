@@ -73,6 +73,7 @@ document.querySelector('#LinkO').addEventListener('click', function(){window.sto
 :: LogPanel
 <!--<button type="button" id="toggleview" onclick=toggleview()><i class="fa fa-compress"></i></button>
 <button type="button" id="clearview" onclick=clearview()><i class="fa fa-trash-alt"></i></button>-->
+<hr>
 <div style="font-size: smaller;"><a0 onclick=toggleview()>toggle view</a><a0 onclick=clearview()>clear log</a></div>
 <div class="scroll" style="font-size: smaller;"><%=window.gm.getLog()%></br></div>
 <script>
@@ -83,7 +84,7 @@ function toggleview(){
   else list.toggle("log_fullview");
 }
 function clearview(){
-  window.gm.clearLog();window.gm.refreshAllPanel();
+  window.gm.clearLog();window.gm.refreshSidePanel();
 }
 </script>
 
@@ -241,6 +242,7 @@ for(var i=0;i<_ids2.length;i++){window.gm.printEquipment(whom,whom.Outfit.getIte
 [[Back|_back_]]</br>
 <p class="author">settings are stored in save-game until I find a way to store them in cookies.</p>
 Theme:
+<a href="javascript:window.styleSwitcher.setStyle('default');window.gm.refreshAllPanel();">default</a>
 <a href="javascript:window.styleSwitcher.setStyle('light');window.gm.refreshAllPanel();">light</a>
 <a href="javascript:window.styleSwitcher.setStyle('gray');window.gm.refreshAllPanel();">gray</a>
 <a href="javascript:window.styleSwitcher.setStyle('dark');window.gm.refreshAllPanel();">dark</a></br>

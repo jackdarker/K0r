@@ -11,8 +11,10 @@
     The lecture rooms and laboratories of the departments are located in the larger buildings. </br>
     There is, of course, a canteen and an library. The administration and other services for students are housed in a high-rise building.  </br>
     </br>
-    <%if(window.gm.getTimeStruct().hour<12){ %>
-    <a0 onclick='window.story.show("attend lecture")'>Attend a morning lecture</a></br>
+    <%if(window.gm.getTimeStruct().hour<10){ %>
+    <a0 onclick='window.story.show("attend_lecture1")'>Attend a lecture</a></br>
+    <%}else if(window.gm.getTimeStruct().hour<12){ %>
+    <a0 onclick='window.story.show("attend_lecture2")'>Attend a lecture</a></br>
     <%}else{%> 
     There arent any lectures right now. 
     <%}%>
@@ -33,7 +35,7 @@
 :: Busride [_back_]
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
 <p>With your student ticket you may use the bus for free.</p>
-<p>TODO:
+<p>TODO:<br>
 <div id="output"></div>
 <div id='select1' >
     </div><div id='choice1a' hidden>
@@ -103,16 +105,37 @@ There is an announce from Harcon Health Inc. for a [[job|Harcon_Logistic_Ad]] in
 </article><article id="LogPanel"></article></section>
 
 
-:: attend lecture
+:: attend_lecture1
 <section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
-<%window.gm.player.location=window.passage.name;%>
-todo You attend to lectures all morning.</br>
-<div></br><a0 onclick='work()'>You are done for today</a></br></div>
+<p>todo You attend to lectures all morning.</br>
+todo option to manipulate thought into sexy direction/ glances to others 
+<div></br><a0 onclick='work()'>You are done for today</a></br></div></p>
 </article><article id="LogPanel"></article></section>
 <script>
 function work(){
-    window.gm.player.Stats.increment("energy",-40);
-    window.gm.forwardTime(1300);
+    window.gm.player.Stats.increment("energy",-20);
+    window.gm.forwardTime(1030);
     window.story.show("Campus");
 }
 </script>
+
+:: attend_lecture2
+<section><aside id="sidebar"></aside><article><%=window.story.render("CenterDialogs")%>
+<p>todo You attend to lectures all morning.</br>
+todo option to manipulate thought into sexy direction/ glances to others 
+<div></br><a0 onclick='work()'>You are done for today</a></br></div></p>
+</article><article id="LogPanel"></article></section>
+<script>
+function work(){
+    var _scenes,_scene,s=window.story.state;
+    window.gm.player.Stats.increment("energy",-20);
+    window.gm.forwardTime(1300);
+    _scenes = [{id:"Campus_Megan"},{id:"Campus_Steve"}]; 
+    _scene=_scenes[_.random(0,_scenes.length-1)];
+    if(s.chars.Megan.state<=0 ) window.story.show("Campus_Megan");
+    if(s.chars.Steve.state<=0 ) window.story.show("Campus_Steve");
+    if (_scene) window.story.show(_scene.id);
+    else window.story.show("Campus");
+}
+</script>
+

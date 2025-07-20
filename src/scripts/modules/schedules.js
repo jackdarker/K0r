@@ -20,8 +20,7 @@ class Job {
         this.startTimeMin=0,this.startTimeMax=0,this.DoW=[], 
         this.onAddTimeCB = null;
     }
-    onAddTime(){
-    }
+    onAddTime(){ }
     isDisabled(){ return(false); }
     disabledReason(){ return(""); }
     isHidden(){ return(false); }
@@ -48,5 +47,19 @@ class Job {
     job.reqEnergy = 20, job.reqTime=120,job.startTimeMin=700,job.startTimeMax=1800,job.DoW =[1,2,3,4,5,6,7];
     job.isDisabled = function (){ return(true);};
     job.disabledReason=function(){return("You are not in the mood to waste your time with books.");};
+    window.gm.jobs[job.id] = job;
+
+    job = new Job("Megan_Meetup","Call Megan","Maybe she has something to share with you.");
+    job.reqEnergy = 20, job.reqTime=120,job.startTimeMin=1400,job.startTimeMax=1600,job.DoW =[2,3,5,6];
+    job.isHidden = function (){ return(true);};
+    job.isDisabled = function (){ return(false);};
+    job.disabledReason=function(){return("She might have other things to do.");};
+    window.gm.jobs[job.id] = job;
+
+    job = new Job("Gym_Megan","Workout with Megan","Meet Megan in the Gym for some workout.");
+    job.reqEnergy = 20, job.reqTime=120,job.startTimeMin=1500,job.startTimeMax=1600,job.DoW =[2,5];
+    job.isHidden = function (){ return(true);};
+    job.isDisabled = function (){ return(false);};
+    job.disabledReason=function(){return("She might have other things to do.");};
     window.gm.jobs[job.id] = job;
 }
